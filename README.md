@@ -13,4 +13,4 @@ RockSatX: https://www.nasa.gov/wallops/stem/rocksatx/
 
 College of the Canyons (COC): https://www.canyons.edu/
 
-Astronomy & Physics CLub @ COC: https://teresaciardi.wixsite.com/cocast
+Astronomy & Physics Club @ COC: https://teresaciardi.wixsite.com/cocast
