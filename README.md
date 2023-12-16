@@ -2,7 +2,7 @@
 
 #### Dashboard for the 2024 RockSatX Project @ College of the Canyons Astronomy & Physics Club.
 
-#### *Updated 12/11/2023*
+#### *Updated 12/16/2023*
 
 
 ## Dashboard Mockup
