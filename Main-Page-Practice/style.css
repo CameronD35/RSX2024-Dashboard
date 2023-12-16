@@ -92,7 +92,7 @@
     background-color: white;
     height: 2px;
     width: 105%;
-    transform: scaleX(0);
+    transform: scaleX(0) skew(-20deg);
     left: -2.5%;
     bottom: -3px;
     border-radius: 10px;
@@ -100,7 +100,7 @@
 }
 
 .hoverBig:hover:after{
-    transform: scaleX(1);
+    transform: scaleX(1) skew(-20deg);
 }
 
 .capsuleLogo{
