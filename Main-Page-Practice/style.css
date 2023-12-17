@@ -109,7 +109,6 @@
     cursor: pointer;
 }
 
-
 /* Dashboard Design */
 
 .title{
@@ -174,10 +173,11 @@
     width: 30%;
 }
 
-.boxContent{
+.box2Content{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
 .boxBottom{
@@ -203,18 +203,17 @@
 }
 
 .stageBox{
-    width: 80px;
+    width: 20%;
     height: 50px;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 10px 20px;
+    margin: 2.5% 5%;
     border-radius: 15px;
-    font-size: 25px;
+    font-size: 1vw;
     color: black;
     box-shadow: 0px 0px 10px rgba(255,255,255,0.5);
-    
 }
 
 #stageBox1{
@@ -248,13 +247,13 @@
     align-items: top;
     justify-content: center;
     margin: 5px 20px;
-    font-size: 20px;
+    font-size: 1vw;
     font-weight: 500;
     color: white;
 }
 
 .startButton{
-    width: 440px;
+    width: 90%;
     height: 25px;
     margin: 15px 0px;
     display: flex;
@@ -273,8 +272,8 @@
 .capStatContainer{
     display: flex;
     flex-direction: column;
-    width: 440px;
-    height:1000%;
+    width: 90%;
+    height: 100%;
     justify-content: top;
 }
 
@@ -303,4 +302,41 @@
 
 .capStatText{
     font-size: 30px;
+}
+
+.box3Content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.outerCircle{
+    height: 15vw;
+    width: 15vw;
+    border-radius: 100%;
+    outline: 5px solid white;
+    stroke: 5px;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.innerCircle{
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+    background-color: none;
+    outline-width: 50px; 
+    outline-style: solid;
+    outline-color: #4facfe;
+    box-shadow: 0px 0px 1000px #4facfe;
+}
+
+.magNumber{
+    position: fixed;
+    color: white;
+    font-size: 45px;
+    text-shadow: 0px 0px 10px black;
 }

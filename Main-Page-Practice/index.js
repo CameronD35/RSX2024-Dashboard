@@ -19,6 +19,15 @@ function updateTabs(tabs){
     }
 }
 
+function magRad(initRad, maxRad){
+    setTimeout(() => {
+        if (document.getElementById('innerCircle').style.getProperty('outline-width') < maxRad){
+
+            document.getElementById('innerCircle').style.setProperty('outline-width')
+        }
+    }, 500);
+}
+
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
 
