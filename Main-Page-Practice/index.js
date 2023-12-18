@@ -20,14 +20,31 @@ function updateTabs(tabs){
 }
 
 function magRad(initRad, maxRad){
-    setTimeout(() => {
-        if (document.getElementById('innerCircle').style.getProperty('outline-width') < maxRad){
-
-            document.getElementById('innerCircle').style.setProperty('outline-width')
+    let currentRad = initRad;
+    let radDiff = maxRad - initRad;
+    console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
+    let magId = setInterval(() => {
+        if (currentRad == maxRad){
+            currentRad = maxRad;
+            clearInterval(magId);
+        } else {
+            currentRad += radDiff/100
+            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}px`);
+            document.getElementById('magNumber').textContent = currentRad;
+            console.log(`${currentRad} / ${maxRad}`);
         }
-    }, 500);
+    }, 100);
+
+}
+
+function animationSetup(elem){
+    document.getElementById('logoBox').addEventListener('hover', () => {
+        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo;`;
+    });
 }
 
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
+magRad(0, 100);
+animationSetup(document.getElementById('logo'))
 
