@@ -31,20 +31,27 @@ function magRad(initRad, maxRad){
             currentRad += radDiff/100
             document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}px`);
             document.getElementById('magNumber').textContent = currentRad;
-            console.log(`${currentRad} / ${maxRad}`);
+            //console.log(`${currentRad} / ${maxRad}`);
         }
     }, 100);
 
 }
 
-function animationSetup(elem){
-    document.getElementById('logoBox').addEventListener('hover', () => {
-        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo;`;
+function animationSetup(elem, parent){
+    parent.addEventListener('mouseover', () => {
+        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;
+        document.querySelector('.logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) slideText';
+        document.querySelector('.logoText').style.transform = 'translateX(0px)';
     });
+    parent.addEventListener('mouseout', () => {
+        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;
+        document.getElementById('logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) hideText';
+        document.querySelector('.logoText').style.transform = 'translateX(-250px)';
+    })
 }
 
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
 magRad(0, 100);
-animationSetup(document.getElementById('logo'))
+animationSetup(document.getElementById('logo'), document.querySelector('.logoBox'));
 

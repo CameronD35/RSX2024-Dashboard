@@ -43,6 +43,19 @@
     justify-content: center;
 }
 
+.logoTextContainer{
+    overflow: hidden;
+}
+
+#logoText{
+    font-size: 50px;
+    font-weight: 200;
+    font-style: italic;
+    color: white;
+    transform: translateX(-250px);
+    animation: 1s cubic-bezier(0.77, 0, 0.175, 1); 
+}
+
 .navbar nav .logo{
     width: 50px;
     transition: 0.4s;
@@ -179,7 +192,7 @@
     width: 30%;
 }
 
-.box2Content{
+.box2Content, .boxContent{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -247,7 +260,7 @@
 }
 
 .timeText{
-    width: 80px;
+    width: 20%;
     height: 20px;
     display: flex;
     align-items: top;
@@ -350,4 +363,87 @@
 @keyframes spinLogo{
     0% {rotate: 0deg;}
     100% {rotate: 360deg;}
+}
+
+@keyframes reverseLogo{
+    0% {rotate: 360deg;}
+    100% {rotate: 0deg;}
+}
+
+@keyframes slideText {
+    0% {transform: translateX(-250px)}
+    100% {transform: translateX(0px)}
+}
+
+@keyframes hideText {
+    0% {transform: translateX(0px)}
+    100% {transform: translateX(-250px)}
+}
+
+.capStatNum{
+    font-weight: 500;
+    font-size: 30px;
+}
+
+.capStatAltBox{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    margin: 15px 0px;
+    align-items: center;
+}
+
+
+.atmosphericLayerContainer{
+    width: 85%;
+    height:100%;
+    background-color: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.layerDivider{
+    width: 100%;
+    height: 3px;
+    margin: 7px;
+    background-color: white;
+}
+
+.atmosphericLayerContainer p{
+    align-self: normal;
+    color:white;
+    font-weight: 300;
+}
+
+
+.capLogoAltBox{
+    background-color: none;
+    width: 240px;
+    position: fixed;
+    bottom: 76px;
+    left: 1125px;
+    display: flex;
+    padding: 1px;
+    justify-content: space-between;
+}
+
+.capLogoAlt{
+    width: 15px;
+    height: 15px;
+}
+
+#capLogoAlt1{
+    position: relative;
+    bottom: 35px;
+}
+
+#capLogoAlt2{
+    position: relative;
+    bottom: 65px;
+}
+
+#capLogoAlt3{
+    position: relative;
+    bottom: 97px;
 }
