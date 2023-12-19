@@ -23,7 +23,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 3%;
+    height: 4%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -174,7 +174,7 @@
 }
 
 .box{
-    background-color: rgba(0, 0, 0, 0.74);
+    background-color: rgba(0, 0, 0, 0.75);
     border-radius: 20px;
     height: 100%;
     margin: 0.25%;
@@ -331,8 +331,8 @@
     width: 100%;
 }
 .outerCircle{
-    height: 15vw;
-    width: 15vw;
+    height: 16vw;
+    width: 16vw;
     border-radius: 100%;
     outline: 5px solid white;
     stroke: 5px;
@@ -343,8 +343,8 @@
 }
 
 .innerCircle{
-    height: 100px;
-    width: 100px;
+    height: 6vw;
+    width: 6vw;
     border-radius: 100%;
     background-color: none;
     outline-width: 0px; 
@@ -446,4 +446,59 @@
 #capLogoAlt3{
     position: relative;
     bottom: 97px;
+}
+
+.sliderContainer{
+    background-color: none;
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliderBox{
+    width: 75%;
+}
+
+.sliderBox input::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    background: white;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+}
+
+.sliderBox input{
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(0, 0, 0, 0.75);
+    height: 3px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.sliderBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliderRange{
+    color: white;
+    font-weight: 500;
+    margin: 10px;
+}
+
+.sliderValue{
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+.sliderNum{
+    color: white;
+    font-size: 20px;
+    margin: 0 5px;
 }
