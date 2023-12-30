@@ -124,6 +124,7 @@
 
 .capsuleLogo{
     width: 20px;
+    height: 20px;
     position: relative;
     cursor: pointer;
 }
@@ -197,6 +198,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 100%;
 }
 
 .boxBottom{
@@ -502,4 +504,148 @@
     color: white;
     font-size: 20px;
     margin: 0 5px;
+}
+
+/* PRESSURE BOX */
+
+.pressureMeterContainer{
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.pressureMeterBox{
+    background-color: none;
+    height: 90%;
+    width: 20%;
+    margin: 0 1vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pressureMeterLogoBox{
+    margin: 0 0 0 0;
+}
+
+.pressureMeterCapsuleLogo{
+    width: 30px;
+    height: 30px;
+}
+
+.pressureTextBox{
+    position: fixed;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pressureText{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.pressureUnit{
+    font-size: 15px;
+    font-weight: 300;
+    font-style: italic;
+}
+
+
+.pressureMeter{
+    background-color: none;
+    height: 100%;
+    width: 100%;
+    margin: 1vw 0;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    border-radius: 15px;
+    outline: rgba(255, 255, 255, 0.25) 2px solid;
+}
+
+.pressureMeterFill{
+    width: 100%;
+    height: 30%;
+    background-color: rgba(0,230,0,1);
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0,230,0, 0.5);
+}
+
+.pressureMeterFillBox{
+    width: 100%;
+    height: 100%;
+}
+
+/* TEMPERATURE BOX */
+
+.meterContainer{
+    background-color: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.meterBox{
+    background-color: none;
+    height: 17%;
+    width: 100%;
+    margin: 2.5vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.meterLogoBox{
+    margin: 0 1vw 0 0;
+}
+
+.meterCapsuleLogo{
+    width: 30px;
+    height: 30px;
+}
+
+.meterTemp{
+    justify-self: center;
+    position: fixed;
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+}
+
+
+.meter{
+    background-color: none;
+    height: 100%;
+    width: 80%;
+    margin: 2.5vh 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    outline: rgba(255, 255, 255, 0.25) 2px solid;
+}
+
+.meterFill{
+    width: 30%;
+    height: 100%;
+    background-color: rgba(230,0,0,1);
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(230,0,0,0.5);
+}
+
+.meterFillBox{
+    width: 100%;
+    height: 100%;
 }

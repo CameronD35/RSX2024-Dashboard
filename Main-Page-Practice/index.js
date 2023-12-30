@@ -24,7 +24,7 @@ function magRad(initRad, maxRad){
     let currentRad = initRad;
     let radDiff = maxRad - initRad;
     console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
-    let magId = setInterval(() => {
+    let timerId = setInterval(() => {
         if (currentRad >= maxRad){
             currentRad = maxRad;
             clearInterval(magId);
@@ -51,7 +51,7 @@ function animationSetup(elem){
     })
 }
 
-function setSliderValue(slider, valueDisplay){
+function setupSlider(slider, valueDisplay){
     console.log(slider.value);
     slider.addEventListener('mousedown', () => {
         valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
@@ -69,9 +69,44 @@ function setSliderValue(slider, valueDisplay){
     });
 }
 
+function setTemperature(tempElem, fillElem){
+    let fillSize = 0;
+    let timerId = setInterval(() => {
+        if (fillSize >= 100){
+            clearInterval(magId);
+        } else {
+            fillSize++;
+            tempElem.textContent = (`${fillSize}°C`);
+            fillElem.style.setProperty('width', `${fillSize}%`);
+        }
+    }, 100);
+}
+
+function setPressure(pressureElem, fillElem){
+    let fillSize = 0;
+    let timerId = setInterval(() => {
+        if (fillSize >= 300){
+            clearInterval(magId);
+        } else {
+            fillSize += 3;
+            pressureElem.textContent = (`${fillSize}`);
+            fillElem.style.setProperty('height', `${fillSize/3}%`);
+        }
+    }, 100);
+}
+
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
 magRad(0, 5);
 animationSetup(document.getElementById('logo'));
 
-setSliderValue(document.querySelector('.slider'), document.querySelector('.sliderNum'))
+setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
+
+for(let i = 1; i <= 3; i++){
+    setTemperature(document.getElementById(`meterTemp${i}`), document.getElementById(`meterFill${i}`));
+}
+
+
+for(let i = 1; i <= 3; i++){
+    setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
+}
