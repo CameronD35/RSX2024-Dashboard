@@ -1,9 +1,16 @@
+// BEGIN SETUP CODE
+
 let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
 let innerElements = [];
 
 pageStart = 1;
+
+createPageLayout();
+createMainPage();
+// END SETUP CODE
+
 
 
 // This sets up the different tabs accessible in the top right navigation
@@ -29,7 +36,6 @@ function updateTabs(tabs){
 }
 
 // This manages and creates the navigation located in the top right
-
 function createNavigation(parent, count){
     let main = parent.appendChild(document.createElement('li'));
     main.classList.add('hoverBig');
@@ -53,7 +59,6 @@ function createNavigation(parent, count){
 }
 
 // This sets up the animation that occurs when the mouse hovers over the logo
-
 function animationSetup(elem){
     elem.addEventListener('mouseover', () => {
         elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;
@@ -67,15 +72,33 @@ function animationSetup(elem){
     })
 }
 
-// This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs
+// This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
+function setupSlider(slider, valueDisplay){
+    console.log(slider.value);
+    slider.addEventListener('mousedown', () => {
+        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
+        valueDisplay.style.setProperty('font-size', `30px`);
 
-function createPageLayout(){
-    createNavigation(document.getElementById('navList'), 3);
-    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
-    animationSetup(document.getElementById('logo'));
+    });
+
+    slider.addEventListener('mouseup', () => {
+        valueDisplay.style.setProperty('color', `white`);
+        valueDisplay.style.setProperty('font-size', `20px`);
+    });
+
+    slider.addEventListener('input', () => {
+        valueDisplay.textContent = `${slider.value}`;
+    });
 }
 
-createPageLayout();
+// This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs
+function createPageLayout(){
+    createNavigation(document.getElementById('navList'), 3);
+    animationSetup(document.getElementById('logo'));
+    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
+}
+
+
 /*
 // Rad units are in vw
 function magRad(initRad, maxRad){
@@ -94,24 +117,6 @@ function magRad(initRad, maxRad){
         }
     }, 100);
 
-}
-
-function setupSlider(slider, valueDisplay){
-    console.log(slider.value);
-    slider.addEventListener('mousedown', () => {
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
-        valueDisplay.style.setProperty('font-size', `30px`);
-
-    });
-
-    slider.addEventListener('mouseup', () => {
-        valueDisplay.style.setProperty('color', `white`);
-        valueDisplay.style.setProperty('font-size', `20px`);
-    });
-
-    slider.addEventListener('input', () => {
-        valueDisplay.textContent = `${slider.value}`;
-    });
 }
 
 function setTemperature(tempElem, fillElem){
@@ -155,35 +160,13 @@ for(let i = 1; i <= 3; i++){
 
 */
 
-
-// This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
-
-function setupSlider(slider, valueDisplay){
-    console.log(slider.value);
-    slider.addEventListener('mousedown', () => {
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
-        valueDisplay.style.setProperty('font-size', `30px`);
-
-    });
-
-    slider.addEventListener('mouseup', () => {
-        valueDisplay.style.setProperty('color', `white`);
-        valueDisplay.style.setProperty('font-size', `20px`);
-    });
-
-    slider.addEventListener('input', () => {
-        valueDisplay.textContent = `${slider.value}`;
-    });
-}
-
-createBoxStructure(document.querySelector('.boxContainer'), [2, 4], 
-['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
-['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
-
 function createMainPage(){
     if (pageStart != 1){
         openAnimation();
     }
+    createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]],
+    ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+    ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
     createSO2Box();
     createMissionStatusBox();
     createPressureBox();
@@ -212,18 +195,29 @@ function closeAnimation(){
 
 }
 
-// This creates the main boxes found in the center of the page, allows customization of the # of boxes in each row
-// dimensions: array rows and sections for the page in the format of [rows, [row sections #1, row sections #2, ...]]
+// This creates the main boxes found in the center of the page, allows customization of the # of boxes in each row and adjusts width accordingly
+// rows: integer; definies how many rows will be present
+// rowLengths: array; allows definition of the boxes in each row and their lengths.
+// rowsLength format: [[auto-length, boxes amount #1], [auto-length, boxes amount #2], ...]] auto-length: boolean, boxes amount #i: integer
+// NOTE: rows == rowLengths.length
 
-function createBoxStructure(parent, dimensions, boxNames, titles){
+function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
     let boxNumber = 1;
-    let boxWidth = 100/dimensions[1]
-    for(let i = 1; i <= dimensions[0]; i++){
+
+    let boxWidth = [];
+    
+    for (let d = 0; d < rowLengths.length; d++){
+        rowLengths[d][0]? boxWidth.push(100/rowLengths[d][1]) : boxWidth.push('');
+    }
+
+    //console.log(boxWidth);
+
+    for(let i = 1; i <= rows; i++){
         let currentRow = parent.appendChild(document.createElement('div'));
         currentRow.classList.add('dashRow');
         currentRow.id = `dashRow${i}`;
 
-        for(let j = 1; j <= dimensions[i-1]; j++){
+        for(let j = 1; j <= rowLengths[i-1][1]; j++){
             let currentBox = currentRow.appendChild(document.createElement('div'));
             currentBox.classList.add(boxNames[boxNumber - 1]);
             currentBox.classList.add('box');
@@ -235,10 +229,10 @@ function createBoxStructure(parent, dimensions, boxNames, titles){
 
             boxNumber++;
 
-            if(i == 2){
-                currentBox.style.width = `${boxWidth}%`;
-                console.log(boxWidth);
-            }
+            console.log(rowLengths[i-1][0]);
+
+            console.log(boxWidth);
+            rowLengths[i-1][0] ? (currentBox.style.width = `${boxWidth[i-1]}%`): '';
         }
     }
 }
