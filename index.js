@@ -169,10 +169,10 @@ function createMainPage(){
     ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
     createSO2Box();
     createMissionStatusBox();
-    createPressureBox();
+    createPressureBox(document.querySelector('.PresBoxContent'), 3);
     createMagenmtosphereBox();
     createAltitudeBox();
-    createTemperatureBox();
+    createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
 }
 
 function createC1Page(){
@@ -227,6 +227,10 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
             currentTitle.textContent = titles[boxNumber - 1];
             currentTitle.classList.add('boxTitle');
 
+            currentContentBox = currentBox.appendChild(document.createElement('div'));
+            currentContentBox.classList.add(`${boxNames[boxNumber - 1]}BoxContent`);
+            currentContentBox.classList.add('boxContent');
+
             boxNumber++;
 
             console.log(rowLengths[i-1][0]);
@@ -237,26 +241,118 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
     }
 }
 
-function createSO2Box(){
+function createSO2Box(container){
 
 }
 
-function createMissionStatusBox(){
+function createMissionStatusBox(container){
 
 }
 
-function createPressureBox(){
+function createPressureBox(container, capsuleCount){
+
+    let pressCont = container.appendChild(document.createElement('div'));
+    pressCont.classList.add('pressureMeterContainer');
+
+    for(let i = 1; i <= capsuleCount; i++) {
+
+        let currentPressureBox = pressCont.appendChild(document.createElement('div'));
+        currentPressureBox.classList.add('pressureMeterBox');
+        currentPressureBox.id = `pressureMeterBox${i}`;
+        currentPressureBox.style.setProperty('width',`${60/capsuleCount}%`);
+        currentPressureBox.style.setProperty('margin',`0 ${3/capsuleCount}vw`);
+
+        let currentLogoBox = currentPressureBox.appendChild(document.createElement('div'));
+        currentLogoBox.classList.add('pressureMeterLogoBox');
+        currentLogoBox.id = `pressureMeterLogoBox${i}`;
+
+        let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
+        currentLogo.src = `Image-Assets/C${i}.png`;
+        currentLogo.classList.add('pressureMeterCapsuleLogo');
+
+        let currentMeter = currentPressureBox.appendChild(document.createElement('div'));
+        currentMeter.classList.add('pressureMeter');
+        currentMeter.id = `pressureMeter${i}`;
+
+        let currentTextBox = currentMeter.appendChild(document.createElement('div'));
+        currentTextBox.classList.add('pressureTextBox');
+        currentTextBox.id = `pressureTextBox${i}`;
+
+        let currentText = currentTextBox.appendChild(document.createElement('div'));
+        currentText.classList.add('pressureText');
+        currentText.id = `pressureText${i}`;
+        currentText.textContent = '999';
+
+        let currentUnit = currentTextBox.appendChild(document.createElement('div'));
+        currentUnit.classList.add('pressureUnit');
+        currentUnit.id = `pressureUnit${i}`;
+        currentUnit.textContent = 'atm';
+
+        let currentFillBox = currentMeter.appendChild(document.createElement('div'));
+        currentFillBox.classList.add('pressureMeterFillBox');
+
+        let currentFill = currentFillBox.appendChild(document.createElement('div'));
+        currentFill.classList.add('pressureMeterFill');
+        currentFill.id = `pressureMeterFill${i}`;
+        
+    }
 
 }
 
-function createMagenmtosphereBox(){
+function createMagenmtosphereBox(container){
 
 }
 
-function createAltitudeBox(){
+function createAltitudeBox(container){
 
 }
 
-function createTemperatureBox(){
+function createTemperatureBox(container, capsuleCount){
+    
+    let tempCont = container.appendChild(document.createElement('div'));
+    tempCont.classList.add('temperatureMeterContainer');
+
+    for(let i = 1; i <= capsuleCount; i++) {
+
+        let currentTemperatureBox = tempCont.appendChild(document.createElement('div'));
+        currentTemperatureBox.classList.add('temperatureMeterBox');
+        currentTemperatureBox.id = `temperatureMeterBox${i}`;
+        currentTemperatureBox.style.setProperty('height',`${51/capsuleCount}%`);
+        currentTemperatureBox.style.setProperty('margin',`${5/capsuleCount}vw 0`);
+
+        let currentLogoBox = currentTemperatureBox.appendChild(document.createElement('div'));
+        currentLogoBox.classList.add('temperatureMeterLogoBox');
+        currentLogoBox.id = `temperatureMeterLogoBox${i}`;
+
+        let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
+        currentLogo.src = `Image-Assets/C${i}.png`;
+        currentLogo.classList.add('temperatureMeterCapsuleLogo');
+
+        let currentMeter = currentTemperatureBox.appendChild(document.createElement('div'));
+        currentMeter.classList.add('temperatureMeter');
+        currentMeter.id = `temperatureMeter${i}`;
+
+        let currentTextBox = currentMeter.appendChild(document.createElement('div'));
+        currentTextBox.classList.add('temperatureTextBox');
+        currentTextBox.id = `temperatureTextBox${i}`;
+
+        let currentText = currentTextBox.appendChild(document.createElement('div'));
+        currentText.classList.add('temperatureText');
+        currentText.id = `temperatureText${i}`;
+        currentText.textContent = '999';
+
+        let currentUnit = currentTextBox.appendChild(document.createElement('div'));
+        currentUnit.classList.add('temperatureUnit');
+        currentUnit.id = `temperatureUnit${i}`;
+        currentUnit.textContent = 'atm';
+
+        let currentFillBox = currentMeter.appendChild(document.createElement('div'));
+        currentFillBox.classList.add('temperatureMeterFillBox');
+
+        let currentFill = currentFillBox.appendChild(document.createElement('div'));
+        currentFill.classList.add('temperatureMeterFill');
+        currentFill.id = `temperatureMeterFill${i}`;
+        
+    }
 
 }
