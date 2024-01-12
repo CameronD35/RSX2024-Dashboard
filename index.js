@@ -5,20 +5,175 @@ let tabsArray = [];
 let boxElements = [];
 let innerElements = [];
 
-pageStart = 1;
+let currentPage = 0;
+
+// Indicates if the page was just started or not
+pageStart = true;
+
+// Object of page properties; names of box classes and box titles
+const pageProperties = {
+    0: {
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+
+    },
+
+    1: {
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+    },
+
+    2: {
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+    },
+
+    3: {
+
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+    }
+}
+
 
 createPageLayout();
-createMainPage();
+
 // END SETUP CODE
 
+// Object full of functions for managing the page as a whole
+let pageManage = {
+    // '0' is the main page, the rest correspond to capsule #s
+    0: function(CSSClasses, boxTitles){
 
+        console.log('Creating MAIN page.')
+
+        if (!pageStart){
+            openAnimation();
+        }
+
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createSO2Box();
+        createMissionStatusBox();
+        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        createMagenmtosphereBox();
+        createAltitudeBox();
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+    
+        setCurrentBoxes(CSSClasses);
+        //console.log(boxElements);
+    },
+
+    1: function(CSSClasses, boxTitles){
+        console.log('Creating first page.');
+
+        if (!pageStart){
+            openAnimation();
+        }
+
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createSO2Box();
+        createMissionStatusBox();
+        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        createMagenmtosphereBox();
+        createAltitudeBox();
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+    
+        setCurrentBoxes(CSSClasses);
+        //console.log(boxElements);
+    },
+
+    2: function(CSSClasses, boxTitles){
+        console.log('Creating second page.');
+
+        if (!pageStart){
+            openAnimation();
+        }
+
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createSO2Box();
+        createMissionStatusBox();
+        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        createMagenmtosphereBox();
+        createAltitudeBox();
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+    
+        setCurrentBoxes(CSSClasses);
+        //console.log(boxElements);
+    },
+
+    3: function(CSSClasses, boxTitles){
+        console.log('Creating third page.');
+
+        if (!pageStart){
+            openAnimation();
+        }
+
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createSO2Box();
+        createMissionStatusBox();
+        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        createMagenmtosphereBox();
+        createAltitudeBox();
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+    
+        setCurrentBoxes(CSSClasses);
+        //console.log(boxElements);
+    },
+
+    open: function(){
+
+    },
+
+    close: function(boxArray){
+        //console.log(`func arr length: ${boxArray.length}, glob arr length: ${boxElements.length}`)
+        if (boxArray.length != 0){
+            boxElements = [];
+            //pageStart = false;
+
+            for(let i = 0; i < boxArray.length; i++){
+                let currentElement = document.querySelector(`.${boxArray[i]}`);
+
+                if(currentElement.hasChildNodes()){
+                    currentElement.replaceChildren();
+                    currentElement.style.animation = `0.5s hideElements`
+
+                    //console.log(boxArray);
+                }
+            }
+            setTimeout(() => {
+                document.querySelector('.boxContainer').replaceChildren();
+            }, 500);
+        }
+    }
+}
+
+//Function call that begins 
+pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
 // This sets up the different tabs accessible in the top right navigation
+// It give sthe tabs there animations and functions to be used upon hover and click respectively
+
 function setupTabs(tabs){
     for(let i = 0; i < tabs.length; i++){
-        document.getElementById(tabs[i]).addEventListener('click', () => {
-            currentTab = tabs[i];
-            updateTabs(tabsArray);
+        document.getElementById(tabs[i]).addEventListener('click', () => {    
+
+            if(currentPage != i){
+                currentTab = tabs[i];
+                currentPage = i;
+                updateTabs(tabs);
+
+                pageManage.close(boxElements);
+                console.log(pageProperties[i].CSSClassNames);
+                setTimeout(() => {
+                    pageManage[i](pageProperties[i].CSSClassNames, pageProperties[i].titles);
+                }, 500)
+                console.log(currentPage);
+            }
+
         })
     }
 }
@@ -59,7 +214,7 @@ function createNavigation(parent, count){
 }
 
 // This sets up the animation that occurs when the mouse hovers over the logo
-function animationSetup(elem){
+function logoAnimationSetup(elem){
     elem.addEventListener('mouseover', () => {
         elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;
         document.querySelector('.logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) slideText';
@@ -67,14 +222,14 @@ function animationSetup(elem){
     });
     elem.addEventListener('mouseout', () => {
         elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;
-        document.getElementById('logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) hideText';
+        document.querySelector('.logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) hideText';
         document.querySelector('.logoText').style.transform = 'translateX(-250px)';
     })
 }
 
 // This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
 function setupSlider(slider, valueDisplay){
-    console.log(slider.value);
+    //console.log('slider value: ' + slider.value);
     slider.addEventListener('mousedown', () => {
         valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
         valueDisplay.style.setProperty('font-size', `30px`);
@@ -94,7 +249,7 @@ function setupSlider(slider, valueDisplay){
 // This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs
 function createPageLayout(){
     createNavigation(document.getElementById('navList'), 3);
-    animationSetup(document.getElementById('logo'));
+    logoAnimationSetup(document.getElementById('logo'));
     setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
 }
 
@@ -119,6 +274,9 @@ function magRad(initRad, maxRad){
 
 }
 
+magRad(0, 5);
+*/
+ 
 function setTemperature(tempElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
@@ -145,12 +303,8 @@ function setPressure(pressureElem, fillElem){
     }, 100);
 }
 
-updateTabs(tabsArray);
-setUpTabs(tabsArray);
-magRad(0, 5);
-
 for(let i = 1; i <= 3; i++){
-    setTemperature(document.getElementById(`meterTemp${i}`), document.getElementById(`meterFill${i}`));
+    setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
 }
 
 
@@ -158,42 +312,6 @@ for(let i = 1; i <= 3; i++){
     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 }
 
-*/
-
-function createMainPage(){
-    if (pageStart != 1){
-        openAnimation();
-    }
-    createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]],
-    ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
-    ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
-    createSO2Box();
-    createMissionStatusBox();
-    createPressureBox(document.querySelector('.PresBoxContent'), 3);
-    createMagenmtosphereBox();
-    createAltitudeBox();
-    createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
-}
-
-function createC1Page(){
-
-}
-
-function createC2Page(){
-    
-}
-
-function createC3Page(){
-    
-}
-
-function openAnimation(){
-
-}
-
-function closeAnimation(){
-
-}
 
 // This creates the main boxes found in the center of the page, allows customization of the # of boxes in each row and adjusts width accordingly
 // rows: integer; definies how many rows will be present
@@ -202,6 +320,7 @@ function closeAnimation(){
 // NOTE: rows == rowLengths.length
 
 function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
+    //console.log('im beign called')
     let boxNumber = 1;
 
     let boxWidth = [];
@@ -233,9 +352,9 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
 
             boxNumber++;
 
-            console.log(rowLengths[i-1][0]);
+            //console.log(rowLengths[i-1][0]);
 
-            console.log(boxWidth);
+            //console.log(boxWidth);
             rowLengths[i-1][0] ? (currentBox.style.width = `${boxWidth[i-1]}%`): '';
         }
     }
@@ -332,19 +451,10 @@ function createTemperatureBox(container, capsuleCount){
         currentMeter.classList.add('temperatureMeter');
         currentMeter.id = `temperatureMeter${i}`;
 
-        let currentTextBox = currentMeter.appendChild(document.createElement('div'));
-        currentTextBox.classList.add('temperatureTextBox');
-        currentTextBox.id = `temperatureTextBox${i}`;
-
-        let currentText = currentTextBox.appendChild(document.createElement('div'));
+        let currentText = currentMeter.appendChild(document.createElement('div'));
         currentText.classList.add('temperatureText');
         currentText.id = `temperatureText${i}`;
-        currentText.textContent = '999';
-
-        let currentUnit = currentTextBox.appendChild(document.createElement('div'));
-        currentUnit.classList.add('temperatureUnit');
-        currentUnit.id = `temperatureUnit${i}`;
-        currentUnit.textContent = 'atm';
+        currentText.textContent = '999°C';
 
         let currentFillBox = currentMeter.appendChild(document.createElement('div'));
         currentFillBox.classList.add('temperatureMeterFillBox');
@@ -355,4 +465,14 @@ function createTemperatureBox(container, capsuleCount){
         
     }
 
+}
+
+function setCurrentBoxes(CSSClassArray){
+    boxElements = [];
+
+    for(let i = 0; i < CSSClassArray.length; i++){
+        boxElements.push(CSSClassArray[i]);
+    }
+
+    //console.log('box titles: ' + boxElements.join(', '));
 }

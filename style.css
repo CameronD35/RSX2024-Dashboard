@@ -363,6 +363,10 @@
     text-shadow: 0px 0px 10px black;
 }
 
+.becomeHiddenElement{
+    animation: hideElements;
+}
+
 @keyframes spinLogo{
     0% {rotate: 0deg;}
     100% {rotate: 360deg;}
@@ -381,6 +385,11 @@
 @keyframes hideText {
     0% {transform: translateX(0px)}
     100% {transform: translateX(-250px)}
+}
+
+@keyframes hideElements {
+    0% {opacity: 1;}
+    100% {opacity: 0;}
 }
 
 .capStatNum{
@@ -615,14 +624,13 @@
     height: 30px;
 }
 
-.temperatureTextBox{
+.temperatureText{
     justify-self: center;
     position: fixed;
     font-size: 20px;
     font-weight: 500;
     color: white;
 }
-
 
 .temperatureMeter{
     background-color: none;
