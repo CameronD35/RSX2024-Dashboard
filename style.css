@@ -363,10 +363,6 @@
     text-shadow: 0px 0px 10px black;
 }
 
-.becomeHiddenElement{
-    animation: hideElements;
-}
-
 @keyframes spinLogo{
     0% {rotate: 0deg;}
     100% {rotate: 360deg;}
@@ -390,6 +386,11 @@
 @keyframes hideElements {
     0% {opacity: 1;}
     100% {opacity: 0;}
+}
+
+@keyframes showElements {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 .capStatNum{

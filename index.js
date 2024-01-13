@@ -3,7 +3,7 @@
 let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
-let innerElements = [];
+//let innerElements = [];
 
 let currentPage = 0;
 
@@ -48,12 +48,7 @@ createPageLayout();
 let pageManage = {
     // '0' is the main page, the rest correspond to capsule #s
     0: function(CSSClasses, boxTitles){
-
         console.log('Creating MAIN page.')
-
-        if (!pageStart){
-            openAnimation();
-        }
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box();
@@ -70,10 +65,6 @@ let pageManage = {
     1: function(CSSClasses, boxTitles){
         console.log('Creating first page.');
 
-        if (!pageStart){
-            openAnimation();
-        }
-
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box();
         createMissionStatusBox();
@@ -88,10 +79,6 @@ let pageManage = {
 
     2: function(CSSClasses, boxTitles){
         console.log('Creating second page.');
-
-        if (!pageStart){
-            openAnimation();
-        }
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box();
@@ -108,10 +95,6 @@ let pageManage = {
     3: function(CSSClasses, boxTitles){
         console.log('Creating third page.');
 
-        if (!pageStart){
-            openAnimation();
-        }
-
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box();
         createMissionStatusBox();
@@ -124,34 +107,44 @@ let pageManage = {
         //console.log(boxElements);
     },
 
-    open: function(){
-
+    open: function(boxContainer){
+        document.querySelector(boxContainer).style.opacity = '0';
+        //console.log('whats good');
+        document.querySelector(boxContainer).style.animation = `0.5s showElements`
+        setTimeout(() => {
+            document.querySelector(boxContainer).style = '';
+            enableTabs();
+        }, 500)
     },
 
     close: function(boxArray){
         //console.log(`func arr length: ${boxArray.length}, glob arr length: ${boxElements.length}`)
         if (boxArray.length != 0){
             boxElements = [];
-            //pageStart = false;
+            pageStart = false;
 
             for(let i = 0; i < boxArray.length; i++){
                 let currentElement = document.querySelector(`.${boxArray[i]}`);
 
                 if(currentElement.hasChildNodes()){
-                    currentElement.replaceChildren();
-                    currentElement.style.animation = `0.5s hideElements`
-
+                        currentElement.replaceChildren();
+                        currentElement.style.animation = `0.5s hideElements`;
                     //console.log(boxArray);
                 }
             }
             setTimeout(() => {
                 document.querySelector('.boxContainer').replaceChildren();
-            }, 500);
+                console.log('deleting stuff');
+            }, 400);
         }
+    },
+
+    transition: function(){
+
     }
 }
 
-//Function call that begins 
+// Function call that sets the website page to the main page on startup
 pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
 // This sets up the different tabs accessible in the top right navigation
@@ -162,14 +155,22 @@ function setupTabs(tabs){
         document.getElementById(tabs[i]).addEventListener('click', () => {    
 
             if(currentPage != i){
+                disableTabs();
                 currentTab = tabs[i];
                 currentPage = i;
                 updateTabs(tabs);
 
+                pageManage.transition(boxElements, pageProperties[i].CSSClassNames, pageProperties[i].titles, [500])
                 pageManage.close(boxElements);
-                console.log(pageProperties[i].CSSClassNames);
+                //console.log('closing');
                 setTimeout(() => {
-                    pageManage[i](pageProperties[i].CSSClassNames, pageProperties[i].titles);
+                    pageManage[i](pageProperties[i].CSSClassNames, pageProperties[i].titles)
+                        
+                    if (!pageStart){
+                            pageManage.open('.boxContainer');
+                            console.log('opening');
+                    }
+                    tabs[i].disabled = '';
                 }, 500)
                 console.log(currentPage);
             }
@@ -281,7 +282,7 @@ function setTemperature(tempElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 100){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize++;
             tempElem.textContent = (`${fillSize}°C`);
@@ -294,7 +295,7 @@ function setPressure(pressureElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 300){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize += 3;
             pressureElem.textContent = (`${fillSize}`);
@@ -475,4 +476,12 @@ function setCurrentBoxes(CSSClassArray){
     }
 
     //console.log('box titles: ' + boxElements.join(', '));
+}
+
+function disableTabs() {
+
+}
+
+function enableTabs() {
+
 }
