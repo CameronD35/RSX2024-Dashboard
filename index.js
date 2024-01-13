@@ -113,7 +113,7 @@ let pageManage = {
         document.querySelector(boxContainer).style.animation = `0.5s showElements`
         setTimeout(() => {
             document.querySelector(boxContainer).style = '';
-            enableTabs();
+            disableTabs(tabsArray, false);
         }, 500)
     },
 
@@ -155,7 +155,8 @@ function setupTabs(tabs){
         document.getElementById(tabs[i]).addEventListener('click', () => {    
 
             if(currentPage != i){
-                disableTabs();
+                console.log(tabsArray);
+                disableTabs(tabsArray, true);
                 currentTab = tabs[i];
                 currentPage = i;
                 updateTabs(tabs);
@@ -478,10 +479,15 @@ function setCurrentBoxes(CSSClassArray){
     //console.log('box titles: ' + boxElements.join(', '));
 }
 
-function disableTabs() {
-
-}
-
-function enableTabs() {
+function disableTabs(tabs, value) {
+    if (value){
+        for(let i = 0; i < tabs.length; i++){
+            document.getElementById(tabs[i]).classList.add('nonClickable');
+        }
+    } else {
+        for(let i = 0; i < tabs.length; i++){
+            document.getElementById(tabs[i]).classList.remove('nonClickable');
+        }
+    }
 
 }
