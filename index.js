@@ -65,13 +65,13 @@ let pageManage = {
     1: function(CSSClasses, boxTitles){
         console.log('Creating first page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 3], [true, 7]], CSSClasses, boxTitles);
         createSO2Box();
         createMissionStatusBox();
-        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagenmtosphereBox();
         createAltitudeBox();
-        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
@@ -80,13 +80,13 @@ let pageManage = {
     2: function(CSSClasses, boxTitles){
         console.log('Creating second page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 8]], CSSClasses, boxTitles);
         createSO2Box();
         createMissionStatusBox();
-        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagenmtosphereBox();
         createAltitudeBox();
-        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
@@ -95,13 +95,13 @@ let pageManage = {
     3: function(CSSClasses, boxTitles){
         console.log('Creating third page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 5], [true, 9]], CSSClasses, boxTitles);
         createSO2Box();
         createMissionStatusBox();
-        createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagenmtosphereBox();
         createAltitudeBox();
-        createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
+        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
