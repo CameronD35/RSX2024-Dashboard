@@ -27,10 +27,10 @@ function magRad(initRad, maxRad){
     let timerId = setInterval(() => {
         if (currentRad >= maxRad){
             currentRad = maxRad;
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             currentRad += radDiff/100
-            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vw`);
+            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
             document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
             //console.log(`${currentRad} / ${maxRad}`);
         }
@@ -73,7 +73,7 @@ function setTemperature(tempElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 100){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize++;
             tempElem.textContent = (`${fillSize}°C`);
@@ -86,7 +86,7 @@ function setPressure(pressureElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 300){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize += 3;
             pressureElem.textContent = (`${fillSize}`);
@@ -97,7 +97,7 @@ function setPressure(pressureElem, fillElem){
 
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
-magRad(0, 5);
+magRad(0, 10);
 animationSetup(document.getElementById('logo'));
 
 setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));

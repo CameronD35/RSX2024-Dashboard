@@ -221,16 +221,20 @@
 .stageContainer{
     display: flex;
     width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stageBox{
     width: 20%;
-    height: 50px;
+    height: 90%;
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2.5% 5% 0.5% 5%;
+    margin: 0% 5% 0% 5%;
     border-radius: 15px;
     font-size: 1vw;
     color: black;
@@ -258,16 +262,19 @@
 
 .timeContainer{
     display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 10%;
 }
 
 .timeText{
     width: 20%;
-    height: 20px;
+    height: 100%;
     display: flex;
     align-items: top;
     justify-content: center;
-    margin: 2.5% 5%;
+    margin: 0% 5%;
     font-size: 1vw;
     font-weight: 500;
     color: white;
@@ -275,7 +282,7 @@
 
 .startButton{
     width: 90%;
-    height: 25px;
+    height: 10%;
     margin: 15px 0px;
     display: flex;
     align-items: center;
@@ -294,23 +301,23 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 100%;
-    justify-content: top;
+    height: 60%;
+    justify-content: space-between;
 }
 
 .capStatBox{
     display: flex;
     justify-content: space-between;
     color: white;
-    margin: 15px 0px;
+    margin: 1vh 0px;
     align-items: center;
 }
 
 .capStatDot{
     background-color: rgba(230,0,0,1);
     border-radius: 100%;
-    height: 40px;
-    width: 40px;
+    height: 3vh;
+    width: 3vh;
 }
 
 #capStatDot2{
@@ -322,7 +329,7 @@
 }
 
 .capStatText{
-    font-size: 30px;
+    font-size: 3vh;
 }
 
 .box4Content{
@@ -333,8 +340,8 @@
     width: 100%;
 }
 .outerCircle{
-    height: 16vw;
-    width: 16vw;
+    height: 30vmin;
+    width: 30vmin;
     border-radius: 100%;
     outline: 5px solid white;
     stroke: 5px;
@@ -346,8 +353,8 @@
 }
 
 .innerCircle{
-    height: 6vw;
-    width: 6vw;
+    height: 10vmin;
+    width: 10vmin;
     border-radius: 100%;
     background-color: none;
     outline-width: 0px; 
@@ -359,7 +366,7 @@
 .magNumber{
     position: fixed;
     color: white;
-    font-size: 5vw;
+    font-size: 10vmin;
     text-shadow: 0px 0px 10px black;
 }
 
