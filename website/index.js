@@ -241,6 +241,7 @@ function setupSlider(slider, valueDisplay){
     slider.addEventListener('mouseup', () => {
         valueDisplay.style.setProperty('color', `white`);
         valueDisplay.style.setProperty('font-size', `20px`);
+        
     });
 
     slider.addEventListener('input', () => {
