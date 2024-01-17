@@ -208,7 +208,7 @@ function createNavigation(parent, count){
 
         let currentImage = currentElement.appendChild(document.createElement('img'));
         currentImage.classList.add('capsuleLogo');
-        currentImage.src = `Image-Assets/C${i}.png`;
+        currentImage.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
     }
 
     setupTabs(tabsArray);
@@ -238,10 +238,19 @@ function setupSlider(slider, valueDisplay){
 
     });
 
-    slider.addEventListener('mouseup', () => {
+    slider.addEventListener('mouseup', async () => {
         valueDisplay.style.setProperty('color', `white`);
         valueDisplay.style.setProperty('font-size', `20px`);
-        
+
+        // DATABASE CODE
+        //console.log('test')
+        const res = await axios.get("/dashboard", {
+            params: {value: slider.value},
+        });
+
+        //console.log(res);
+        console.log(res.data);
+
     });
 
     slider.addEventListener('input', () => {
@@ -389,7 +398,7 @@ function createPressureBox(container, capsuleCount){
         currentLogoBox.id = `pressureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `Image-Assets/C${i}.png`;
+        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
         currentLogo.classList.add('pressureMeterCapsuleLogo');
 
         let currentMeter = currentPressureBox.appendChild(document.createElement('div'));
@@ -447,7 +456,7 @@ function createTemperatureBox(container, capsuleCount){
         currentLogoBox.id = `temperatureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `Image-Assets/C${i}.png`;
+        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
         currentLogo.classList.add('temperatureMeterCapsuleLogo');
 
         let currentMeter = currentTemperatureBox.appendChild(document.createElement('div'));
