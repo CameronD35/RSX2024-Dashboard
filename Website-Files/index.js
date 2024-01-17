@@ -243,17 +243,17 @@ function setupSlider(slider, valueDisplay){
         valueDisplay.style.setProperty('font-size', `20px`);
 
         // DATABASE CODE
-        //console.log('test')
-        //console.log(typeof (JSON.stringify(slider.value)))
 
-        const res = axios.post('http://127.0.01:5000/dashboard', {
-            value: slider.value
+        const res = await axios.post('http://127.0.01:5000/dashboard', {value: slider.value}, {
+            headers: {
+
+            }
         }).then((response) => {
             console.log(response);
         }).catch((err) => {
             console.error(err);
             console.log("Make sure that your python app is running.")
-        })
+        });
 
     });
 
@@ -504,4 +504,17 @@ function disableTabs(tabs, value) {
         }
     }
 
+}
+
+async function sendDataToPython(){
+    const res = await axios.post('http://127.0.01:5000/dashboard', {value: slider.value}, {
+            headers: {
+
+            }
+        }).then((response) => {
+            console.log(response);
+        }).catch((err) => {
+            console.error(err);
+            console.log("Make sure that your python app is running.")
+        })
 }
