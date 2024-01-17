@@ -177,7 +177,7 @@
 .hero{
     width: 100%;
     height: 100vh;
-    background-image: url(/RSX-2024/RSX2024-Dashboard/Image-Assets/RSX2024Dashboard-BG.jpg);
+    background-image: url(../Image-Assets/RSX2024Dashboard-BG.jpg);
     position: relative;
     padding: 75px 2% 45px 2%;
     display: flex;

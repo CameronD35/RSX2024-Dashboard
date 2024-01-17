@@ -244,12 +244,16 @@ function setupSlider(slider, valueDisplay){
 
         // DATABASE CODE
         //console.log('test')
-        const res = await axios.get("/dashboard", {
-            params: {value: slider.value},
-        });
+        //console.log(typeof (JSON.stringify(slider.value)))
 
-        //console.log(res);
-        console.log(res.data);
+        const res = axios.post('http://127.0.01:5000/dashboard', {
+            value: slider.value
+        }).then((response) => {
+            console.log(response);
+        }).catch((err) => {
+            console.error(err);
+            console.log("Make sure that your python app is running.")
+        })
 
     });
 
