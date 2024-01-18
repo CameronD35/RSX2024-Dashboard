@@ -54,7 +54,7 @@ let pageManage = {
         createSO2Box();
         createMissionStatusBox();
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        createMagenmtosphereBox();
+        createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
         createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
@@ -69,7 +69,7 @@ let pageManage = {
         createSO2Box();
         createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        createMagenmtosphereBox();
+        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
@@ -84,7 +84,7 @@ let pageManage = {
         createSO2Box();
         createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        createMagenmtosphereBox();
+        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
@@ -99,7 +99,7 @@ let pageManage = {
         createSO2Box();
         createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        createMagenmtosphereBox();
+        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
@@ -252,7 +252,7 @@ function setupSlider(slider, valueDisplay){
             console.log(response);
         }).catch((err) => {
             console.error(err);
-            console.log("Make sure that your python app is running.")
+            console.log("Make sure that your python app is running.");
         });
 
     });
@@ -270,7 +270,7 @@ function createPageLayout(){
 }
 
 
-/*
+
 // Rad units are in vw
 function magRad(initRad, maxRad){
     let currentRad = initRad;
@@ -279,10 +279,10 @@ function magRad(initRad, maxRad){
     let timerId = setInterval(() => {
         if (currentRad >= maxRad){
             currentRad = maxRad;
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             currentRad += radDiff/100
-            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vw`);
+            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
             document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
             //console.log(`${currentRad} / ${maxRad}`);
         }
@@ -290,8 +290,8 @@ function magRad(initRad, maxRad){
 
 }
 
-magRad(0, 5);
-*/
+magRad(0, 10);
+
  
 function setTemperature(tempElem, fillElem){
     let fillSize = 0;
@@ -434,8 +434,19 @@ function createPressureBox(container, capsuleCount){
 
 }
 
-function createMagenmtosphereBox(container){
+function createMagnetosphereBox(container){
+    let outerCircle = container.appendChild(document.createElement('div'));
+    outerCircle.classList.add('outerCircle');
+    outerCircle.id = 'outerCircle';
+    
+    let innerCircle = outerCircle.appendChild(document.createElement('div'));
+    innerCircle.classList.add('innerCircle');
+    innerCircle.id = 'innerCircle';
 
+    let magNumber = outerCircle.appendChild(document.createElement('div'));
+    magNumber.classList.add('magNumber');
+    magNumber.id = 'magNumber';
+    magNumber.textContent = '99999';
 }
 
 function createAltitudeBox(container){
@@ -507,11 +518,9 @@ function disableTabs(tabs, value) {
 }
 
 async function sendDataToPython(){
-    const res = await axios.post('http://127.0.01:5000/dashboard', {value: slider.value}, {
-            headers: {
-
-            }
-        }).then((response) => {
+    const res = await axios.post('http://127.0.01:5000/dashboard', {
+        value: slider.value
+    }).then((response) => {
             console.log(response);
         }).catch((err) => {
             console.error(err);

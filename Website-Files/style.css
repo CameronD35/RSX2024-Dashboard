@@ -364,7 +364,7 @@
 
 /* MAGENTOSPHERE */
 
-.box4Content{
+.MagBoxContent{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -540,6 +540,7 @@
 .pressureMeterBox{
     background-color: none;
     height: 90%;
+    width: 20%;
     margin: 0 1vw;
     display: flex;
     flex-direction: column;
