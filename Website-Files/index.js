@@ -52,7 +52,7 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box();
-        createMissionStatusBox();
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???']);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
@@ -380,7 +380,52 @@ function createSO2Box(container){
 
 }
 
-function createMissionStatusBox(container){
+function createMissionStatusBox(container, capsuleCount, stages){
+    let stageCont = container.appendChild(document.createElement('div'));
+    stageCont.classList.add('stageContainer');
+
+    let timeCont = container.appendChild(document.createElement('div'));
+    timeCont.classList.add('timeContainer');
+
+    for(let i = 0; i < stages.length; i++){
+
+        let currentStageBox = stageCont.appendChild(document.createElement('div'));
+        currentStageBox.classList.add('stageBox');
+        currentStageBox.id = `stageBox${i+1}`;
+        currentStageBox.textContent = stages[i];
+
+        let currentTimeText = timeCont.appendChild(document.createElement('div'));
+        currentTimeText.classList.add('timeText');
+        currentTimeText.id = `timeText${i+1}`;
+        currentTimeText.textContent = 'T-999';
+
+    }
+
+    let startButton = container.appendChild(document.createElement('div'));
+    startButton.classList.add('startButton');
+
+    let startText = startButton.appendChild(document.createElement('div'));
+    startText.classList.add('startText');
+    startText.textContent = 'START MISSION';
+
+    let capStatCont = container.appendChild(document.createElement('div'));
+    capStatCont.classList.add('capStatContainer');
+
+    for(let i = 1; i <= capsuleCount; i++){
+
+        let currentStatBox = capStatCont.appendChild(document.createElement('div'));
+        currentStatBox.classList.add('capStatBox');
+        currentStatBox.id = `capStatBox${i}`;
+
+        let currentText = currentStatBox.appendChild(document.createElement('div'));
+        currentText.classList.add('capStatText');
+        currentText.id = `capStatText${i}`;
+        currentText.textContent = `Capsule ${i}`;
+
+        let currentDot = currentStatBox.appendChild(document.createElement('div'));
+        currentDot.classList.add('capStatDot');
+        currentDot.id = `capStatDot${i}`;
+    }
 
 }
 
