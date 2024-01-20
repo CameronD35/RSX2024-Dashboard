@@ -27,10 +27,10 @@ function magRad(initRad, maxRad){
     let timerId = setInterval(() => {
         if (currentRad >= maxRad){
             currentRad = maxRad;
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             currentRad += radDiff/100
-            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vw`);
+            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
             document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
             //console.log(`${currentRad} / ${maxRad}`);
         }
@@ -54,26 +54,55 @@ function animationSetup(elem){
 function setupSlider(slider, valueDisplay){
     console.log(slider.value);
     slider.addEventListener('mousedown', () => {
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
-        valueDisplay.style.setProperty('font-size', `30px`);
-
+        turnYellow();
     });
 
     slider.addEventListener('mouseup', () => {
-        valueDisplay.style.setProperty('color', `white`);
-        valueDisplay.style.setProperty('font-size', `20px`);
+        turnWhite();
     });
 
     slider.addEventListener('input', () => {
-        valueDisplay.textContent = `${slider.value}`;
+        valueDisplay.value = `${slider.value}`;
     });
+
+    valueDisplay.addEventListener('input', () => {
+        turnYellow();
+
+        if (valueDisplay.value.length > valueDisplay.maxLength){
+            valueDisplay.value = valueDisplay.value.slice(0, valueDisplay.maxLength);
+        }
+    });
+
+    valueDisplay.onkeydown = function(key){
+        if(key.keyCode == 13){
+            turnWhite();
+            if(slider.value > 1000){
+                slider.value = 1000;
+            } else {
+                slider.value = `${valueDisplay.value}`;
+            }
+
+            valueDisplay.blur();
+            console.log(slider.value);
+        }
+    }
+
+    function turnYellow(){
+        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
+        valueDisplay.style.setProperty('font-size', `18px`);
+    }
+
+    function turnWhite(){
+        valueDisplay.style.setProperty('color', `white`);
+        valueDisplay.style.setProperty('font-size', `12px`);
+    }
 }
 
 function setTemperature(tempElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 100){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize++;
             tempElem.textContent = (`${fillSize}°C`);
@@ -86,7 +115,7 @@ function setPressure(pressureElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
         if (fillSize >= 300){
-            clearInterval(magId);
+            clearInterval(timerId);
         } else {
             fillSize += 3;
             pressureElem.textContent = (`${fillSize}`);
@@ -97,7 +126,7 @@ function setPressure(pressureElem, fillElem){
 
 updateTabs(tabsArray);
 setUpTabs(tabsArray);
-magRad(0, 5);
+magRad(0, 10);
 animationSetup(document.getElementById('logo'));
 
 setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
