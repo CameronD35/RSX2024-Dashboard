@@ -54,19 +54,48 @@ function animationSetup(elem){
 function setupSlider(slider, valueDisplay){
     console.log(slider.value);
     slider.addEventListener('mousedown', () => {
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
-        valueDisplay.style.setProperty('font-size', `30px`);
-
+        turnYellow();
     });
 
     slider.addEventListener('mouseup', () => {
-        valueDisplay.style.setProperty('color', `white`);
-        valueDisplay.style.setProperty('font-size', `20px`);
+        turnWhite();
     });
 
     slider.addEventListener('input', () => {
-        valueDisplay.textContent = `${slider.value}`;
+        valueDisplay.value = `${slider.value}`;
     });
+
+    valueDisplay.addEventListener('input', () => {
+        turnYellow();
+
+        if (valueDisplay.value.length > valueDisplay.maxLength){
+            valueDisplay.value = valueDisplay.value.slice(0, valueDisplay.maxLength);
+        }
+    });
+
+    valueDisplay.onkeydown = function(key){
+        if(key.keyCode == 13){
+            turnWhite();
+            if(slider.value > 1000){
+                slider.value = 1000;
+            } else {
+                slider.value = `${valueDisplay.value}`;
+            }
+
+            valueDisplay.blur();
+            console.log(slider.value);
+        }
+    }
+
+    function turnYellow(){
+        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
+        valueDisplay.style.setProperty('font-size', `18px`);
+    }
+
+    function turnWhite(){
+        valueDisplay.style.setProperty('color', `white`);
+        valueDisplay.style.setProperty('font-size', `12px`);
+    }
 }
 
 function setTemperature(tempElem, fillElem){
