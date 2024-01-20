@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
+    <link rel="icon" href="../Image-Assets/APC-Logo.png">
+    <title>2024 Dashboard (JSC)</title>
+    <title>Document</title>
+</head>
+<body>
+    <div class="navbar">
+        <nav>
+            <div class="logoBox" id="logoBox">
+                <img src="../Image-Assets/APC-Logo.png" class="logo" id="logo">
+                <div class="logoTextContainer" id="logoTextContainer">
+                    <p class="logoText" id="logoText">TREES</p>
+                </div>
+            </div>
+            <div class="titleBox">
+                <div class="title">RockSatX 2024 Dashboard</div>
+                <div class="subtitle">College of the Canyons</div>
+            </div>
+            <ul id="navList"></ul>
+        </nav>
+    </div>
+    <div class="hero">
+        <div class="boxContainer"></div>
+    </div>
+    <div class="bottomInfo">
+        <div class="bottomText">"Changing the future faces of STEM"</div>
+        <div class="sliderContainer" id="sliderContainer">
+            <div class="sliderValue">Time: <div class="sliderNum">500</div></div>
+            <div class="sliderBox" id="sliderBox">
+                <div class="sliderRange" id="sliderNumLeft">0</div>
+                <input type="range" min="0" max="1000" class="slider" steps="1" value="500">
+                <div class="sliderRange" id="sliderNumRight">1000</div>
+            </div>
+        </div>
+        <div class="bottomText">Cameron DeMartini / 2024</div>
+    </div>
+    <script src="https://unpkg.com/axios@0.19.0/dist/axios.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
