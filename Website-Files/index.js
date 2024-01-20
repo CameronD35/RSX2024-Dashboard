@@ -60,6 +60,10 @@ let pageManage = {
     
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
+
+        
+        //Tets function -- Not to be used in final deployment
+        magRad(0, 10);
     },
 
     1: function(CSSClasses, boxTitles){
@@ -67,7 +71,7 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 3], [true, 7]], CSSClasses, boxTitles);
         createSO2Box();
-        createMissionStatusBox();
+        //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
@@ -82,7 +86,7 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 8]], CSSClasses, boxTitles);
         createSO2Box();
-        createMissionStatusBox();
+        //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
@@ -97,7 +101,7 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 5], [true, 9]], CSSClasses, boxTitles);
         createSO2Box();
-        createMissionStatusBox();
+        //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
@@ -137,10 +141,6 @@ let pageManage = {
                 console.log('deleting stuff');
             }, 400);
         }
-    },
-
-    transition: function(){
-
     }
 }
 
@@ -289,8 +289,6 @@ function magRad(initRad, maxRad){
     }, 100);
 
 }
-
-magRad(0, 10);
 
  
 function setTemperature(tempElem, fillElem){

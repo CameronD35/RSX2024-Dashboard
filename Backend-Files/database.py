@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-import datetime
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -9,7 +9,15 @@ class Time(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     sliderVal = db.Column(db.Integer, nullable=False)
-    time = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+
+    currentDateTime = datetime.now()
+    currentTime = currentDateTime.strftime("%H:%M:%S")
+
+    time = db.Column(db.Text, nullable=False, default=currentTime)
+
+    currentDate = f"{currentDateTime.month}/{currentDateTime.day}"
+
+    day = db.Column(db.Text, nullable=False, default=currentDate)
 
 def connect_db(app):
     db.app = app
