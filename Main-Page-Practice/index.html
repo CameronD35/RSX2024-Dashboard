@@ -11,7 +11,7 @@
 <body>
     <div class="navbar">
         <nav>
-            <div class="logoBox" is="logoBox">
+            <div class="logoBox" id="logoBox">
                 <img src="APC-Logo.png" class="logo" id="logo">
                 <div class="logoTextContainer" id="logoTextContainer">
                     <p class="logoText" id="logoText">TREES</p>
@@ -214,10 +214,11 @@
         <div class="bottomInfo">
             <div class="bottomText">"Changing the future faces of STEM"</div>
             <div class="sliderContainer" id="sliderContainer">
-                <div class="sliderValue">Time: <div class="sliderNum">500</div></div>
+                <label for="slider" class="sliderTime">Time: </label>
+                <input type="number" min="0" max="1000" class="sliderNum" id="sliderNum" maxLength="4">
                 <div class="sliderBox" id="sliderBox">
                     <div class="sliderRange" id="sliderNumLeft">0</div>
-                    <input type="range" min="0" max="1000" class="slider" steps="1" value="500">
+                    <input type="range" min="0" max="1000" class="slider" id ="slider" steps="1" value="500">
                     <div class="sliderRange" id="sliderNumRight">1000</div>
                 </div>
             </div>
