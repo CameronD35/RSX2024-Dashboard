@@ -242,16 +242,18 @@ function setupSlider(slider, valueDisplay){
 
         // DATABASE CODE
 
-        const res = await axios.post('http://127.0.01:5000/dashboard', {value: slider.value}, {
-            headers: {
-
-            }
-        }).then((response) => {
-            console.log(response);
-        }).catch((err) => {
+        const res = await axios.post("http://127.0.01:5000/dashboard", {value: slider.value})
+        
+        .then((response) => {
+            console.log(Object.values(response.data)[1]);
+            document.getElementById('testNumber').textContent = Object.values(response.data)[1];
+        })
+        
+        .catch((err) => {
             console.error(err);
             console.log("Make sure that your python app is running.");
         });
+        console.log(slider.value);
 
     });
 
@@ -259,7 +261,7 @@ function setupSlider(slider, valueDisplay){
         valueDisplay.value = `${slider.value}`;
     });
 
-    valueDisplay.onkeydown = function(key){
+    valueDisplay.onkeydown = async function(key){
         if(key.keyCode == 13){
             turnWhite();
             if(slider.value > 1000){
@@ -269,6 +271,12 @@ function setupSlider(slider, valueDisplay){
             }
 
             valueDisplay.blur();
+            const res = await axios.post("http://127.0.01:5000/dashboard", { value: slider.value }).then((response) => {
+                console.log(response.data);
+              }).catch((err) => {
+                console.error(err);
+                console.log("Make sure that your python app is running.");
+              });
             console.log(slider.value);
         }
     }

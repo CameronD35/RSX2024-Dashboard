@@ -696,3 +696,8 @@
 .nonClickable{
     pointer-events: none;
 }
+
+#testNumber{
+    font-size: 30px;
+    color: white;
+}
