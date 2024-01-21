@@ -161,7 +161,6 @@ function setupTabs(tabs){
                 currentPage = i;
                 updateTabs(tabs);
 
-                pageManage.transition(boxElements, pageProperties[i].CSSClassNames, pageProperties[i].titles, [500])
                 pageManage.close(boxElements);
                 //console.log('closing');
                 setTimeout(() => {
@@ -241,18 +240,8 @@ function setupSlider(slider, valueDisplay){
         turnWhite();
 
         // DATABASE CODE
+        await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
-        const res = await axios.post("http://127.0.01:5000/dashboard", {value: slider.value})
-        
-        .then((response) => {
-            console.log(Object.values(response.data)[1]);
-            document.getElementById('testNumber').textContent = Object.values(response.data)[1];
-        })
-        
-        .catch((err) => {
-            console.error(err);
-            console.log("Make sure that your python app is running.");
-        });
         console.log(slider.value);
 
     });
@@ -262,6 +251,7 @@ function setupSlider(slider, valueDisplay){
     });
 
     valueDisplay.onkeydown = async function(key){
+
         if(key.keyCode == 13){
             turnWhite();
             if(slider.value > 1000){
@@ -271,14 +261,13 @@ function setupSlider(slider, valueDisplay){
             }
 
             valueDisplay.blur();
-            const res = await axios.post("http://127.0.01:5000/dashboard", { value: slider.value }).then((response) => {
-                console.log(response.data);
-              }).catch((err) => {
-                console.error(err);
-                console.log("Make sure that your python app is running.");
-              });
+
+            await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+
             console.log(slider.value);
+            //console.log(slider.value);
         }
+        
     }
 
     valueDisplay.addEventListener('input', () => {
@@ -304,7 +293,7 @@ function setupSlider(slider, valueDisplay){
 function createPageLayout(){
     createNavigation(document.getElementById('navList'), 3);
     logoAnimationSetup(document.getElementById('logo'));
-    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNum'));
+    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNumInput'));
 }
 
 
@@ -315,7 +304,7 @@ function magRad(initRad, maxRad){
     let radDiff = maxRad - initRad;
     console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
     let timerId = setInterval(() => {
-        if (currentRad >= maxRad){
+        if ((currentRad >= maxRad) || currentPage != 0){
             currentRad = maxRad;
             clearInterval(timerId);
         } else {
@@ -598,9 +587,9 @@ function disableTabs(tabs, value) {
 
 }
 
-async function sendDataToPython(){
-    const res = await axios.post('http://127.0.01:5000/dashboard', {
-        value: slider.value
+async function sendDataToPython(endpoint, data){
+    const res = await axios.post(endpoint, {
+        value: data
     }).then((response) => {
             console.log(response);
         }).catch((err) => {

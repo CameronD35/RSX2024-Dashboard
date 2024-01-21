@@ -611,7 +611,7 @@
     align-items: center;
 }
 
-.sliderNum{
+.sliderNumInput{
     color: white;
     font-size: 12px;
     margin: 0 5px;
@@ -623,9 +623,10 @@
     border-radius: 3px;
     outline: none;
     text-align: center;
+    cursor: text;
 }
 
-.sliderNum::-webkit-outer-spin-button, ::-webkit-inner-spin-button{
+.sliderNumInput::-webkit-outer-spin-button, ::-webkit-inner-spin-button{
     -webkit-appearance: none;
 }
 
