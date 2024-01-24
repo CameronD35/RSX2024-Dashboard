@@ -317,21 +317,71 @@
     color: white;
 }
 
-.startButton{
+.timerControlsContainer{
     width: 90%;
     height: 10%;
+    display: flex;
+    justify-content: space-between;
     margin: 15px 0px;
+}
+
+.missionTimer{
+    width: 20%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     background-color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+.startButton{
+    width: 65%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: none;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
 }
 
 .startText{
     letter-spacing: 5px;
     font-style: italic;
     font-weight: 700;
+    z-index: 1;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.startCircle{
+    background-color: black;
+    width: 0vmax;
+    height: 0vmax;
+    border-radius: 100%;
+    z-index: 0;
+    position: absolute;
+    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.restartTimerButton{
+    width: 10%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
 }
 
 .capStatContainer{
@@ -581,6 +631,11 @@
     height: 20px;
     width: 20px;
     border-radius: 100%;
+    cursor: grab;
+}
+
+.sliderBox input::-webkit-slider-thumb:active{
+    cursor: grabbing;
 }
 
 .sliderBox input{
@@ -700,5 +755,10 @@
 
 #testNumber{
     font-size: 30px;
+    color: white;
+}
+
+.randomNumberThing{
+    font-size: 100px;
     color: white;
 }

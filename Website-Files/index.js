@@ -3,6 +3,7 @@
 let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
+let timerStartToggle = false;
 //let innerElements = [];
 
 let currentPage = 0;
@@ -48,11 +49,12 @@ createPageLayout();
 let pageManage = {
     // '0' is the main page, the rest correspond to capsule #s
     0: function(CSSClasses, boxTitles){
+
         console.log('Creating MAIN page.')
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
-        createSO2Box();
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???']);
+        createSO2Box(document.querySelector(".SO2BoxContent"));
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         createAltitudeBox();
@@ -70,7 +72,7 @@ let pageManage = {
         console.log('Creating first page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 3], [true, 7]], CSSClasses, boxTitles);
-        createSO2Box();
+        //createSO2Box();
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
@@ -85,7 +87,7 @@ let pageManage = {
         console.log('Creating second page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 8]], CSSClasses, boxTitles);
-        createSO2Box();
+        //createSO2Box();
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
@@ -100,7 +102,7 @@ let pageManage = {
         console.log('Creating third page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 5], [true, 9]], CSSClasses, boxTitles);
-        createSO2Box();
+        //createSO2Box();
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
@@ -231,18 +233,14 @@ function logoAnimationSetup(elem){
 // This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
 function setupSlider(slider, valueDisplay){
     //console.log('slider value: ' + slider.value);
-    slider.addEventListener('mousedown', () => {
-        turnYellow();
-
-    });
+    slider.addEventListener('mousedown', () => { turnYellow(); });
 
     slider.addEventListener('mouseup', async () => {
         turnWhite();
 
         // DATABASE CODE
-        await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+        document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
-        console.log(slider.value);
 
     });
 
@@ -262,9 +260,8 @@ function setupSlider(slider, valueDisplay){
 
             valueDisplay.blur();
 
-            await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+            document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
-            console.log(slider.value);
             //console.log(slider.value);
         }
         
@@ -373,23 +370,16 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
     //console.log(boxWidth);
 
     for(let i = 1; i <= rows; i++){
-        let currentRow = parent.appendChild(document.createElement('div'));
-        currentRow.classList.add('dashRow');
-        currentRow.id = `dashRow${i}`;
+
+        let currentRow = createHTMLChildElement(parent, 'div', 'dashRow', null, `dashRow${i}`);
 
         for(let j = 1; j <= rowLengths[i-1][1]; j++){
-            let currentBox = currentRow.appendChild(document.createElement('div'));
-            currentBox.classList.add(boxNames[boxNumber - 1]);
-            currentBox.classList.add('box');
-            currentBox.id = `box${boxNumber}`;
 
-            currentTitle = currentBox.appendChild(document.createElement('div'));
-            currentTitle.textContent = titles[boxNumber - 1];
-            currentTitle.classList.add('boxTitle');
+            let currentBox = createHTMLChildElement(currentRow, 'div', [boxNames[boxNumber - 1], 'box'], null, `box${boxNumber}`);
 
-            currentContentBox = currentBox.appendChild(document.createElement('div'));
-            currentContentBox.classList.add(`${boxNames[boxNumber - 1]}BoxContent`);
-            currentContentBox.classList.add('boxContent');
+            let currentTitle = createHTMLChildElement(currentBox, 'div', 'boxTitle', titles[boxNumber - 1], `boxTitle${boxNumber}`);
+
+            let currentContentBox = createHTMLChildElement(currentBox, 'div', [`${boxNames[boxNumber - 1]}BoxContent`, 'boxContent'], null, `boxContent${boxNumber}`);
 
             boxNumber++;
 
@@ -402,54 +392,78 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
 }
 
 function createSO2Box(container){
+    let randomNumberThing = container.appendChild(document.createElement('div'));
+    randomNumberThing.classList.add('randomNumberThing');
 
+    randomNumberThing.textContent = 36;
+
+    
 }
 
-function createMissionStatusBox(container, capsuleCount, stages){
-    let stageCont = container.appendChild(document.createElement('div'));
-    stageCont.classList.add('stageContainer');
+function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
-    let timeCont = container.appendChild(document.createElement('div'));
-    timeCont.classList.add('timeContainer');
+    let stageCont = createHTMLChildElement(container, 'div', 'stageContainer');
+
+    let timeCont = createHTMLChildElement(container, 'div', 'timeContainer');
 
     for(let i = 0; i < stages.length; i++){
 
-        let currentStageBox = stageCont.appendChild(document.createElement('div'));
-        currentStageBox.classList.add('stageBox');
-        currentStageBox.id = `stageBox${i+1}`;
-        currentStageBox.textContent = stages[i];
+        let currentStageBox = createHTMLChildElement(stageCont, 'div', 'stageBox', stages[i], `stageBox${i+1}`);
 
-        let currentTimeText = timeCont.appendChild(document.createElement('div'));
-        currentTimeText.classList.add('timeText');
-        currentTimeText.id = `timeText${i+1}`;
-        currentTimeText.textContent = 'T-999';
+        let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', 'T-999', `timeText${i+1}`);
 
     }
 
-    let startButton = container.appendChild(document.createElement('div'));
-    startButton.classList.add('startButton');
+    let timerControlsCont = createHTMLChildElement(container, 'div', 'timerControlsContainer');
 
-    let startText = startButton.appendChild(document.createElement('div'));
-    startText.classList.add('startText');
-    startText.textContent = 'START MISSION';
+    let timer = createHTMLChildElement(timerControlsCont, 'div', 'missionTimer', 'T-999');
 
-    let capStatCont = container.appendChild(document.createElement('div'));
-    capStatCont.classList.add('capStatContainer');
+    let startButton = createHTMLChildElement(timerControlsCont, 'div', 'startButton');
+
+    let startText = createHTMLChildElement(startButton, 'div', 'startText', 'START MISSION');
+
+    let startCircle = createHTMLChildElement(startButton, 'div', 'startCircle');
+
+    let startStopBG = createHTMLChildElement(startButton, 'div', 'startStopBG');
+
+    let restartButton = createHTMLChildElement(timerControlsCont, 'div', 'restartTimerButton');
+    restartButton.style.opacity = '0.5';
+
+    startButton.addEventListener('mouseenter', () => {
+        startCircle.style.width = '27vmax';
+        startCircle.style.height = '27vmax';
+        startText.style.color = 'white'
+    });
+
+
+    startButton.addEventListener('mouseleave', () => {
+        startCircle.style.width = '0%';
+        startCircle.style.height = '0%';
+        startText.style.color = 'black'
+    });
+
+    startButton.addEventListener('click', () => {
+        if(!startToggle){
+            console.log('hi');
+
+            restartButton.style.opacity = '1';
+        } else {
+            console.log('bye');
+
+            restartButton.style.opacity = '0.25';
+        }
+        startToggle = !startToggle;
+    })
+
+    let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
     for(let i = 1; i <= capsuleCount; i++){
 
-        let currentStatBox = capStatCont.appendChild(document.createElement('div'));
-        currentStatBox.classList.add('capStatBox');
-        currentStatBox.id = `capStatBox${i}`;
+        let currentStatBox = createHTMLChildElement(capStatCont, 'div', 'capStatBox', null, `capStatBox${i}`);
 
-        let currentText = currentStatBox.appendChild(document.createElement('div'));
-        currentText.classList.add('capStatText');
-        currentText.id = `capStatText${i}`;
-        currentText.textContent = `Capsule ${i}`;
+        let currentText = createHTMLChildElement(currentStatBox, 'div', 'capStatText', `Capsule ${i}`, `capStatText${i}`);
 
-        let currentDot = currentStatBox.appendChild(document.createElement('div'));
-        currentDot.classList.add('capStatDot');
-        currentDot.id = `capStatDot${i}`;
+        let currentDot= createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
     }
 
 }
@@ -588,12 +602,54 @@ function disableTabs(tabs, value) {
 }
 
 async function sendDataToPython(endpoint, data){
+    let number = 0;
     const res = await axios.post(endpoint, {
         value: data
     }).then((response) => {
-            console.log(response);
-        }).catch((err) => {
-            console.error(err);
-            console.log("Make sure that your python app is running.")
-        })
+            number = response.data[data > Object.keys(response.data).length ? Object.keys(response.data).length : data];
+            //console.log(Object.keys(response.data).length);
+            //console.log(data);
+    }).catch((err) => {
+        console.error(err);
+        console.log("Make sure that your python app is running.")
+    })
+    return (number);
+}
+// Function that simplifies the process of adding an id, class, and text to an HTML Element
+// The first three parameters ARE required
+
+function createHTMLChildElement(parent, tag, classes, text, id){
+
+    // Create element as child of parent argument
+
+    let elem = parent.appendChild(document.createElement(tag));
+
+    // Add class if string or classes if array
+
+    if (typeof classes == 'object') {
+        for (let i = 0; i < classes.length; i++){
+            elem.classList.add(classes[i]);
+        }
+    } else if (classes) {
+        elem.classList.add(classes);
+    }
+
+    // Add text if a text argument is passed
+
+    if (text) {
+        elem.textContent = text;
+    }
+
+    // Give the element an id if a class or id argument is passed, otherwise don't create element
+    // If you wish to let your class == your id automatically, pass null
+
+    if (id) {
+        elem.id = id;
+        return document.getElementById(id);
+    } else if (classes) {
+        elem.id = typeof classes !== 'object' ? classes : classes[0];
+        return document.getElementById(classes);
+    } else {
+        return console.log('You must have an id or class.');
+    }
 }

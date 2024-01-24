@@ -280,21 +280,49 @@
     color: white;
 }
 
-.startButton{
+.timerControlsContainer{
     width: 90%;
     height: 10%;
+    display: flex;
+}
+
+.startButton{
+    width: 90%;
+    height: 100%;
     margin: 15px 0px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     background-color: white;
+    overflow: hidden;
+    position: relative;
 }
 
 .startText{
     letter-spacing: 5px;
     font-style: italic;
     font-weight: 700;
+    z-index: 1;
+}
+
+.startCircle{
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    z-index: 0;
+    position: absolute;
+}
+
+.startCircle:hover{
+    animation-name: startHoverAni;
+    animation-duration: 0.4s;
+}
+
+@keyframes startHoverAni{
+    0% {transform: scale(1, 1)}
+    100% {transform: scale(3, 3)}
 }
 
 .capStatContainer{
