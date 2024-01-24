@@ -424,36 +424,56 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
     let startCircle = createHTMLChildElement(startButton, 'div', 'startCircle');
 
-    let startStopBG = createHTMLChildElement(startButton, 'div', 'startStopBG');
-
-    let restartButton = createHTMLChildElement(timerControlsCont, 'div', 'restartTimerButton');
-    restartButton.style.opacity = '0.5';
-
     startButton.addEventListener('mouseenter', () => {
+        startCircle.transitionTimingFunction = 'cubic-bezier(0.77, 0, 0.175, 1)';
         startCircle.style.width = '27vmax';
         startCircle.style.height = '27vmax';
-        startText.style.color = 'white'
+        startText.style.color = 'var(--timerHoverColor)';
     });
 
 
     startButton.addEventListener('mouseleave', () => {
+        startCircle.transitionTimingFunction = 'cubic-bezier(0.23, 1, 0.825, 0)';
         startCircle.style.width = '0%';
         startCircle.style.height = '0%';
-        startText.style.color = 'black'
+        startText.style.color = 'var(--timerNoHoverColor)';
     });
 
     startButton.addEventListener('click', () => {
         if(!startToggle){
             console.log('hi');
+            document.documentElement.style.setProperty('--timerStateColor', 'rgba(230,0,0,1)');
+            document.documentElement.style.setProperty('--timerHoverColor', 'white');
+            startText.textContent = 'STOP MISSION';
 
             restartButton.style.opacity = '1';
         } else {
             console.log('bye');
+            document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
+            document.documentElement.style.setProperty('--timerHoverColor', 'black');
+
+            startText.textContent = 'START MISSION';
+
 
             restartButton.style.opacity = '0.25';
         }
         startToggle = !startToggle;
+    });
+
+    let restartButton = createHTMLChildElement(timerControlsCont, 'div', 'restartTimerButton');
+    restartButton.style.opacity = '0.5';
+
+    let restartArrow = createHTMLChildElement(restartButton, 'img', 'restartArrow');
+    restartArrow.src = '../Image-Assets/RestartArrow.png';
+
+    restartButton.addEventListener('mouseenter', () => {
+        if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
+    });
+
+    restartButton.addEventListener('mouseleave', () => {
+        if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
     })
+
 
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
@@ -463,7 +483,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
         let currentText = createHTMLChildElement(currentStatBox, 'div', 'capStatText', `Capsule ${i}`, `capStatText${i}`);
 
-        let currentDot= createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
+        let currentDot = createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
     }
 
 }

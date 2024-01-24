@@ -9,6 +9,16 @@
     cursor: default;
 }
 
+:root{
+    --rsxGreen: rgb(0,230,0);
+    --rsxRed: rgba(230,0,0,1);
+
+    --timerStateColor: rgba(255, 255, 255, 1);
+
+    --timerHoverColor: rgba(0, 0, 0, 1); 
+    --timerNoHoverColor: rgba(255, 255, 255, 1); 
+}
+
 
 /* PAGE DESIGN */
 
@@ -35,6 +45,7 @@
     font-size: 15px;
     font-weight: 300;
     font-style: italic;
+    margin: 0.6vw;
 }
 
 .logoBox{
@@ -262,6 +273,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 1.5% 0 0 0
 }
 
 .stageBox{
@@ -283,7 +295,7 @@
 }
 
 #stageBox2{
-    background-color: rgba(0,230,0,1);
+    background-color: var(--rsxGreen);
     box-shadow: 0px 0px 10px rgba(0,230,0,0.5);
 }
 
@@ -293,7 +305,7 @@
 }
 
 #stageBox4{
-    background-color: rgba(230,0,0,1);
+    background-color: var(--rsxRed);
     box-shadow: 0px 0px 10px rgba(230,0,0,0.5);
 }
 
@@ -322,7 +334,7 @@
     height: 10%;
     display: flex;
     justify-content: space-between;
-    margin: 15px 0px;
+    margin: 4%;
 }
 
 .missionTimer{
@@ -344,7 +356,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background-color: none;
+    border: var(--timerStateColor) 3px solid;
     overflow: hidden;
     position: relative;
     cursor: pointer;
@@ -357,16 +369,16 @@
     z-index: 1;
     cursor: pointer;
     transition: 0.5s;
+    color: white;
 }
 
 .startCircle{
-    background-color: black;
+    background-color: var(--timerStateColor);
     width: 0vmax;
     height: 0vmax;
     border-radius: 100%;
     z-index: 0;
     position: absolute;
-    transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
     cursor: pointer;
     transition: 0.5s;
 }
@@ -378,9 +390,13 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background-color: white;
-    overflow: hidden;
+    border: white 3px solid;
     position: relative;
+    cursor: pointer;
+}
+
+.restartArrow{
+    width: 25px;
     cursor: pointer;
 }
 
@@ -388,7 +404,7 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 60%;
+    height: 50%;
     justify-content: space-between;
 }
 
@@ -405,7 +421,7 @@
 }
 
 .capStatDot{
-    background-color: rgba(230,0,0,1);
+    background-color: var(--rsxRed);
     border-radius: 100%;
     height: 3vh;
     width: 3vh;
@@ -416,7 +432,7 @@
 }
 
 #capStatDot3{
-    background-color: rgba(0,230,0,1);
+    background-color: var(--rsxGreen);
 }
 
 .capStatText{
@@ -492,7 +508,7 @@
 .pressureMeterFill{
     width: 100%;
     height: 30%;
-    background-color: rgba(0,230,0,1);
+    background-color: var(--rsxGreen);
     border-radius: 15px;
     box-shadow: 0px 0px 20px rgba(0,230,0, 0.5);
 }
@@ -739,7 +755,7 @@
 .temperatureMeterFill{
     width: 30%;
     height: 100%;
-    background-color: rgba(230,0,0,1);
+    background-color: var(--rsxRed);
     border-radius: 15px;
     box-shadow: 0px 0px 20px rgba(230,0,0,0.5);
 }
