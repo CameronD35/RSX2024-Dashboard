@@ -357,6 +357,7 @@
     justify-content: center;
     border-radius: 10px;
     border: var(--timerStateColor) 3px solid;
+    background-color: rgba(255,255,255,0.2);
     overflow: hidden;
     position: relative;
     cursor: pointer;

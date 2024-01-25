@@ -4,7 +4,6 @@ let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
 let timerStartToggle = false;
-//let innerElements = [];
 
 let currentPage = 0;
 
@@ -45,7 +44,8 @@ createPageLayout();
 
 // END SETUP CODE
 
-// Object full of functions for managing the page as a whole
+
+// Object full of functions for managing the page
 let pageManage = {
     // '0' is the main page, the rest correspond to capsule #s
     0: function(CSSClasses, boxTitles){
@@ -429,6 +429,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
         startCircle.style.width = '27vmax';
         startCircle.style.height = '27vmax';
         startText.style.color = 'var(--timerHoverColor)';
+
     });
 
 
@@ -447,6 +448,9 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
             startText.textContent = 'STOP MISSION';
 
             restartButton.style.opacity = '1';
+
+            startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+            
         } else {
             console.log('bye');
             document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
@@ -456,6 +460,8 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
 
             restartButton.style.opacity = '0.25';
+
+            startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
         }
         startToggle = !startToggle;
     });
