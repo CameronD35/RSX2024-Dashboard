@@ -188,7 +188,7 @@
 #box1{
     width: 70%;
     --b: 10vw;
-    --w: 20px;
+    --w: 1vw;
 }
 
 #box2{
@@ -720,12 +720,12 @@
 }
 
 #So2Num{
-    font-size: 90px;
+    font-size: 5vw;
     font-weight: 900;
 }
 
 #So2Unit{
-    font-size: 35px;
+    font-size: 2vw;
     font-weight: 500;
 }
 
@@ -742,7 +742,8 @@
     position: absolute;
     z-index: -1;
     inset: 0;
-    padding: var(--w) var(--w) 0px var(--w);
+    margin: 0 0 0 0;
+    padding: calc(var(--w) - 0px) calc(var(--w) - 0px) 0 calc(var(--w) - 0px);
     border-radius: var(--b) var(--b) 0 0;
     border-bottom: 0;
     background: var(--c, conic-gradient(from 240deg, red 0%, blue 50%));
