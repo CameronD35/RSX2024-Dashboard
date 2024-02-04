@@ -369,7 +369,7 @@
     font-weight: 700;
     z-index: 1;
     cursor: pointer;
-    transition: 0.5s;
+    transition: 0.8s;
     color: white;
 }
 
@@ -381,7 +381,7 @@
     z-index: 0;
     position: absolute;
     cursor: pointer;
-    transition: 0.5s;
+    transition: 0.8s;
 }
 
 .restartTimerButton{

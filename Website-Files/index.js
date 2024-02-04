@@ -425,7 +425,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
     let startCircle = createHTMLChildElement(startButton, 'div', 'startCircle');
 
     startButton.addEventListener('mouseenter', () => {
-        startCircle.transitionTimingFunction = 'cubic-bezier(0.77, 0, 0.175, 1)';
+        startCircle.style.transitionTimingFunction = 'cubic-bezier(0.77, 0, 0.175, 1)';
         startCircle.style.width = '27vmax';
         startCircle.style.height = '27vmax';
         startText.style.color = 'var(--timerHoverColor)';
@@ -434,7 +434,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
 
     startButton.addEventListener('mouseleave', () => {
-        startCircle.transitionTimingFunction = 'cubic-bezier(0.23, 1, 0.825, 0)';
+        startCircle.style.transitionTimingFunction = ' cubic-bezier(0.23, 1, 0.825, 0)';
         startCircle.style.width = '0%';
         startCircle.style.height = '0%';
         startText.style.color = 'var(--timerNoHoverColor)';
