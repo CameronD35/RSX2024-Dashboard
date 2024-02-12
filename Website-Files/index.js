@@ -209,7 +209,7 @@ function createNavigation(parent, count){
 
         let currentImage = currentElement.appendChild(document.createElement('img'));
         currentImage.classList.add('capsuleLogo');
-        currentImage.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
+        currentImage.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
     }
 
     setupTabs(tabsArray);
@@ -470,7 +470,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
     restartButton.style.opacity = '0.5';
 
     let restartArrow = createHTMLChildElement(restartButton, 'img', 'restartArrow');
-    restartArrow.src = '../Image-Assets/RestartArrow.png';
+    restartArrow.src = '../Image-Assets/RestartArrow.webp';
 
     restartButton.addEventListener('mouseenter', () => {
         if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
@@ -512,7 +512,7 @@ function createPressureBox(container, capsuleCount){
         currentLogoBox.id = `pressureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
+        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
         currentLogo.classList.add('pressureMeterCapsuleLogo');
 
         let currentMeter = currentPressureBox.appendChild(document.createElement('div'));
@@ -581,7 +581,7 @@ function createTemperatureBox(container, capsuleCount){
         currentLogoBox.id = `temperatureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.png`;
+        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
         currentLogo.classList.add('temperatureMeterCapsuleLogo');
 
         let currentMeter = currentTemperatureBox.appendChild(document.createElement('div'));
