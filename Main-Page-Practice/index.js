@@ -139,3 +139,30 @@ for(let i = 1; i <= 3; i++){
 for(let i = 1; i <= 3; i++){
     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 }
+
+function testSO2Bar(){
+
+        for(let i = 0; i <= 50; i++){
+            setTimeout(() => {
+                document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, blue ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
+            }, ((10 * i) + i*5));
+            console.log("yo");
+        } 
+}
+
+function testSO2Bar2(){
+    for(let i = 0; i <= 50; i++){
+        setTimeout(() => {
+            document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, blue ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
+        }, (10 * i) - i*5);
+        console.log("yo2");
+    } 
+}
+
+testSO2Bar();
+setTimeout(testSO2Bar2, 1500);
+
+setInterval(() => {
+    testSO2Bar();
+    setTimeout(testSO2Bar2, 1500);
+}, 5000)

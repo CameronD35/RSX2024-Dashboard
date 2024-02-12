@@ -405,6 +405,8 @@ function createSO2Box(container, capsuleCount){
         let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}`);
 
         let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}`);
+
+        
     }
 
 

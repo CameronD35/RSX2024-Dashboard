@@ -318,7 +318,7 @@
     padding: calc(var(--w) - 0px) calc(var(--w) - 0px) 0 calc(var(--w) - 0px);
     border-radius: var(--b) var(--b) 0 0;
     border-bottom: 0;
-    background: var(--c, conic-gradient(from 240deg, red 0%, blue 50%));
+    background: var(--c, conic-gradient(from 270deg at 50% 100%, red 0%, blue 50%, rgba(0, 0, 0, 0) 50%));
     -webkit-mask: 
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
@@ -327,6 +327,10 @@
     -webkit-mask-composite: xor;
             mask-composite: exclude;
 }
+
+/* .SO2BarContainer:hover{
+    padding: calc(var(--w) - 0px) calc(var(--w) - 100px) 0 calc(var(--w) - 0px);
+} */
 
 /* MISSION STATUS */
 

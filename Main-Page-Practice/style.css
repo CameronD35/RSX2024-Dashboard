@@ -9,6 +9,9 @@
     cursor: default;
 }
 
+:root{
+    --c: conic-gradient(from 270deg at 50% 100%, red 0%, blue 0%, rgba(0,0,0,0) 0%);
+}
 
 /* Page Design */
 
@@ -746,7 +749,7 @@
     padding: calc(var(--w) - 0px) calc(var(--w) - 0px) 0 calc(var(--w) - 0px);
     border-radius: var(--b) var(--b) 0 0;
     border-bottom: 0;
-    background: var(--c, conic-gradient(from 240deg, red 0%, blue 50%));
+    background: var(--c);
     -webkit-mask: 
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
