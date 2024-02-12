@@ -53,7 +53,7 @@ let pageManage = {
         console.log('Creating MAIN page.')
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
-        createSO2Box(document.querySelector(".SO2BoxContent"));
+        createSO2Box(document.querySelector(".SO2BoxContent"), 2);
         createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
@@ -209,7 +209,7 @@ function createNavigation(parent, count){
 
         let currentImage = currentElement.appendChild(document.createElement('img'));
         currentImage.classList.add('capsuleLogo');
-        currentImage.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
+        currentImage.src = `../Image-Assets/C${i}.webp`;
     }
 
     setupTabs(tabsArray);
@@ -391,11 +391,22 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
     }
 }
 
-function createSO2Box(container){
-    let randomNumberThing = container.appendChild(document.createElement('div'));
-    randomNumberThing.classList.add('randomNumberThing');
+function createSO2Box(container, capsuleCount){
+    // let randomNumberThing = container.appendChild(document.createElement('div'));
+    // randomNumberThing.classList.add('randomNumberThing');
 
-    randomNumberThing.textContent = 36;
+    // randomNumberThing.textContent = 36;
+
+    for(let i = 1; i <= capsuleCount; i++) {
+        let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}`);
+
+        let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}`);
+
+        let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}`);
+
+        let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}`);
+    }
+
 
     
 }
@@ -512,7 +523,7 @@ function createPressureBox(container, capsuleCount){
         currentLogoBox.id = `pressureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
+        currentLogo.src = `../Image-Assets/C${i}.webp`;
         currentLogo.classList.add('pressureMeterCapsuleLogo');
 
         let currentMeter = currentPressureBox.appendChild(document.createElement('div'));
@@ -581,7 +592,7 @@ function createTemperatureBox(container, capsuleCount){
         currentLogoBox.id = `temperatureMeterLogoBox${i}`;
 
         let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
-        currentLogo.src = `/RSX-2024/RSX2024-Dashboard/Image-Assets/C${i}.webp`;
+        currentLogo.src = `../Image-Assets/C${i}.webp`;
         currentLogo.classList.add('temperatureMeterCapsuleLogo');
 
         let currentMeter = currentTemperatureBox.appendChild(document.createElement('div'));
