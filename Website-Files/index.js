@@ -1,3 +1,5 @@
+
+import Graph from './modules/lineChart.js';
 // BEGIN SETUP CODE
 
 let currentTab = 'MainButton';
@@ -7,8 +9,10 @@ let timerStartToggle = false;
 
 let currentPage = 0;
 
+let graphArray = [];
+
 // Indicates if the page was just started or not
-pageStart = true;
+let pageStart = true;
 
 // Object of page properties; names of box classes and box titles
 const pageProperties = {
@@ -406,6 +410,13 @@ function createSO2Box(container, capsuleCount){
 
         let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}`);
 
+        let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}`);
+
+        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, '.SO2BoxContent', null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
+
+        graphArray.push(currentGraph);
+
+        currentGraph.create();
         
     }
 

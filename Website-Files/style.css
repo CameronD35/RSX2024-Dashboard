@@ -18,8 +18,8 @@
     --timerHoverColor: rgba(0, 0, 0, 1); 
     --timerNoHoverColor: rgba(255, 255, 255, 1); 
 
-    --b: 10vw;
-    --w: 1vw;
+    --barSize: 6vw;
+    --barThickness: 0.6vw;
 }
 
 
@@ -305,8 +305,8 @@
 }
 .SO2BarContainer{
     color: white;
-    width: calc(var(--b)*2);
-    height: var(--b);
+    width: calc(var(--barSize)*2);
+    height: var(--barSize);
     display: inline-block;
     margin: 75px 0;
     position: relative;
@@ -318,12 +318,12 @@
 }
 
 .SO2Num{
-    font-size: 5vw;
+    font-size: calc(var(--barSize)*0.45);
     font-weight: 900;
 }
 
 .SO2Unit{
-    font-size: 2vw;
+    font-size: calc(var(--barSize)*0.2);
     font-weight: 500;
 }
 
@@ -335,14 +335,15 @@
     align-items: center;
     background-color: none;
 }
+
 .SO2BarContainer:before{
     content: "";
     position: absolute;
     z-index: -1;
     inset: 0;
     margin: 0 0 0 0;
-    padding: calc(var(--w) - 0px) calc(var(--w) - 0px) 0 calc(var(--w) - 0px);
-    border-radius: var(--b) var(--b) 0 0;
+    padding: calc(var(--barThickness) - 0px) calc(var(--barThickness) - 0px) 0 calc(var(--barThickness) - 0px);
+    border-radius: var(--barSize) var(--barSize) 0 0;
     border-bottom: 0;
     background: var(--c, conic-gradient(from 270deg at 50% 100%, red 0%, blue 50%, rgba(0, 0, 0, 0) 50%));
     -webkit-mask: 
@@ -354,9 +355,17 @@
             mask-composite: exclude;
 }
 
-/* .SO2BarContainer:hover{
-    padding: calc(var(--w) - 0px) calc(var(--w) - 100px) 0 calc(var(--w) - 0px);
-} */
+
+.axisLabel{
+    fill: white;
+    font-weight: 800;
+    opacity: 0.5;
+}
+
+.tick text{
+    font-weight: 500;
+    font-size: 10px;
+}
 
 /* MISSION STATUS */
 
