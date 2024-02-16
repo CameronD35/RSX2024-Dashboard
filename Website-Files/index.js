@@ -692,3 +692,33 @@ function createHTMLChildElement(parent, tag, classes, text, id){
         return console.log('You must have an id or class.');
     }
 }
+
+function testSO2Bar(){
+    const rgbNum = 255;
+    for(let i = 0; i <= 50; i++){
+        setTimeout(() => {
+            let rgbDiff = Math.round(i * 2.55 * 2);
+            document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbNum - rgbDiff}, 0, ${rgbDiff}) ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
+        }, ((10 * i) + i*5));
+        console.log("yo");
+    } 
+}
+
+function testSO2Bar2(){
+    const rgbNum = 255;
+    for(let i = 0; i <= 50; i++){
+        setTimeout(() => {
+            let rgbDiff = Math.round(i * 2.55);
+            document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbDiff}, 0, ${rgbNum - rgbDiff}) ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
+        }, (10 * i) + i*5);
+        console.log("yo2");
+    } 
+}
+
+testSO2Bar();
+setTimeout(testSO2Bar2, 1500);
+
+setInterval(() => {
+    testSO2Bar();
+    setTimeout(testSO2Bar2, 1500);
+}, 5000)
