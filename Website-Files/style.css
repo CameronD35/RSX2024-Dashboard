@@ -678,6 +678,26 @@
 
 /* ALTITUDE */
 
+.capAltStatContainer{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 50%;
+    justify-content: space-between;
+}
+
+.capAltStatBox{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    margin: 1vh 0px;
+    align-items: center;
+}
+
+.capAltStatText{
+    font-size: 3vh;
+}
+
 .atmosphericLayerContainer{
     width: 85%;
     height:100%;
@@ -699,7 +719,6 @@
     color:white;
     font-weight: 300;
 }
-
 
 .capLogoAltBox{
     background-color: none;
@@ -732,6 +751,7 @@
     bottom: 97px;
 }
 
+/* SLIDER */
 .sliderContainer{
     background-color: none;
     width: 40%;

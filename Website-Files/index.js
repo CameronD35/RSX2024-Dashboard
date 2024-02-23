@@ -61,7 +61,7 @@ let pageManage = {
         createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        createAltitudeBox();
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 3);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -199,20 +199,15 @@ function updateTabs(tabs){
 
 // This manages and creates the navigation located in the top right
 function createNavigation(parent, count){
-    let main = parent.appendChild(document.createElement('li'));
-    main.classList.add('hoverBig');
-    main.id = `MainButton`;
-    main.textContent = 'MAIN';
+
+    let main = createHTMLChildElement(parent, 'li', 'hoverBig', 'MAIN', `MainButton`);
     tabsArray.push(main.id);
 
     for (let i = 1; i <= count; i++){
-        let currentElement = parent.appendChild(document.createElement('li'));
-        currentElement.classList.add('hoverBig');
-        currentElement.id = `C${i}Button`;
+        let currentElement = createHTMLChildElement(parent, 'li', 'hoverBig', null, `C${i}Button`);
         tabsArray.push(currentElement.id);
 
-        let currentImage = currentElement.appendChild(document.createElement('img'));
-        currentImage.classList.add('capsuleLogo');
+        let currentImage = createHTMLChildElement(currentElement, 'img', 'capsuleLogo', null, `capsuleLogo${i}`);
         currentImage.src = `../Image-Assets/C${i}.webp`;
     }
 
@@ -243,7 +238,8 @@ function setupSlider(slider, valueDisplay){
         turnWhite();
 
         // DATABASE CODE
-        document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+        console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+        //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
 
     });
@@ -263,8 +259,8 @@ function setupSlider(slider, valueDisplay){
             }
 
             valueDisplay.blur();
-
-            document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+            console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+            //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
             //console.log(slider.value);
         }
@@ -290,7 +286,7 @@ function setupSlider(slider, valueDisplay){
     }
 }
 
-// This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs
+// This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs (TF)
 function createPageLayout(){
     createNavigation(document.getElementById('navList'), 3);
     logoAnimationSetup(document.getElementById('logo'));
@@ -299,7 +295,7 @@ function createPageLayout(){
 
 
 
-// Rad units are in vw
+// Rad units are in vw (TF)
 function magRad(initRad, maxRad){
     let currentRad = initRad;
     let radDiff = maxRad - initRad;
@@ -318,7 +314,7 @@ function magRad(initRad, maxRad){
 
 }
 
- 
+// (TF) 
 function setTemperature(tempElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
@@ -331,7 +327,7 @@ function setTemperature(tempElem, fillElem){
         }
     }, 100);
 }
-
+// (TF)
 function setPressure(pressureElem, fillElem){
     let fillSize = 0;
     let timerId = setInterval(() => {
@@ -345,11 +341,12 @@ function setPressure(pressureElem, fillElem){
     }, 100);
 }
 
+// TESTING STUFF
 for(let i = 1; i <= 3; i++){
     setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
 }
 
-
+// TESTING STUFF
 for(let i = 1; i <= 3; i++){
     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 }
@@ -402,6 +399,7 @@ function createSO2Box(container, capsuleCount){
     // randomNumberThing.textContent = 36;
 
     for(let i = 1; i <= capsuleCount; i++) {
+
         let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}`);
 
         let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}`);
@@ -465,7 +463,8 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
     });
 
     startButton.addEventListener('click', () => {
-        if(!startToggle){
+
+        if (!startToggle) {
             console.log('hi');
             document.documentElement.style.setProperty('--timerStateColor', 'rgba(230,0,0,1)');
             document.documentElement.style.setProperty('--timerHoverColor', 'white');
@@ -520,109 +519,79 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
 function createPressureBox(container, capsuleCount){
 
-    let pressCont = container.appendChild(document.createElement('div'));
-    pressCont.classList.add('pressureMeterContainer');
+    let pressCont = createHTMLChildElement(container, 'div', 'pressureMeterContainer', null)
 
     for(let i = 1; i <= capsuleCount; i++) {
 
-        let currentPressureBox = pressCont.appendChild(document.createElement('div'));
-        currentPressureBox.classList.add('pressureMeterBox');
-        currentPressureBox.id = `pressureMeterBox${i}`;
+        let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${i}`);
         currentPressureBox.style.setProperty('width',`${60/capsuleCount}%`);
         currentPressureBox.style.setProperty('margin',`0 ${3/capsuleCount}vw`);
 
-        let currentLogoBox = currentPressureBox.appendChild(document.createElement('div'));
-        currentLogoBox.classList.add('pressureMeterLogoBox');
-        currentLogoBox.id = `pressureMeterLogoBox${i}`;
+        let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${i}`);
 
-        let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
+        let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'pressureMeterCapsuleLogo', null, `pressureMeterCapsuleLogo${i}`);
         currentLogo.src = `../Image-Assets/C${i}.webp`;
-        currentLogo.classList.add('pressureMeterCapsuleLogo');
 
-        let currentMeter = currentPressureBox.appendChild(document.createElement('div'));
-        currentMeter.classList.add('pressureMeter');
-        currentMeter.id = `pressureMeter${i}`;
+        let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${i}`);
 
-        let currentTextBox = currentMeter.appendChild(document.createElement('div'));
-        currentTextBox.classList.add('pressureTextBox');
-        currentTextBox.id = `pressureTextBox${i}`;
+        let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${i}`);
 
-        let currentText = currentTextBox.appendChild(document.createElement('div'));
-        currentText.classList.add('pressureText');
-        currentText.id = `pressureText${i}`;
-        currentText.textContent = '999';
+        let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${i}`);
 
-        let currentUnit = currentTextBox.appendChild(document.createElement('div'));
-        currentUnit.classList.add('pressureUnit');
-        currentUnit.id = `pressureUnit${i}`;
-        currentUnit.textContent = 'atm';
+        let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${i}`);
 
-        let currentFillBox = currentMeter.appendChild(document.createElement('div'));
-        currentFillBox.classList.add('pressureMeterFillBox');
+        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${i}`);
 
-        let currentFill = currentFillBox.appendChild(document.createElement('div'));
-        currentFill.classList.add('pressureMeterFill');
-        currentFill.id = `pressureMeterFill${i}`;
+        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${i}`);
         
     }
 
 }
 
 function createMagnetosphereBox(container){
-    let outerCircle = container.appendChild(document.createElement('div'));
-    outerCircle.classList.add('outerCircle');
-    outerCircle.id = 'outerCircle';
-    
-    let innerCircle = outerCircle.appendChild(document.createElement('div'));
-    innerCircle.classList.add('innerCircle');
-    innerCircle.id = 'innerCircle';
 
-    let magNumber = outerCircle.appendChild(document.createElement('div'));
-    magNumber.classList.add('magNumber');
-    magNumber.id = 'magNumber';
-    magNumber.textContent = '99999';
+    let outerCircle = createHTMLChildElement(container, 'div', 'outerCircle', null);
+    
+    let innerCircle = createHTMLChildElement(outerCircle, 'div', 'innerCircle', null);
+
+    let magNumber = createHTMLChildElement(outerCircle, 'div', 'magNumber', '99999');
+
 }
 
-function createAltitudeBox(container){
+function createAltitudeBox(container, capsuleCount){
 
+    let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer', null);
+
+    for(let i = 1; i <= capsuleCount; i++){
+
+        let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
+
+        let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${i}`, `capAltStatText${i}`);
+    }
 }
 
 function createTemperatureBox(container, capsuleCount){
     
-    let tempCont = container.appendChild(document.createElement('div'));
-    tempCont.classList.add('temperatureMeterContainer');
+    let tempCont = createHTMLChildElement(container, 'div', 'temperatureMeterContainer', null);
 
     for(let i = 1; i <= capsuleCount; i++) {
 
-        let currentTemperatureBox = tempCont.appendChild(document.createElement('div'));
-        currentTemperatureBox.classList.add('temperatureMeterBox');
-        currentTemperatureBox.id = `temperatureMeterBox${i}`;
+        let currentTemperatureBox = createHTMLChildElement(tempCont, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${i}`);
         currentTemperatureBox.style.setProperty('height',`${51/capsuleCount}%`);
         currentTemperatureBox.style.setProperty('margin',`${5/capsuleCount}vw 0`);
 
-        let currentLogoBox = currentTemperatureBox.appendChild(document.createElement('div'));
-        currentLogoBox.classList.add('temperatureMeterLogoBox');
-        currentLogoBox.id = `temperatureMeterLogoBox${i}`;
+        let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${i}`);
 
-        let currentLogo = currentLogoBox.appendChild(document.createElement('img'));
+        let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'temperatureMeterCapsuleLogo', null, `temperatureMeterCapsuleLogo${i}`);
         currentLogo.src = `../Image-Assets/C${i}.webp`;
-        currentLogo.classList.add('temperatureMeterCapsuleLogo');
 
-        let currentMeter = currentTemperatureBox.appendChild(document.createElement('div'));
-        currentMeter.classList.add('temperatureMeter');
-        currentMeter.id = `temperatureMeter${i}`;
+        let currentMeter = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeter', null, `temperatureMeter${i}`);
 
-        let currentText = currentMeter.appendChild(document.createElement('div'));
-        currentText.classList.add('temperatureText');
-        currentText.id = `temperatureText${i}`;
-        currentText.textContent = '999°C';
+        let currentText = createHTMLChildElement(currentMeter, 'div', 'temperatureText', '999°C', `temperatureText${i}`);
 
-        let currentFillBox = currentMeter.appendChild(document.createElement('div'));
-        currentFillBox.classList.add('temperatureMeterFillBox');
+        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'temperatureMeterFillBox', null, `temperatureMeterFillBox${i}`);
 
-        let currentFill = currentFillBox.appendChild(document.createElement('div'));
-        currentFill.classList.add('temperatureMeterFill');
-        currentFill.id = `temperatureMeterFill${i}`;
+        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'temperatureMeterFill', null, `temperatureMeterFill${i}`);
         
     }
 
@@ -711,7 +680,7 @@ function testSO2Bar(){
             let rgbDiff = Math.round(i * 2.55 * 2);
             document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbNum - rgbDiff}, 0, ${rgbDiff}) ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
         }, ((10 * i) + i*5));
-        console.log("yo");
+        //console.log("yo");
     } 
 }
 
@@ -722,7 +691,7 @@ function testSO2Bar2(){
             let rgbDiff = Math.round(i * 2.55);
             document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbDiff}, 0, ${rgbNum - rgbDiff}) ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
         }, (10 * i) + i*5);
-        console.log("yo2");
+        //console.log("yo2");
     } 
 }
 
