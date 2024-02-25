@@ -146,7 +146,7 @@ function testSO2Bar(){
             setTimeout(() => {
                 document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, blue ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
             }, ((10 * i) + i*5));
-            console.log("yo");
+           // console.log("yo");
         } 
 }
 
@@ -155,7 +155,7 @@ function testSO2Bar2(){
         setTimeout(() => {
             document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, blue ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
         }, (10 * i) - i*5);
-        console.log("yo2");
+        //console.log("yo2");
     } 
 }
 
