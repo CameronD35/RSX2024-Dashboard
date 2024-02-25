@@ -271,7 +271,7 @@
     width: 30%;
 }
 
-.MisStatBoxContent, .PresBoxContent, .MagBoxContent, .TempBoxContent, .AltBoxContent{
+.MisStatBoxContent, .PresBoxContent, .MagBoxContent, .TempBoxContent{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -668,90 +668,81 @@
     font-size: 30px;
 }
 
-.capStatAltBox{
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    margin: 15px 0px;
-    align-items: center;
-}
-
 /* ALTITUDE */
 
-.capAltStatContainer{
+.AltBoxContent{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.capStatAltContainer{
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 50%;
+    height: 45%;
+    margin: 0 0 5% 0;
     justify-content: space-between;
+
 }
 
 .capAltStatBox{
     display: flex;
     justify-content: space-between;
     color: white;
-    margin: 1vh 0px;
     align-items: center;
+    width: 100%;
+
 }
 
 .capAltStatText{
     font-size: 3vh;
 }
 
-.atmosphericLayerContainer{
-    width: 85%;
-    height:100%;
-    background-color: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.layerDivider{
-    width: 100%;
-    height: 3px;
-    margin: 7px;
-    background-color: white;
+.capAltStatData{
+    font-size: 2vh;
+    font-weight: 500;
 }
 
-.atmosphericLayerContainer p{
-    align-self: normal;
-    color:white;
-    font-weight: 300;
+.atmosphericLayerTable{
+    text-align: left;
+    border-collapse: collapse;
+    width: 90%;
+    height: 50%;
 }
 
-.capLogoAltBox{
-    background-color: none;
-    width: 240px;
-    position: fixed;
-    bottom: 76px;
-    left: 1125px;
-    display: flex;
-    padding: 1px;
-    justify-content: space-between;
+.atmosphericLayerRow{
+    border-bottom: 2px solid white;
 }
 
-.capLogoAlt{
-    width: 15px;
-    height: 15px;
+.atmosphericLayerRow:last-of-type{
+    border: 0;
 }
 
-#capLogoAlt1{
-    position: relative;
-    bottom: 35px;
+.atmosphericLayerHeader{
+    color: white;
+    font-weight: 500;
+    padding: 0px 10px 0 0px;
+    width: 40%;
 }
 
-#capLogoAlt2{
-    position: relative;
-    bottom: 65px;
+.atmosphericLayerCell{
+    color: white;
+    font-weight: 500;
+    width: 20%;
+    height: 20%;
+    text-align: center;
 }
 
-#capLogoAlt3{
-    position: relative;
-    bottom: 97px;
+.atmosphericLayerCellImage{
+    width: 20px;
+    height: 20px;
 }
 
 /* SLIDER */
+
 .sliderContainer{
     background-color: none;
     width: 40%;

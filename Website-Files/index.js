@@ -80,7 +80,7 @@ let pageManage = {
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        createAltitudeBox();
+        //createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -95,7 +95,7 @@ let pageManage = {
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        createAltitudeBox();
+        //createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -110,7 +110,7 @@ let pageManage = {
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        createAltitudeBox();
+        //createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -176,7 +176,7 @@ function setupTabs(tabs){
                             pageManage.open('.boxContainer');
                             console.log('opening');
                     }
-                    tabs[i].disabled = '';
+
                 }, 500)
                 console.log(currentPage);
             }
@@ -560,13 +560,36 @@ function createMagnetosphereBox(container){
 
 function createAltitudeBox(container, capsuleCount){
 
-    let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer', null);
+    let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
 
     for(let i = 1; i <= capsuleCount; i++){
 
         let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
 
         let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${i}`, `capAltStatText${i}`);
+
+        let currentData = createHTMLChildElement(currentStatBox, 'div', 'capAltStatData', `9999 ft.`, `capAltStatData${i}`);
+    }
+
+    let tableElement = createHTMLChildElement(container, 'table', 'atmosphericLayerTable');
+
+    let layerArray = ['Exosphere', 'Thermosphere', 'Mesosphere', 'Stratosphere', 'Troposphere'];
+
+    for (let i = 1; i <= layerArray.length; i++){
+
+        let currentTableRow = createHTMLChildElement(tableElement, 'tr', 'atmosphericLayerRow', null, `atmosphericLayerRow${i}`)
+
+        let currentTableHeader = createHTMLChildElement(currentTableRow, 'th', 'atmosphericLayerHeader', layerArray[i-1], `atmosphericLayerHeader${i}`)
+
+        for (let j = 1; j <= capsuleCount; j++) {
+
+            let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j}`);
+
+            let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j}`);
+
+            currentTableCellImage.src = `../Image-Assets/C${j}.webp`;
+
+        }
     }
 }
 
@@ -610,11 +633,15 @@ function setCurrentBoxes(CSSClassArray){
 function disableTabs(tabs, value) {
     if (value){
         for(let i = 0; i < tabs.length; i++){
+
             document.getElementById(tabs[i]).classList.add('nonClickable');
+
         }
     } else {
         for(let i = 0; i < tabs.length; i++){
+
             document.getElementById(tabs[i]).classList.remove('nonClickable');
+
         }
     }
 
@@ -622,16 +649,22 @@ function disableTabs(tabs, value) {
 
 async function sendDataToPython(endpoint, data){
     let number = 0;
+
     const res = await axios.post(endpoint, {
         value: data
-    }).then((response) => {
+    })
+
+    .then((response) => {
             number = response.data[data > Object.keys(response.data).length ? Object.keys(response.data).length : data];
             //console.log(Object.keys(response.data).length);
             //console.log(data);
-    }).catch((err) => {
+    })
+    
+    .catch((err) => {
         console.error(err);
         console.log("Make sure that your python app is running.")
     })
+
     return (number);
 }
 // Function that simplifies the process of adding an id, class, and text to an HTML Element
