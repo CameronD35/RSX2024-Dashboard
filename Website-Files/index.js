@@ -1,5 +1,11 @@
 
 import Graph from './modules/lineChart.js';
+
+import createHTMLChildElement from './modules/createElement.js';
+
+import logoAnimationSetup from './modules/logoAnimation.js';
+
+import setupSlider from './modules/slider.js'
 // BEGIN SETUP CODE
 
 let currentTab = 'MainButton';
@@ -215,151 +221,11 @@ function createNavigation(parent, count){
     updateTabs(tabsArray);
 }
 
-// This sets up the animation that occurs when the mouse hovers over the logo
-function logoAnimationSetup(elem){
-    elem.addEventListener('mouseover', () => {
-        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;
-        document.querySelector('.logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) slideText';
-        document.querySelector('.logoText').style.transform = 'translateX(0px)';
-    });
-    elem.addEventListener('mouseout', () => {
-        elem.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;
-        document.querySelector('.logoText').style.animation = '1s cubic-bezier(0.77, 0, 0.175, 1) hideText';
-        document.querySelector('.logoText').style.transform = 'translateX(-250px)';
-    })
-}
-
-// This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
-function setupSlider(slider, valueDisplay){
-    //console.log('slider value: ' + slider.value);
-    slider.addEventListener('mousedown', () => { turnYellow(); });
-
-    slider.addEventListener('mouseup', async () => {
-        turnWhite();
-
-        // DATABASE CODE
-        console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
-        //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
-
-
-    });
-
-    slider.addEventListener('input', () => {
-        valueDisplay.value = `${slider.value}`;
-    });
-
-    valueDisplay.onkeydown = async function(key){
-
-        if(key.keyCode == 13){
-            turnWhite();
-            if(slider.value > 1000){
-                slider.value = 1000;
-            } else {
-                slider.value = `${valueDisplay.value}`;
-            }
-
-            valueDisplay.blur();
-            console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
-            //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
-
-            //console.log(slider.value);
-        }
-        
-    }
-
-    valueDisplay.addEventListener('input', () => {
-        turnYellow();
-
-        if (valueDisplay.value.length > valueDisplay.maxLength){
-            valueDisplay.value = valueDisplay.value.slice(0, valueDisplay.maxLength);
-        }
-    });
-
-    function turnYellow(){
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
-        valueDisplay.style.setProperty('font-size', `18px`);
-    }
-
-    function turnWhite(){
-        valueDisplay.style.setProperty('color', `white`);
-        valueDisplay.style.setProperty('font-size', `12px`);
-    }
-}
-
 // This utilizes the above functions to create the 'skeleton' of the page, which will be used across all tabs (TF)
 function createPageLayout(){
     createNavigation(document.getElementById('navList'), 3);
     logoAnimationSetup(document.getElementById('logo'));
     setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNumInput'));
-}
-
-
-
-// Rad units are in vw (TF)
-function magRad(initRad, maxRad){
-
-    let currentRad = initRad;
-    let radDiff = maxRad - initRad;
-
-    console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
-
-    let timerId = setInterval(() => {
-
-        if ((currentRad >= maxRad) || currentPage != 0){
-            
-            currentRad = maxRad;
-            clearInterval(timerId);
-
-        } else {
-
-            currentRad += radDiff/100
-
-            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
-            document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
-
-            //console.log(`${currentRad} / ${maxRad}`);
-
-        }
-
-    }, 100);
-
-}
-
-// (TF) 
-function setTemperature(tempElem, fillElem){
-    let fillSize = 0;
-    let timerId = setInterval(() => {
-        if (fillSize >= 100){
-            clearInterval(timerId);
-        } else {
-            fillSize++;
-            tempElem.textContent = (`${fillSize}°C`);
-            fillElem.style.setProperty('width', `${fillSize}%`);
-        }
-    }, 100);
-}
-// (TF)
-function setPressure(pressureElem, fillElem){
-    let fillSize = 0;
-    let timerId = setInterval(() => {
-        if (fillSize >= 300){
-            clearInterval(timerId);
-        } else {
-            fillSize += 3;
-            pressureElem.textContent = (`${fillSize}`);
-            fillElem.style.setProperty('height', `${fillSize/3}%`);
-        }
-    }, 100);
-}
-
-// TESTING STUFF
-for(let i = 1; i <= 3; i++){
-    setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
-}
-
-// TESTING STUFF
-for(let i = 1; i <= 3; i++){
-    setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 }
 
 
@@ -678,44 +544,6 @@ async function sendDataToPython(endpoint, data){
 
     return (number);
 }
-// Function that simplifies the process of adding an id, class, and text to an HTML Element
-// The first three parameters ARE required
-
-function createHTMLChildElement(parent, tag, classes, text, id){
-
-    // Create element as child of parent argument
-
-    let elem = parent.appendChild(document.createElement(tag));
-
-    // Add class if string or classes if array
-
-    if (typeof classes == 'object') {
-        for (let i = 0; i < classes.length; i++){
-            elem.classList.add(classes[i]);
-        }
-    } else if (classes) {
-        elem.classList.add(classes);
-    }
-
-    // Add text if a text argument is passed
-
-    if (text) {
-        elem.textContent = text;
-    }
-
-    // Give the element an id if a class or id argument is passed, otherwise don't create element
-    // If you wish to let your class == your id automatically, pass null
-
-    if (id) {
-        elem.id = id;
-        return document.getElementById(id);
-    } else if (classes) {
-        elem.id = typeof classes !== 'object' ? classes : classes[0];
-        return document.getElementById(classes);
-    } else {
-        return console.log('You must have an id or class.');
-    }
-}
 
 function testSO2Bar(){
     const rgbNum = 255;
@@ -746,3 +574,70 @@ setInterval(() => {
     testSO2Bar();
     setTimeout(testSO2Bar2, 1500);
 }, 5000)
+
+// Rad units are in vw (TF)
+function magRad(initRad, maxRad){
+
+    let currentRad = initRad;
+    let radDiff = maxRad - initRad;
+
+    console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
+
+    let timerId = setInterval(() => {
+
+        if ((currentRad >= maxRad) || currentPage != 0){
+            
+            currentRad = maxRad;
+            clearInterval(timerId);
+
+        } else {
+
+            currentRad += radDiff/100
+
+            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
+            document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
+
+            //console.log(`${currentRad} / ${maxRad}`);
+
+        }
+
+    }, 100);
+
+}
+
+// (TF) 
+function setTemperature(tempElem, fillElem){
+    let fillSize = 0;
+    let timerId = setInterval(() => {
+        if (fillSize >= 100){
+            clearInterval(timerId);
+        } else {
+            fillSize++;
+            tempElem.textContent = (`${fillSize}°C`);
+            fillElem.style.setProperty('width', `${fillSize}%`);
+        }
+    }, 100);
+}
+// (TF)
+function setPressure(pressureElem, fillElem){
+    let fillSize = 0;
+    let timerId = setInterval(() => {
+        if (fillSize >= 300){
+            clearInterval(timerId);
+        } else {
+            fillSize += 3;
+            pressureElem.textContent = (`${fillSize}`);
+            fillElem.style.setProperty('height', `${fillSize/3}%`);
+        }
+    }, 100);
+}
+
+// TESTING STUFF
+for(let i = 1; i <= 3; i++){
+    setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
+}
+
+// TESTING STUFF
+for(let i = 1; i <= 3; i++){
+    setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
+}
