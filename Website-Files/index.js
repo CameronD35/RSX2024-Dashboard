@@ -69,7 +69,7 @@ let pageManage = {
 
         
         //Tets function -- Not to be used in final deployment
-        magRad(0, 10);
+        magRad(0, 12);
     },
 
     1: function(CSSClasses, boxTitles){
@@ -297,19 +297,30 @@ function createPageLayout(){
 
 // Rad units are in vw (TF)
 function magRad(initRad, maxRad){
+
     let currentRad = initRad;
     let radDiff = maxRad - initRad;
+
     console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
+
     let timerId = setInterval(() => {
+
         if ((currentRad >= maxRad) || currentPage != 0){
+            
             currentRad = maxRad;
             clearInterval(timerId);
+
         } else {
+
             currentRad += radDiff/100
+
             document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
             document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
+
             //console.log(`${currentRad} / ${maxRad}`);
+
         }
+
     }, 100);
 
 }
