@@ -3,9 +3,12 @@
 
 export default function createHTMLChildElement(parent, tag, classes, text, id) {
 
-    // Create element as child of parent argument
+    let elem = document.createElement(tag);
 
-    let elem = parent.appendChild(document.createElement(tag));
+    // Create element as child of parent argument
+    if(parent){
+        parent.appendChild(elem);
+    }
 
     // Add class if string or classes if array
 
@@ -40,6 +43,7 @@ export default function createHTMLChildElement(parent, tag, classes, text, id) {
     } else if (classes) {
 
         elem.id = typeof classes !== 'object' ? classes : classes[0];
+        console.log(elem)
         return document.getElementById(classes);
 
     } else {

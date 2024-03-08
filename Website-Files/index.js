@@ -158,10 +158,12 @@ let pageManage = {
     }
 }
 
-let capsuleObject = {
+class CapsuleObject {
 
     constructor(){
-        this.sulfurDioxideBar = 0;
+
+        this.parent = false; 
+        this.sulfurDioxideBar = createSO2Bar(5, false);
         this.sulfurDioxideChart = 0;
 
         this.pressureBar = 0;
@@ -169,19 +171,31 @@ let capsuleObject = {
         this.magnetosphereCircle = 0;
         this.altitude = 0;
         this.temperatureBar = 0;
-    },
 
-    pressureData: [],
+        this.data = {
+            pressureData: [],
 
-    altitudeData: [],
+            altitudeData: [],
 
-    temperatureData: [],
+            temperatureData: [],
 
-    sulfurDioxideData: [],
+            sulfurDioxideData: [],
 
-    magnetosphereData: []
+            magnetosphereData: []
+        }
+
+        console.log(this.sulfurDioxideBar);
+    }
+
+    changeParent(newParent, objectElement){
+        console.log(newParent);
+        console.log(objectElement);
+        newParent.appendChild(objectElement);
+    }
+
 }
 
+let capsule1 = new CapsuleObject();
 // Function call that sets the website page to the main page on startup
 pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
@@ -343,11 +357,15 @@ function createSO2Bar(capsuleNumber, container) {
     let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${capsuleNumber}-P${currentPage}`);
 
     let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${capsuleNumber}-P${currentPage}`);
+    
+    console.log(currentSO2Container);
 
     return currentSO2Container;
 }
 
-console.log(createSO2Bar(5, document.getElementById('box1')));
+capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar)
+
+//console.log(createSO2Bar(5, document.getElementById('box1')));
 
 function createMissionStatusBox(container, capsuleCount, stages, startToggle){
 
