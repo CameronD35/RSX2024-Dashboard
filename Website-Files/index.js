@@ -30,15 +30,15 @@ const pageProperties = {
     },
 
     1: {
-        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Alt', 'Temp'],
 
-        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Altitude', 'Temperature']
     },
 
     2: {
-        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Alt', 'Temp'],
 
-        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Altitude', 'Temperature']
     },
 
     3: {
@@ -75,16 +75,16 @@ let pageManage = {
 
         
         //Tets function -- Not to be used in final deployment
-        magRad(0, 12);
+        //magRad(0, 12);
     },
 
     1: function(CSSClasses, boxTitles){
         console.log('Creating first page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 3], [true, 7]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
         //createMissionStatusBox();
-        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1);
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         //createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
@@ -96,7 +96,7 @@ let pageManage = {
     2: function(CSSClasses, boxTitles){
         console.log('Creating second page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 8]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
         //createMissionStatusBox();
         //createPressureBox(document.querySelector('.PresBoxContent'), 3);
@@ -139,9 +139,11 @@ let pageManage = {
             boxElements = [];
             pageStart = false;
 
+            console.log(`elements : ${boxArray}`)
             for(let i = 0; i < boxArray.length; i++){
                 let currentElement = document.querySelector(`.${boxArray[i]}`);
 
+                
                 if(currentElement.hasChildNodes()){
                         currentElement.replaceChildren();
                         currentElement.style.animation = `0.5s hideElements`;
@@ -235,12 +237,16 @@ function createPageLayout(){
 // rowsLength format: [[auto-length, boxes amount #1], [auto-length, boxes amount #2], ...]] auto-length: boolean, boxes amount #i: integer
 // NOTE: rows == rowLengths.length
 
-function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
+function createBoxStructure(parent, rows, rowLengths, boxNames, titles, height){
     //console.log('im beign called')
     let boxNumber = 1;
 
     let boxWidth = [];
+
+    let rowHeights = [];
     
+    // Checks to see if auto-length is set to true and if so autosets the length. 
+    // Else, it uses CSS definied length
     for (let d = 0; d < rowLengths.length; d++){
         rowLengths[d][0]? boxWidth.push(100/rowLengths[d][1]) : boxWidth.push('');
     }
@@ -250,6 +256,9 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles){
     for(let i = 1; i <= rows; i++){
 
         let currentRow = createHTMLChildElement(parent, 'div', 'dashRow', null, `dashRow${i}`);
+
+        // if a height argument is passed, set the height of rows
+        if (height) { currentRow.style.height = `${height[i-1]}%`; }
 
         for(let j = 1; j <= rowLengths[i-1][1]; j++){
 
@@ -277,17 +286,19 @@ function createSO2Box(container, capsuleCount){
 
     for(let i = 1; i <= capsuleCount; i++) {
 
-        let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}`);
+        let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}-P${currentPage}`);
 
-        let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}`);
+        let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}-P${currentPage}`);
 
-        let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}`);
+        let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}-P${currentPage}`);
 
-        let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}`);
+        let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}-P${currentPage}`);
 
-        let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}`);
+        let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
 
-        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, '.SO2BoxContent', null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
+        console.log(currentSvgContainer);
+
+        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
 
         graphArray.push(currentGraph);
 
@@ -398,29 +409,55 @@ function createPressureBox(container, capsuleCount){
 
     let pressCont = createHTMLChildElement(container, 'div', 'pressureMeterContainer', null)
 
-    for(let i = 1; i <= capsuleCount; i++) {
+    if(capsuleCount != 1){
 
-        let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${i}`);
-        currentPressureBox.style.setProperty('width',`${60/capsuleCount}%`);
-        currentPressureBox.style.setProperty('margin',`0 ${3/capsuleCount}vw`);
+        for(let i = 1; i <= capsuleCount; i++) {
 
-        let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${i}`);
+            let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${i}`);
 
-        let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'pressureMeterCapsuleLogo', null, `pressureMeterCapsuleLogo${i}`);
-        currentLogo.src = `../Image-Assets/C${i}.webp`;
+            currentPressureBox.style.setProperty('width',`${60/capsuleCount}%`);
+            currentPressureBox.style.setProperty('margin',`0 ${3/capsuleCount}vw`);
 
-        let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${i}`);
+            let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${i}`);
 
-        let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${i}`);
+            let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'pressureMeterCapsuleLogo', null, `pressureMeterCapsuleLogo${i}`);
+            currentLogo.src = `../Image-Assets/C${i}.webp`;
 
-        let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${i}`);
+            let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${i}`);
 
-        let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${i}`);
+            let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${i}`);
 
-        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${i}`);
+            let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${i}`);
 
-        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${i}`);
-        
+            let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${i}`);
+
+            let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${i}`);
+
+            let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${i}`);
+        }
+
+        return;
+
+    } else {
+
+        let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${1}`);
+
+        currentPressureBox.style.setProperty('width',`75%`);
+        currentPressureBox.style.setProperty('margin',`0 3vw`);
+
+        let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${1}`);
+
+        let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${1}`);
+
+        let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${1}`);
+
+        let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${1}`);
+
+        let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${1}`);
+
+        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${1}`);
+
+        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${1}`);
     }
 
 }
@@ -633,11 +670,11 @@ function setPressure(pressureElem, fillElem){
 }
 
 // TESTING STUFF
-for(let i = 1; i <= 3; i++){
-    setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
-}
+// for(let i = 1; i <= 3; i++){
+//     setTemperature(document.getElementById(`temperatureText${i}`), document.getElementById(`temperatureMeterFill${i}`));
+// }
 
-// TESTING STUFF
-for(let i = 1; i <= 3; i++){
-    setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
-}
+// // TESTING STUFF
+// for(let i = 1; i <= 3; i++){
+//     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
+// }
