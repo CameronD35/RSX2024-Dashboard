@@ -38,13 +38,13 @@ export default function createHTMLChildElement(parent, tag, classes, text, id) {
     if (id) {
 
         elem.id = id;
-        return document.getElementById(id);
+        return document.getElementById(elem.id);
 
     } else if (classes) {
 
         elem.id = typeof classes !== 'object' ? classes : classes[0];
-        console.log(elem)
-        return document.getElementById(classes);
+        console.log(document.getElementById(elem.id))
+        return document.getElementById(elem.id);
 
     } else {
 

@@ -88,7 +88,7 @@ let pageManage = {
         //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
         //createAltitudeBox();
         //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
-    
+        capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
     },
@@ -160,11 +160,10 @@ let pageManage = {
 
 class CapsuleObject {
 
-    constructor(){
-
+    constructor(capsuleNumber){
         this.parent = false; 
-        this.sulfurDioxideBar = createSO2Bar(5, false);
-        this.sulfurDioxideChart = 0;
+        this.sulfurDioxideBar = createSO2Bar(5, document.getElementById('box1'));
+        this.sulfurDioxideChart = createSO2Graph(5, document.getElementById('box1'));
 
         this.pressureBar = 0;
 
@@ -184,18 +183,16 @@ class CapsuleObject {
             magnetosphereData: []
         }
 
-        console.log(this.sulfurDioxideBar);
+        //console.log(this.sulfurDioxideBar);
     }
 
     changeParent(newParent, objectElement){
-        console.log(newParent);
-        console.log(objectElement);
         newParent.appendChild(objectElement);
+        this.parent = newParent;
     }
 
 }
 
-let capsule1 = new CapsuleObject();
 // Function call that sets the website page to the main page on startup
 pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
@@ -334,7 +331,7 @@ function createSO2Box(container, capsuleCount){
 
         let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
 
-        console.log(currentSvgContainer);
+        console.log(currentSO2Container);
 
         let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
 
@@ -363,7 +360,20 @@ function createSO2Bar(capsuleNumber, container) {
     return currentSO2Container;
 }
 
-capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar)
+function createSO2Graph(capsuleNumber, container){
+
+    let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${capsuleNumber}-P${currentPage}`);
+
+
+        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
+
+        graphArray.push(currentGraph);
+
+        currentGraph.create();
+    
+        return currentSvgContainer;
+}
+
 
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
@@ -735,3 +745,7 @@ function setPressure(pressureElem, fillElem){
 // for(let i = 1; i <= 3; i++){
 //     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 // }
+
+let capsule1 = new CapsuleObject();
+capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar);
+capsule1.changeParent(document.getElementById('box2'), capsule1.sulfurDioxideChart);
