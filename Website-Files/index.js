@@ -83,12 +83,11 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        //createMissionStatusBox();
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
-        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        //createAltitudeBox();
-        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
-        capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 1);
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
+        //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
     },
@@ -162,8 +161,8 @@ class CapsuleObject {
 
     constructor(capsuleNumber){
         this.parent = false; 
-        this.sulfurDioxideBar = createSO2Bar(5, document.getElementById('box1'));
-        this.sulfurDioxideChart = createSO2Graph(5, document.getElementById('box1'));
+        this.sulfurDioxideBar = createSO2Bar(5, document.querySelector('.SO2BoxContent'));
+        this.sulfurDioxideChart = createSO2Graph(5, document.querySelector('.SO2BoxContent'));
 
         this.pressureBar = 0;
 
@@ -377,7 +376,7 @@ function createSO2Graph(capsuleNumber, container){
 
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
-function createMissionStatusBox(container, capsuleCount, stages, startToggle){
+function createMissionStatusBox(container, capsuleCount, stages, startToggle, capsuleNumber){
 
     let stageCont = createHTMLChildElement(container, 'div', 'stageContainer');
 
@@ -458,21 +457,24 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle){
         if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
     })
 
-
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
-    for(let i = 1; i <= capsuleCount; i++){
+    if(currentPage === 0){
 
-        let currentStatBox = createHTMLChildElement(capStatCont, 'div', 'capStatBox', null, `capStatBox${i}`);
+        for(let i = 1; i <= capsuleCount; i++){
 
-        let currentText = createHTMLChildElement(currentStatBox, 'div', 'capStatText', `Capsule ${i}`, `capStatText${i}`);
+            let currentStatBox = createHTMLChildElement(capStatCont, 'div', 'capStatBox', null, `capStatBox${i}`);
+    
+            let currentText = createHTMLChildElement(currentStatBox, 'div', 'capStatText', `Capsule ${i}`, `capStatText${i}`);
+    
+            let currentDot = createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
+        }
 
-        let currentDot = createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
     }
 
 }
 
-function createPressureBox(container, capsuleCount){
+function createPressureBox(container, capsuleCount, capsuleNumber){
 
     let pressCont = createHTMLChildElement(container, 'div', 'pressureMeterContainer', null)
 
@@ -539,7 +541,7 @@ function createMagnetosphereBox(container){
 
 }
 
-function createAltitudeBox(container, capsuleCount){
+function createAltitudeBox(container, capsuleCount, capsuleNumber){
 
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
 
@@ -574,7 +576,7 @@ function createAltitudeBox(container, capsuleCount){
     }
 }
 
-function createTemperatureBox(container, capsuleCount){
+function createTemperatureBox(container, capsuleCount, capsuleNumber){
     
     let tempCont = createHTMLChildElement(container, 'div', 'temperatureMeterContainer', null);
 
@@ -649,92 +651,94 @@ async function sendDataToPython(endpoint, data){
     return (number);
 }
 
-function testSO2Bar(){
-    const rgbNum = 255;
-    for(let i = 0; i <= 50; i++){
-        setTimeout(() => {
-            let rgbDiff = Math.round(i * 2.55 * 2);
-            document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbNum - rgbDiff}, 0, ${rgbDiff}) ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
-        }, ((10 * i) + i*5));
-        //console.log("yo");
-    } 
-}
+// THIS IS ALL TESTING STUFF
 
-function testSO2Bar2(){
-    const rgbNum = 255;
-    for(let i = 0; i <= 50; i++){
-        setTimeout(() => {
-            let rgbDiff = Math.round(i * 2.55);
-            document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbDiff}, 0, ${rgbNum - rgbDiff}) ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
-        }, (10 * i) + i*5);
-        //console.log("yo2");
-    } 
-}
+// function testSO2Bar(){
+//     const rgbNum = 255;
+//     for(let i = 0; i <= 50; i++){
+//         setTimeout(() => {
+//             let rgbDiff = Math.round(i * 2.55 * 2);
+//             document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbNum - rgbDiff}, 0, ${rgbDiff}) ${i}%,  rgba(0, 0, 0, 0) ${i}%`);
+//         }, ((10 * i) + i*5));
+//         //console.log("yo");
+//     } 
+// }
 
-testSO2Bar();
-setTimeout(testSO2Bar2, 1500);
+// function testSO2Bar2(){
+//     const rgbNum = 255;
+//     for(let i = 0; i <= 50; i++){
+//         setTimeout(() => {
+//             let rgbDiff = Math.round(i * 2.55);
+//             document.documentElement.style.setProperty('--c', `conic-gradient(from 270deg at 50% 100%, red 0%, rgb(${rgbDiff}, 0, ${rgbNum - rgbDiff}) ${50 - i}%,  rgba(0, 0, 0, 0) ${50 - i}%`);
+//         }, (10 * i) + i*5);
+//         //console.log("yo2");
+//     } 
+// }
 
-setInterval(() => {
-    testSO2Bar();
-    setTimeout(testSO2Bar2, 1500);
-}, 5000)
+// testSO2Bar();
+// setTimeout(testSO2Bar2, 1500);
 
-// Rad units are in vw (TF)
-function magRad(initRad, maxRad){
+// setInterval(() => {
+//     testSO2Bar();
+//     setTimeout(testSO2Bar2, 1500);
+// }, 5000)
 
-    let currentRad = initRad;
-    let radDiff = maxRad - initRad;
+// // Rad units are in vw (TF)
+// function magRad(initRad, maxRad){
 
-    console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
+//     let currentRad = initRad;
+//     let radDiff = maxRad - initRad;
 
-    let timerId = setInterval(() => {
+//     console.log(window.getComputedStyle(document.getElementById('innerCircle')).getPropertyValue('outline-width'))
 
-        if ((currentRad >= maxRad) || currentPage != 0){
+//     let timerId = setInterval(() => {
+
+//         if ((currentRad >= maxRad) || currentPage != 0){
             
-            currentRad = maxRad;
-            clearInterval(timerId);
+//             currentRad = maxRad;
+//             clearInterval(timerId);
 
-        } else {
+//         } else {
 
-            currentRad += radDiff/100
+//             currentRad += radDiff/100
 
-            document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
-            document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
+//             document.getElementById('innerCircle').style.setProperty('outline-width', `${currentRad}vmin`);
+//             document.getElementById('magNumber').textContent = `${Math.round(currentRad)}00`;
 
-            //console.log(`${currentRad} / ${maxRad}`);
+//             //console.log(`${currentRad} / ${maxRad}`);
 
-        }
+//         }
 
-    }, 100);
+//     }, 100);
 
-}
+// }
 
-// (TF) 
-function setTemperature(tempElem, fillElem){
-    let fillSize = 0;
-    let timerId = setInterval(() => {
-        if (fillSize >= 100){
-            clearInterval(timerId);
-        } else {
-            fillSize++;
-            tempElem.textContent = (`${fillSize}°C`);
-            fillElem.style.setProperty('width', `${fillSize}%`);
-        }
-    }, 100);
-}
-// (TF)
-function setPressure(pressureElem, fillElem){
-    let fillSize = 0;
-    let timerId = setInterval(() => {
-        if (fillSize >= 300){
-            clearInterval(timerId);
-        } else {
-            fillSize += 3;
-            pressureElem.textContent = (`${fillSize}`);
-            fillElem.style.setProperty('height', `${fillSize/3}%`);
-        }
-    }, 100);
-}
+// // (TF) 
+// function setTemperature(tempElem, fillElem){
+//     let fillSize = 0;
+//     let timerId = setInterval(() => {
+//         if (fillSize >= 100){
+//             clearInterval(timerId);
+//         } else {
+//             fillSize++;
+//             tempElem.textContent = (`${fillSize}°C`);
+//             fillElem.style.setProperty('width', `${fillSize}%`);
+//         }
+//     }, 100);
+// }
+// // (TF)
+// function setPressure(pressureElem, fillElem){
+//     let fillSize = 0;
+//     let timerId = setInterval(() => {
+//         if (fillSize >= 300){
+//             clearInterval(timerId);
+//         } else {
+//             fillSize += 3;
+//             pressureElem.textContent = (`${fillSize}`);
+//             fillElem.style.setProperty('height', `${fillSize/3}%`);
+//         }
+//     }, 100);
+// }
 
 // TESTING STUFF
 // for(let i = 1; i <= 3; i++){
@@ -746,6 +750,6 @@ function setPressure(pressureElem, fillElem){
 //     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 // }
 
-let capsule1 = new CapsuleObject();
-capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar);
-capsule1.changeParent(document.getElementById('box2'), capsule1.sulfurDioxideChart);
+// let capsule1 = new CapsuleObject();
+// capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar);
+// //capsule1.changeParent(document.getElementById('box2'), capsule1.sulfurDioxideChart);
