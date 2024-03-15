@@ -11,7 +11,7 @@ import setupSlider from './modules/slider.js'
 let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
-let timerStartToggle = false;
+let timerState = false;
 
 let currentPage = 0;
 
@@ -43,9 +43,9 @@ const pageProperties = {
 
     3: {
 
-        CSSClassNames: ['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'],
+        CSSClassNames: ['Mag', 'MisStat', 'Pres', 'Alt', 'Temp'],
 
-        titles: ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']
+        titles: ['Magnetosphere', 'Mission Status', 'Pressure', 'Altitude', 'Temperature']
     }
 }
 
@@ -64,10 +64,10 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         createSO2Box(document.querySelector(".SO2BoxContent"), 2);
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        createAltitudeBox(document.querySelector('.AltBoxContent'), 3);
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 3, 1);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -83,9 +83,9 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerStartToggle);
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
-        createAltitudeBox(document.querySelector('.AltBoxContent'), 1);
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 1);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
@@ -97,29 +97,29 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        //createMissionStatusBox();
-        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        //createAltitudeBox();
-        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
-    
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1);
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 2);
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
+        //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
+
     },
 
     3: function(CSSClasses, boxTitles){
         console.log('Creating third page.');
 
-        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 5], [true, 9]], CSSClasses, boxTitles);
+        createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        //createMissionStatusBox();
-        //createPressureBox(document.querySelector('.PresBoxContent'), 3);
-        //createMagnetosphereBox(document.querySelector('.MagBoxContent'));
-        //createAltitudeBox();
-        //createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
-    
+        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1);
+        createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
+        createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
+        //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
+    
     },
 
     open: function(boxContainer){
@@ -330,7 +330,7 @@ function createSO2Box(container, capsuleCount){
 
         let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
 
-        console.log(currentSO2Container);
+        //console.log(currentSO2Container);
 
         let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
 
@@ -376,7 +376,9 @@ function createSO2Graph(capsuleNumber, container){
 
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
-function createMissionStatusBox(container, capsuleCount, stages, startToggle, capsuleNumber){
+function createMissionStatusBox(container, capsuleCount, stages, timerRunning, capsuleNumber){
+
+    console.log(`tiumer state: ${timerState}`);
 
     let stageCont = createHTMLChildElement(container, 'div', 'stageContainer');
 
@@ -399,6 +401,7 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle, ca
     let startText = createHTMLChildElement(startButton, 'div', 'startText', 'START MISSION');
 
     let startCircle = createHTMLChildElement(startButton, 'div', 'startCircle');
+    
 
     startButton.addEventListener('mouseenter', () => {
         startCircle.style.transitionTimingFunction = 'cubic-bezier(0.77, 0, 0.175, 1)';
@@ -418,29 +421,10 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle, ca
 
     startButton.addEventListener('click', () => {
 
-        if (!startToggle) {
-            console.log('hi');
-            document.documentElement.style.setProperty('--timerStateColor', 'rgba(230,0,0,1)');
-            document.documentElement.style.setProperty('--timerHoverColor', 'white');
-            startText.textContent = 'STOP MISSION';
+        timerRunning = !timerRunning;
 
-            restartButton.style.opacity = '1';
+        checkToggleState(timerRunning);
 
-            startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
-            
-        } else {
-            console.log('bye');
-            document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
-            document.documentElement.style.setProperty('--timerHoverColor', 'black');
-
-            startText.textContent = 'START MISSION';
-
-
-            restartButton.style.opacity = '0.25';
-
-            startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
-        }
-        startToggle = !startToggle;
     });
 
     let restartButton = createHTMLChildElement(timerControlsCont, 'div', 'restartTimerButton');
@@ -450,12 +434,14 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle, ca
     restartArrow.src = '../Image-Assets/RestartArrow.webp';
 
     restartButton.addEventListener('mouseenter', () => {
-        if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
+        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
     });
 
     restartButton.addEventListener('mouseleave', () => {
-        if(startToggle){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
+        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
     })
+
+    checkToggleState();
 
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
@@ -472,6 +458,39 @@ function createMissionStatusBox(container, capsuleCount, stages, startToggle, ca
 
     }
 
+    function checkToggleState(){
+    //console.log(timerRunning)
+
+        if (timerRunning) {
+            console.log('hi');
+            document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
+            document.documentElement.style.setProperty('--timerHoverColor', 'white');
+            startText.textContent = 'STOP MISSION';
+
+            restartButton.style.opacity = '1';
+
+            startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+
+            
+        } else {
+            console.log('bye');
+            document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
+            document.documentElement.style.setProperty('--timerHoverColor', 'black');
+
+            startText.textContent = 'START MISSION';
+
+
+            restartButton.style.opacity = '0.25';
+
+            startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
+
+        }
+
+        timerState = timerRunning;
+    }
+
+
+    console.log(`timer check 2: ${timerState}`);
 }
 
 function createPressureBox(container, capsuleCount, capsuleNumber){
@@ -541,7 +560,7 @@ function createMagnetosphereBox(container){
 
 }
 
-function createAltitudeBox(container, capsuleCount, capsuleNumber){
+function createAltitudeBox(container, capsuleCount, startCapsule){
 
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
 
@@ -570,7 +589,7 @@ function createAltitudeBox(container, capsuleCount, capsuleNumber){
 
             let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j}`);
 
-            currentTableCellImage.src = `../Image-Assets/C${j}.webp`;
+            currentTableCellImage.src = `../Image-Assets/C${j + startCapsule - 1}.webp`;
 
         }
     }

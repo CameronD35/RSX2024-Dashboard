@@ -43,7 +43,7 @@ export default function createHTMLChildElement(parent, tag, classes, text, id) {
     } else if (classes) {
 
         elem.id = typeof classes !== 'object' ? classes : classes[0];
-        console.log(document.getElementById(elem.id))
+        //console.log(document.getElementById(elem.id))
         return document.getElementById(elem.id);
 
     } else {

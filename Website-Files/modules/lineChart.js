@@ -20,7 +20,7 @@ export default class Graph {
 
         this.maxY = d3.max(this.dataset, (d) => { return d.y});
 
-        console.log(this.dataset)
+        //console.log(this.dataset)
 
         // Set the high bound for the domain, based off the highest x value in the dataset
         this.higherDomainBound = d3.max(this.dataset, (d) => { return d.x});
@@ -53,7 +53,7 @@ export default class Graph {
 
         this.gradient = this.createGradient([graphColorBottom, graphColorTop]);
 
-        console.log(this.gradient)
+        //console.log(this.gradient)
 
         // Definies and creaates the axes for this object
         this.xAxis = this.createXAxis("xAxis");
