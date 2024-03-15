@@ -20,6 +20,7 @@ let graphArray = [];
 // Indicates if the page was just started or not
 let pageStart = true;
 
+let num = 0;
 // Object of page properties; names of box classes and box titles
 const pageProperties = {
     0: {
@@ -564,7 +565,7 @@ function createAltitudeBox(container, capsuleCount, startCapsule){
 
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
 
-    for(let i = 1; i <= capsuleCount; i++){
+    for(let i = startCapsule; i <= (startCapsule + capsuleCount - 1); i++){
 
         let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
 
@@ -669,6 +670,24 @@ async function sendDataToPython(endpoint, data){
 
     return (number);
 }
+
+function ifElementExists(element, func) {
+    if (element) {
+        console.log('work');
+        func();
+    }
+
+    else {
+        console.log('no work');
+    }
+}
+
+setInterval(() => {
+    ++num;
+    ifElementExists(document.getElementById('capAltStatData3'), () => {
+        document.getElementById('capAltStatData3').innerText = num;
+    })
+}, 1)
 
 // THIS IS ALL TESTING STUFF
 
