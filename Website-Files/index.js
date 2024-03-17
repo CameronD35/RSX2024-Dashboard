@@ -64,7 +64,7 @@ let pageManage = {
         console.log('Creating MAIN page.')
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
-        createSO2Box(document.querySelector(".SO2BoxContent"), 2);
+        //createSO2Box(document.querySelector(".SO2BoxContent"), 2);
         createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
@@ -74,7 +74,16 @@ let pageManage = {
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
-        
+        if(!pageStart){
+            capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
+            capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+
+            capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
+            capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
+
+            capsule1.sulfurDioxideChartSVG.resize(250, 300);
+            capsule2.sulfurDioxideChartSVG.resize(250, 300);
+        }
         //Tets function -- Not to be used in final deployment
         //magRad(0, 12);
     },
@@ -88,9 +97,14 @@ let pageManage = {
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 1);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
-        //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
+
+        capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
+        capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+
+        capsule1.sulfurDioxideChartSVG.resize(300, 400);
+        capsule2.sulfurDioxideChartSVG.resize(300, 400);
     },
 
     2: function(CSSClasses, boxTitles){
@@ -106,6 +120,8 @@ let pageManage = {
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
+        capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
+        capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
     },
 
     3: function(CSSClasses, boxTitles){
@@ -160,10 +176,16 @@ let pageManage = {
 
 class CapsuleObject {
 
-    constructor(capsuleNumber){
+    constructor(capsuleNumber, testNum){
         this.parent = false; 
-        this.sulfurDioxideBar = createSO2Bar(5, document.querySelector('.SO2BoxContent'));
-        this.sulfurDioxideChart = createSO2Graph(5, document.querySelector('.SO2BoxContent'));
+        this.sulfurDioxideBar = createSO2Bar(capsuleNumber, document.querySelector('.SO2BoxContent'), testNum);
+        this.sulfurDioxideChartArray = createSO2Graph(capsuleNumber, document.querySelector('.SO2BoxContent'));
+
+        this.sulfurDioxideChart = this.sulfurDioxideChartArray[0];
+
+        this.sulfurDioxideChartSVG = this.sulfurDioxideChartArray[1];
+
+        console.log(this.sulfurDioxideChart);
 
         this.pressureBar = 0;
 
@@ -189,6 +211,12 @@ class CapsuleObject {
     changeParent(newParent, objectElement){
         newParent.appendChild(objectElement);
         this.parent = newParent;
+    }
+
+    removeElement(element){
+        if(element && element.hasChildNodes()){
+            element.replaceChildren();
+        }
     }
 
 }
@@ -313,45 +341,45 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles, height){
     }
 }
 
-function createSO2Box(container, capsuleCount){
-    // let randomNumberThing = container.appendChild(document.createElement('div'));
-    // randomNumberThing.classList.add('randomNumberThing');
+// function createSO2Box(container, capsuleCount){
+//     // let randomNumberThing = container.appendChild(document.createElement('div'));
+//     // randomNumberThing.classList.add('randomNumberThing');
 
-    // randomNumberThing.textContent = 36;
+//     // randomNumberThing.textContent = 36;
 
-    for(let i = 1; i <= capsuleCount; i++) {
+//     for(let i = 1; i <= capsuleCount; i++) {
 
-        let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}-P${currentPage}`);
+//         let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}-P${currentPage}`);
 
-        let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}-P${currentPage}`);
+//         let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}-P${currentPage}`);
 
-        let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}-P${currentPage}`);
+//         let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}-P${currentPage}`);
 
-        let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}-P${currentPage}`);
+//         let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}-P${currentPage}`);
 
-        let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
+//         let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
 
-        //console.log(currentSO2Container);
+//         //console.log(currentSO2Container);
 
-        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
+//         let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
 
-        graphArray.push(currentGraph);
+//         graphArray.push(currentGraph);
 
-        currentGraph.create();
+//         currentGraph.create();
         
-    }
+//     }
 
-    return 0;
+//     return 0;
 
     
-}
+// }
 
-function createSO2Bar(capsuleNumber, container) {
+function createSO2Bar(capsuleNumber, container, testNum) {
     let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${capsuleNumber}-P${currentPage}`);
 
     let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${capsuleNumber}-P${currentPage}`);
 
-    let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${capsuleNumber}-P${currentPage}`);
+    let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', `${testNum}`, `SO2Num${capsuleNumber}-P${currentPage}`);
 
     let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${capsuleNumber}-P${currentPage}`);
     
@@ -365,13 +393,13 @@ function createSO2Graph(capsuleNumber, container){
     let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${capsuleNumber}-P${currentPage}`);
 
 
-        let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
+        let currentGraph = new Graph(250, 300, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
 
         graphArray.push(currentGraph);
 
         currentGraph.create();
     
-        return currentSvgContainer;
+        return [currentSvgContainer, currentGraph];
 }
 
 
@@ -689,6 +717,8 @@ setInterval(() => {
     })
 }, 1)
 
+
+
 // THIS IS ALL TESTING STUFF
 
 // function testSO2Bar(){
@@ -788,6 +818,10 @@ setInterval(() => {
 //     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 // }
 
-// let capsule1 = new CapsuleObject();
-// capsule1.changeParent(document.getElementById('box1'), capsule1.sulfurDioxideBar);
-// //capsule1.changeParent(document.getElementById('box2'), capsule1.sulfurDioxideChart);
+let capsule1 = new CapsuleObject(1, 56);
+capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
+capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+
+let capsule2 = new CapsuleObject(2, 77);
+capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
+capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);

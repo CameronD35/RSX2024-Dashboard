@@ -181,8 +181,8 @@ export default class Graph {
         let axisLabel = this.svg.append("text")
         .attr("class", className)
         .attr("text-anchor", "middle")
-        .attr("y", (axis == 'x') ? this.height*.868 : this.width/4.5)
-        .attr("x", (axis == 'x') ? ((this.width)/2) : (this.height)/2)
+        .attr("y", (axis == 'x') ? (this.height - (this.margin.bottom + 8)) : this.margin.left + this.height/6)
+        .attr("x", (axis == 'x') ? ((this.width)/2) : (this.height - this.margin.bottom - this.margin.top)/2)
         .text(label);
 
         if (axis !== 'x'){
@@ -288,5 +288,36 @@ export default class Graph {
         .style('stop-opacity', 1);
 
         return gradient;
+    }
+
+    resize(width, height){
+        this.svg
+        .attr('width', width)
+        .attr('height', height);
+
+
+        this.width = width;
+        this.height = height;
+
+
+
+        console.log(this.width/2);
+        this.xAxisLabel.attr("x", this.width/2);
+        this.xAxisLabel.attr("y", (this.height - (this.margin.bottom + 8)))
+        
+        console.log(this.width/2);
+        this.yAxisLabel.attr("x", (this.height - this.margin.bottom - this.margin.top)/2);
+        this.yAxisLabel.attr("y", this.margin.left + this.height/6)
+
+
+        this.xAxis.attr("transform", `translate(0, ${this.height - this.margin.bottom})`);
+
+        
+        this.yAxis.attr("transform", `translate(${this.margin.left}, 0)`);
+
+        this.update();
+
+        
+        
     }
 }
