@@ -104,7 +104,6 @@ let pageManage = {
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
-        capsule2.sulfurDioxideChartSVG.resize(300, 400);
     },
 
     2: function(CSSClasses, boxTitles){
@@ -122,6 +121,8 @@ let pageManage = {
 
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
+
+        capsule2.sulfurDioxideChartSVG.resize(300, 400);
     },
 
     3: function(CSSClasses, boxTitles){

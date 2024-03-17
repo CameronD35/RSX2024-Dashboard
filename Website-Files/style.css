@@ -38,6 +38,18 @@
     align-items: center;
 }
 
+.fileUploadIcon{
+    width: 25px;
+    height: 25px;
+    opacity: 0.5;
+    margin: 0px 20px;
+}
+
+.fileUploadIcon:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
 .buttonCircle{
     width: 25px;
     height: 25px;
