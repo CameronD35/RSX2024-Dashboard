@@ -276,6 +276,14 @@ function setupTabs(tabs){
 
             }
 
+
+            // Creates the animation for the backgorund by moving elemments by random percenatges (0 - 20%)
+            for(let i = 1; i <= 3; i++){
+                document.getElementById(`backgroundElem${i}`).style.transform = `translate(${Math.round(Math.random() * 20)}%, ${Math.round(Math.random() * 20)}%)`;
+                // document.getElementById(`backgroundElem${i}`).style.transform = `rotate(${Math.round(Math.random() * 30)}deg)`;
+                // document.getElementById(`backgroundElem${i}`).style.transform = `scale(${100 - Math.round(Math.random() * 10)}%)`;
+            }
+
         })
     }
 }
