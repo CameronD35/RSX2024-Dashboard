@@ -20,7 +20,10 @@
 
     --barSize: 6vw;
     --barThickness: 0.6vw;
+
+    --capsuleCount: 3;
 }
+
 
 
 /* PAGE DESIGN */
@@ -227,10 +230,21 @@
     font-weight: 700;
 }
 
+body{
+    background-color: #041537;
+}
+
+body::before{
+    content: "";
+    position: absolute;
+    background-image: url(../Image-Assets/RSX2024Dashboard-BG.webp);
+    width: 100%;
+    height: 100%;
+}
+
 .hero{
     width: 100%;
     height: 100vh;
-    background-image: url(../Image-Assets/RSX2024Dashboard-BG.jpg);
     position: relative;
     padding: 75px 2% 45px 2%;
     display: flex;
@@ -690,7 +704,7 @@
     display: flex;
     flex-direction: column;
     width: 90%;
-    height: 45%;
+    height: calc(15%*var(--capsuleCount));
     margin: 0 0 5% 0;
     justify-content: space-between;
 
@@ -702,7 +716,6 @@
     color: white;
     align-items: center;
     width: 100%;
-
 }
 
 .capAltStatText{
@@ -718,7 +731,7 @@
     text-align: left;
     border-collapse: collapse;
     width: 90%;
-    height: 50%;
+    height: calc((95% - var(--capsuleCount)*15%));
 }
 
 .atmosphericLayerRow{

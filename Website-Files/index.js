@@ -50,9 +50,6 @@ const pageProperties = {
     }
 }
 
-
-createPageLayout();
-
 // END SETUP CODE
 
 
@@ -65,10 +62,15 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         //createSO2Box(document.querySelector(".SO2BoxContent"), 2);
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createCapsuleStatusBox(document.querySelector('.MisStatBoxContent'), 3, null, false);
+        
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
+
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
+
         createAltitudeBox(document.querySelector('.AltBoxContent'), 3, 1);
+
         createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
         setCurrentBoxes(CSSClasses);
@@ -84,6 +86,8 @@ let pageManage = {
             capsule1.sulfurDioxideChartSVG.resize(250, 300);
             capsule2.sulfurDioxideChartSVG.resize(250, 300);
         }
+
+        document.documentElement.style.setProperty('--capsuleCount', 3);
         //Tets function -- Not to be used in final deployment
         //magRad(0, 12);
     },
@@ -93,17 +97,24 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+
+
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
+
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 1);
+
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+        capsule1.changeParent(document.querySelector('.MisStatBoxContent'), capsule1.missionStatusPoints);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
+        document.documentElement.style.setProperty('--capsuleCount', 1);
     },
 
     2: function(CSSClasses, boxTitles){
@@ -111,7 +122,8 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 2);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
@@ -121,8 +133,10 @@ let pageManage = {
 
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
+        capsule2.changeParent(document.querySelector('.MisStatBoxContent'), capsule2.missionStatusPoints);
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
+        document.documentElement.style.setProperty('--capsuleCount', 1);
     },
 
     3: function(CSSClasses, boxTitles){
@@ -130,13 +144,16 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
+        // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
+
+        document.documentElement.style.setProperty('--capsuleCount', 1);
     
     },
 
@@ -188,6 +205,10 @@ class CapsuleObject {
 
         console.log(this.sulfurDioxideChart);
 
+        this.missionStatusPoints = createCapsuleStatusBox(this.cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['hi', 'hi', 'hi'], true);
+
+        //console.log(this.missionStatusPoints)
+
         this.pressureBar = 0;
 
         this.magnetosphereCircle = 0;
@@ -214,16 +235,17 @@ class CapsuleObject {
         this.parent = newParent;
     }
 
-    removeElement(element){
+    cleanElement(element){
         if(element && element.hasChildNodes()){
             element.replaceChildren();
+
+            return element;
         }
     }
 
 }
 
-// Function call that sets the website page to the main page on startup
-pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
+
 
 // This sets up the different tabs accessible in the top right navigation
 // It give sthe tabs there animations and functions to be used upon hover and click respectively
@@ -251,6 +273,7 @@ function setupTabs(tabs){
 
                 }, 500)
                 console.log(currentPage);
+
             }
 
         })
@@ -406,9 +429,10 @@ function createSO2Graph(capsuleNumber, container){
 
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
-function createMissionStatusBox(container, capsuleCount, stages, timerRunning, capsuleNumber){
 
-    console.log(`tiumer state: ${timerState}`);
+function createMissionStagesBox(container, capsuleCount, stages, timerRunning, capsuleNumber){
+
+    console.log(`timer state: ${timerState}`);
 
     let stageCont = createHTMLChildElement(container, 'div', 'stageContainer');
 
@@ -469,15 +493,52 @@ function createMissionStatusBox(container, capsuleCount, stages, timerRunning, c
 
     restartButton.addEventListener('mouseleave', () => {
         if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
-    })
+    });
 
     checkToggleState();
 
+    function checkToggleState(){
+        //console.log(timerRunning)
+    
+            if (timerRunning) {
+                console.log('hi');
+                document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
+                document.documentElement.style.setProperty('--timerHoverColor', 'white');
+                startText.textContent = 'STOP MISSION';
+    
+                restartButton.style.opacity = '1';
+    
+                startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+    
+                
+            } else {
+                console.log('bye');
+                document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
+                document.documentElement.style.setProperty('--timerHoverColor', 'black');
+    
+                startText.textContent = 'START MISSION';
+    
+    
+                restartButton.style.opacity = '0.25';
+    
+                startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
+    
+            }
+    
+            timerState = timerRunning;
+        }
+    
+    
+        console.log(`timer check 2: ${timerState}`);
+}
+
+function createCapsuleStatusBox(container, capsuleCount, statusPointsArray, singleCapsule){
+
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
-    if(currentPage === 0){
+    if(!singleCapsule){
 
-        for(let i = 1; i <= capsuleCount; i++){
+        for (let i = 1; i <= capsuleCount; i++){
 
             let currentStatBox = createHTMLChildElement(capStatCont, 'div', 'capStatBox', null, `capStatBox${i}`);
     
@@ -486,41 +547,20 @@ function createMissionStatusBox(container, capsuleCount, stages, timerRunning, c
             let currentDot = createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
         }
 
-    }
+        console.log('yreyuwgfsf')
 
-    function checkToggleState(){
-    //console.log(timerRunning)
+        return;
 
-        if (timerRunning) {
-            console.log('hi');
-            document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
-            document.documentElement.style.setProperty('--timerHoverColor', 'white');
-            startText.textContent = 'STOP MISSION';
-
-            restartButton.style.opacity = '1';
-
-            startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
-
-            
-        } else {
-            console.log('bye');
-            document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
-            document.documentElement.style.setProperty('--timerHoverColor', 'black');
-
-            startText.textContent = 'START MISSION';
-
-
-            restartButton.style.opacity = '0.25';
-
-            startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
+    } else {
+        for(let j = 1; j <= statusPointsArray.length; j++){
+            console.log('test');
+            let currentStatusPointText = createHTMLChildElement(capStatCont, 'div', 'capStatPoint', statusPointsArray[j-1], `capStatPoint${j}`);
 
         }
 
-        timerState = timerRunning;
+        return capStatCont;
     }
 
-
-    console.log(`timer check 2: ${timerState}`);
 }
 
 function createPressureBox(container, capsuleCount, capsuleNumber){
@@ -715,7 +755,7 @@ setInterval(() => {
     ++num;
     ifElementExists(document.getElementById('capAltStatData3'), () => {
         document.getElementById('capAltStatData3').innerText = num;
-    })
+    });
 }, 1)
 
 
@@ -819,10 +859,24 @@ setInterval(() => {
 //     setPressure(document.getElementById(`pressureText${i}`), document.getElementById(`pressureMeterFill${i}`));
 // }
 
+
+// Function call that sets the website page to the main page on startup
+pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
+
 let capsule1 = new CapsuleObject(1, 56);
+
+let capsule2 = new CapsuleObject(2, 77);
+
+document.querySelector('.boxContainer').replaceChildren();
+
+pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
+
+createPageLayout();
+
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
 
-let capsule2 = new CapsuleObject(2, 77);
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
+
+console.log(capsule1)
