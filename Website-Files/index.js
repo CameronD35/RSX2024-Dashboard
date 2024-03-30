@@ -87,7 +87,7 @@ let pageManage = {
             capsule2.sulfurDioxideChartSVG.resize(250, 300);
         }
 
-        document.documentElement.style.setProperty('--capsuleCount', 3);
+        document.documentElement.style.setProperty('--numOfCapsules', 3);
         //Tets function -- Not to be used in final deployment
         //magRad(0, 12);
     },
@@ -101,7 +101,7 @@ let pageManage = {
         // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
 
 
-        createPressureBox(document.querySelector('.PresBoxContent'), 1);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
 
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 1);
 
@@ -114,7 +114,7 @@ let pageManage = {
         capsule1.changeParent(document.querySelector('.MisStatBoxContent'), capsule1.missionStatusPoints);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
-        document.documentElement.style.setProperty('--capsuleCount', 1);
+        document.documentElement.style.setProperty('--numOfCapsules', 1);
     },
 
     2: function(CSSClasses, boxTitles){
@@ -124,7 +124,7 @@ let pageManage = {
         //createSO2Box();
         createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
-        createPressureBox(document.querySelector('.PresBoxContent'), 1);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 2);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
@@ -136,7 +136,7 @@ let pageManage = {
         capsule2.changeParent(document.querySelector('.MisStatBoxContent'), capsule2.missionStatusPoints);
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
-        document.documentElement.style.setProperty('--capsuleCount', 1);
+        document.documentElement.style.setProperty('--numOfCapsules', 1);
     },
 
     3: function(CSSClasses, boxTitles){
@@ -146,14 +146,14 @@ let pageManage = {
         //createSO2Box();
         createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
         // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
-        createPressureBox(document.querySelector('.PresBoxContent'), 1);
+        createPressureBox(document.querySelector('.PresBoxContent'), 1, 3);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
-        document.documentElement.style.setProperty('--capsuleCount', 1);
+        document.documentElement.style.setProperty('--numOfCapsules', 1);
     
     },
 
@@ -368,38 +368,6 @@ function createBoxStructure(parent, rows, rowLengths, boxNames, titles, height){
     }
 }
 
-// function createSO2Box(container, capsuleCount){
-//     // let randomNumberThing = container.appendChild(document.createElement('div'));
-//     // randomNumberThing.classList.add('randomNumberThing');
-
-//     // randomNumberThing.textContent = 36;
-
-//     for(let i = 1; i <= capsuleCount; i++) {
-
-//         let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${i}-P${currentPage}`);
-
-//         let currentSO2Box = createHTMLChildElement(currentSO2Container, 'div', `SO2BarBox`, null, `SO2BarBox${i}-P${currentPage}`);
-
-//         let currentSO2Num = createHTMLChildElement(currentSO2Box, 'div', 'SO2Num', '99', `SO2Num${i}-P${currentPage}`);
-
-//         let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${i}-P${currentPage}`);
-
-//         let currentSvgContainer = createHTMLChildElement(container, 'div', 'svgContainer', null, `svgContainer${i}-P${currentPage}`);
-
-//         //console.log(currentSO2Container);
-
-//         let currentGraph = new Graph(200, 200, {top: 20, bottom: 20, right: 30, left: 30}, `#${currentSvgContainer.id}`, null, ['time', 'concentration'], ['red', 'blue'], 'SO2Chart');
-
-//         graphArray.push(currentGraph);
-
-//         currentGraph.create();
-        
-//     }
-
-//     return 0;
-
-    
-// }
 
 function createSO2Bar(capsuleNumber, container, testNum) {
     let currentSO2Container = createHTMLChildElement(container, 'div', 'SO2BarContainer', null, `SO2BarContainer${capsuleNumber}-P${currentPage}`);
@@ -432,8 +400,8 @@ function createSO2Graph(capsuleNumber, container){
 
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
-
-function createMissionStagesBox(container, capsuleCount, stages, timerRunning, capsuleNumber){
+// Creates the stages and timer buttons in the 'mission status' box. Intended to be global
+function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, capsuleNumber){
 
     console.log(`timer state: ${timerState}`);
 
@@ -535,13 +503,14 @@ function createMissionStagesBox(container, capsuleCount, stages, timerRunning, c
         console.log(`timer check 2: ${timerState}`);
 }
 
-function createCapsuleStatusBox(container, capsuleCount, statusPointsArray, singleCapsule){
+// Creates the status of the capsules. If singleCapsule is true, i9t lists the components of that capsule, otheriwse a general status for all capsules is provided
+function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, singleCapsule){
 
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
     if(!singleCapsule){
 
-        for (let i = 1; i <= capsuleCount; i++){
+        for (let i = 1; i <= numOfCapsules; i++){
 
             let currentStatBox = createHTMLChildElement(capStatCont, 'div', 'capStatBox', null, `capStatBox${i}`);
     
@@ -566,62 +535,57 @@ function createCapsuleStatusBox(container, capsuleCount, statusPointsArray, sing
 
 }
 
-function createPressureBox(container, capsuleCount, capsuleNumber){
+
+function createPressureBox(container, numOfCapsules, capsuleNumber){
 
     let pressCont = createHTMLChildElement(container, 'div', 'pressureMeterContainer', null)
 
-    if(capsuleCount != 1){
+    if(numOfCapsules != 1){
 
-        for(let i = 1; i <= capsuleCount; i++) {
+        
+        for(let i = 1; i <= numOfCapsules; i++) {
 
-            let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${i}`);
+            createPressureMeter(pressCont, i, true, numOfCapsules);
 
-            currentPressureBox.style.setProperty('width',`${60/capsuleCount}%`);
-            currentPressureBox.style.setProperty('margin',`0 ${3/capsuleCount}vw`);
-
-            let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${i}`);
-
-            let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'pressureMeterCapsuleLogo', null, `pressureMeterCapsuleLogo${i}`);
-            currentLogo.src = `../Image-Assets/C${i}.webp`;
-
-            let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${i}`);
-
-            let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${i}`);
-
-            let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${i}`);
-
-            let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${i}`);
-
-            let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${i}`);
-
-            let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${i}`);
         }
 
         return;
 
     } else {
 
-        let currentPressureBox = createHTMLChildElement(pressCont, 'div', 'pressureMeterBox', null, `pressureMeterBox${1}`);
+        createPressureMeter(pressCont, capsuleNumber, false, 1);
 
-        currentPressureBox.style.setProperty('width',`75%`);
-        currentPressureBox.style.setProperty('margin',`0 3vw`);
-
-        let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${1}`);
-
-        let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${1}`);
-
-        let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${1}`);
-
-        let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${1}`);
-
-        let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${1}`);
-
-        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${1}`);
-
-        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${1}`);
     }
 
 }
+
+function createPressureMeter(container, capsuleNumber, includeLogo, numOfCapsules){
+
+        let currentPressureBox = createHTMLChildElement(container, 'div', 'pressureMeterBox', null, `pressureMeterBox${capsuleNumber}`);
+
+            currentPressureBox.style.setProperty('width',`${75/numOfCapsules}%`);
+            currentPressureBox.style.setProperty('margin',`0 ${3/numOfCapsules}vw`);
+
+            if (includeLogo){
+                let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${capsuleNumber}`);
+
+                let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'pressureMeterCapsuleLogo', null, `pressureMeterCapsuleLogo${capsuleNumber}`);
+                currentLogo.src = `../Image-Assets/C${capsuleNumber}.webp`;
+            }
+
+            let currentMeter = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeter', null, `pressureMeter${capsuleNumber}`);
+
+            let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${capsuleNumber}`);
+
+            let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${capsuleNumber}`);
+
+            let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${capsuleNumber}`);
+
+            let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${capsuleNumber}`);
+
+            let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${capsuleNumber}`);
+}
+
 
 function createMagnetosphereBox(container){
 
@@ -633,11 +597,11 @@ function createMagnetosphereBox(container){
 
 }
 
-function createAltitudeBox(container, capsuleCount, startCapsule){
+function createAltitudeBox(container, numOfCapsules, startCapsule){
 
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
 
-    for(let i = startCapsule; i <= (startCapsule + capsuleCount - 1); i++){
+    for(let i = startCapsule; i <= (startCapsule + numOfCapsules - 1); i++){
 
         let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
 
@@ -656,7 +620,7 @@ function createAltitudeBox(container, capsuleCount, startCapsule){
 
         let currentTableHeader = createHTMLChildElement(currentTableRow, 'th', 'atmosphericLayerHeader', layerArray[i-1], `atmosphericLayerHeader${i}`)
 
-        for (let j = 1; j <= capsuleCount; j++) {
+        for (let j = 1; j <= numOfCapsules; j++) {
 
             let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j}`);
 
@@ -668,15 +632,15 @@ function createAltitudeBox(container, capsuleCount, startCapsule){
     }
 }
 
-function createTemperatureBox(container, capsuleCount, capsuleNumber){
+function createTemperatureBox(container, numOfCapsules, capsuleNumber){
     
     let tempCont = createHTMLChildElement(container, 'div', 'temperatureMeterContainer', null);
 
-    for(let i = 1; i <= capsuleCount; i++) {
+    for(let i = 1; i <= numOfCapsules; i++) {
 
         let currentTemperatureBox = createHTMLChildElement(tempCont, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${i}`);
-        currentTemperatureBox.style.setProperty('height',`${51/capsuleCount}%`);
-        currentTemperatureBox.style.setProperty('margin',`${5/capsuleCount}vw 0`);
+        currentTemperatureBox.style.setProperty('height',`${51/numOfCapsules}%`);
+        currentTemperatureBox.style.setProperty('margin',`${5/numOfCapsules}vw 0`);
 
         let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${i}`);
 
