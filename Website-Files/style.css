@@ -10,13 +10,14 @@
 }
 
 :root{
+    --mainColor: white;
+    --secondaryColor: rgb(255,234, 0);
     --rsxGreen: rgb(0,230,0);
     --rsxRed: rgba(230,0,0,1);
 
-    --timerStateColor: rgba(255, 255, 255, 1);
-
+    --timerStateColor: var(--mainColor);
     --timerHoverColor: rgba(0, 0, 0, 1); 
-    --timerNoHoverColor: rgba(255, 255, 255, 1); 
+    --timerNoHoverColor: var(--mainColor); 
 
     --barSize: 6vw;
     --barThickness: 0.6vw;
@@ -35,6 +36,7 @@ body{
     position: fixed;
     left: 50%;
     top: 14%;
+    color: blue;
 }
 
 #backgroundElem2{
@@ -92,7 +94,7 @@ body{
 }
 
 .buttonCircle:hover{
-    background-color: rgba(255, 255, 255, 1);
+    background-color: var(--mainColor);
     cursor: pointer;
 }
 
@@ -108,7 +110,7 @@ body{
 }
 
 .bottomText{
-    color: white;
+    color: var(--mainColor);
     font-size: 15px;
     font-weight: 300;
     font-style: italic;
@@ -129,7 +131,7 @@ body{
     font-size: 50px;
     font-weight: 200;
     font-style: italic;
-    color: white;
+    color: var(--mainColor);
     transform: translateX(-250px);
     animation: 1s cubic-bezier(0.77, 0, 0.175, 1); 
 }
@@ -173,7 +175,7 @@ body{
 }
 
 .hoverBig{
-    color: white;
+    color: var(--mainColor);
     text-decoration: none;
     transition: 0.4s;
     font-size: 20px;
@@ -181,13 +183,13 @@ body{
 
 .hoverBig:hover{
     text-shadow: 0px 0px 10px #000;
-    color: white;
+    color: var(--mainColor);
 }
 
 .hoverBig:after{
     content: "";
     position: absolute;
-    background-color: white;
+    background-color: var(--mainColor);
     height: 2px;
     width: 105%;
     transform: scaleX(0) skew(-20deg);
@@ -242,12 +244,12 @@ body{
 
 .title{
     font-size: 35px;
-    color: white;
+    color: var(--mainColor);
 }
 
 .subtitle{
     font-size: 15px;
-    color: rgb(255,234, 0);
+    color: var(--secondaryColor);
     letter-spacing: 15px;
     text-indent: 15px;
     font-weight: 700;
@@ -322,7 +324,7 @@ body{
 
 .boxTitle{
     background-color: none;
-    color: white;
+    color: var(--mainColor);
     font-size: 25px;
     font-weight: 700;
 }
@@ -341,7 +343,7 @@ body{
     justify-content: space-evenly;
 }
 .SO2BarContainer{
-    color: white;
+    color: var(--mainColor);
     width: calc(var(--barSize)*2);
     height: var(--barSize);
     display: inline-block;
@@ -394,7 +396,7 @@ body{
 
 
 .axisLabel{
-    fill: white;
+    fill: var(--mainColor);
     font-weight: 800;
     opacity: 0.5;
 }
@@ -419,7 +421,7 @@ body{
 .stageBox{
     width: 20%;
     height: 90%;
-    background-color: white;
+    background-color: var(--mainColor);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -466,7 +468,7 @@ body{
     margin: 0% 5%;
     font-size: 1vw;
     font-weight: 500;
-    color: white;
+    color: var(--mainColor);
 }
 
 .timerControlsContainer{
@@ -484,7 +486,7 @@ body{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    background-color: white;
+    background-color: var(--mainColor);
     overflow: hidden;
     position: relative;
 }
@@ -510,7 +512,7 @@ body{
     z-index: 1;
     cursor: pointer;
     transition: 0.8s;
-    color: white;
+    color: var(--mainColor);
 }
 
 .startCircle{
@@ -531,7 +533,7 @@ body{
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    border: white 3px solid;
+    border: var(--mainColor) 3px solid;
     position: relative;
     cursor: pointer;
 }
@@ -553,7 +555,7 @@ body{
 .capStatBox{
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: var(--mainColor);
     margin: 1vh 0px;
     align-items: center;
 }
@@ -615,7 +617,7 @@ body{
 
 .pressureTextBox{
     position: fixed;
-    color: white;
+    color: var(--mainColor);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -674,7 +676,7 @@ body{
     height: 30vmin;
     width: 30vmin;
     border-radius: 100%;
-    outline: 5px solid white;
+    outline: 5px solid var(--mainColor);
     stroke: 5px;
     background-color: none;
     display: flex;
@@ -696,7 +698,7 @@ body{
 
 .magNumber{
     position: fixed;
-    color: rgba(255, 255, 255, 1);
+    color: var(--mainColor);
     font-size: 10vmin;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
@@ -724,7 +726,7 @@ body{
 .capAltStatBox{
     display: flex;
     justify-content: space-between;
-    color: white;
+    color: var(--mainColor);
     align-items: center;
     width: 100%;
 }
@@ -746,7 +748,7 @@ body{
 }
 
 .atmosphericLayerRow{
-    border-bottom: 2px solid white;
+    border-bottom: 2px solid var(--mainColor);
 }
 
 .atmosphericLayerRow:last-of-type{
@@ -754,14 +756,14 @@ body{
 }
 
 .atmosphericLayerHeader{
-    color: white;
+    color: var(--mainColor);
     font-weight: 500;
     padding: 0px 10px 0 0px;
     width: 40%;
 }
 
 .atmosphericLayerCell{
-    color: white;
+    color: var(--mainColor);
     font-weight: 500;
     width: 20%;
     height: 20%;
@@ -791,7 +793,7 @@ body{
 .sliderBox input::-webkit-slider-thumb{
     -webkit-appearance: none;
     appearance: none;
-    background: white;
+    background: var(--mainColor);
     height: 20px;
     width: 20px;
     border-radius: 100%;
@@ -818,27 +820,27 @@ body{
 }
 
 .sliderRange{
-    color: white;
+    color: var(--mainColor);
     font-weight: 500;
     margin: 10px;
 }
 
 .sliderTime{
-    color: white;
+    color: var(--mainColor);
     font-size: 20px;
     display: flex;
     align-items: center;
 }
 
 .sliderNumInput{
-    color: white;
+    color: var(--mainColor);
     font-size: 12px;
     margin: 0 5px;
     background: none;
     height: 18px;
     width: 60px;
     border-width: 0px 0px 2px 0px;
-    border-color: white;
+    border-color: var(--mainColor);
     border-radius: 3px;
     outline: none;
     text-align: center;
@@ -885,7 +887,7 @@ body{
     position: fixed;
     font-size: 20px;
     font-weight: 500;
-    color: white;
+    color: var(--mainColor);
 }
 
 .temperatureMeter{
@@ -919,10 +921,10 @@ body{
 
 #testNumber{
     font-size: 30px;
-    color: white;
+    color: var(--mainColor);
 }
 
 .randomNumberThing{
     font-size: 100px;
-    color: white;
+    color: var(--mainColor);
 }

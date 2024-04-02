@@ -66,6 +66,7 @@ let pageManage = {
         createCapsuleStatusBox(document.querySelector('.MisStatBoxContent'), 3, null, false);
         
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
+        
 
         createMagnetosphereBox(document.querySelector('.MagBoxContent'));
 
@@ -79,12 +80,15 @@ let pageManage = {
         if(!pageStart){
             capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
             capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+            capsule1.sulfurDioxideChartSVG.resize(250, 300);
+            capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
 
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
-
-            capsule1.sulfurDioxideChartSVG.resize(250, 300);
             capsule2.sulfurDioxideChartSVG.resize(250, 300);
+            capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
+
+            capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
         }
 
         document.documentElement.style.setProperty('--numOfCapsules', 3);
@@ -112,6 +116,7 @@ let pageManage = {
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
         capsule1.changeParent(document.querySelector('.MisStatBoxContent'), capsule1.missionStatusPoints);
+        capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -134,6 +139,7 @@ let pageManage = {
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
         capsule2.changeParent(document.querySelector('.MisStatBoxContent'), capsule2.missionStatusPoints);
+        capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -153,6 +159,7 @@ let pageManage = {
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
+        capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
     
     },
@@ -194,26 +201,31 @@ let pageManage = {
 
 class CapsuleObject {
 
-    constructor(capsuleNumber, testNum){
-        this.parent = false; 
-        this.sulfurDioxideBar = createSO2Bar(capsuleNumber, document.querySelector('.SO2BoxContent'), testNum);
-        this.sulfurDioxideChartArray = createSO2Graph(capsuleNumber, document.querySelector('.SO2BoxContent'));
+    constructor(capsuleNumber, testNum, hasSO2Sensor, hasMagnetometer){
+        this.parent = false;
 
-        this.sulfurDioxideChart = this.sulfurDioxideChartArray[0];
+        if(hasSO2Sensor){
+            this.sulfurDioxideBar = createSO2Bar(capsuleNumber, document.querySelector('.SO2BoxContent'), testNum);
+            this.sulfurDioxideChartArray = createSO2Graph(capsuleNumber, document.querySelector('.SO2BoxContent'));
 
-        this.sulfurDioxideChartSVG = this.sulfurDioxideChartArray[1];
+            this.sulfurDioxideChart = this.sulfurDioxideChartArray[0];
 
-        console.log(this.sulfurDioxideChart);
+            this.sulfurDioxideChartSVG = this.sulfurDioxideChartArray[1];
 
-        this.missionStatusPoints = createCapsuleStatusBox(this.cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['hi', 'hi', 'hi'], true);
+            console.log(this.sulfurDioxideChart);
+        }
+
+        this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['hi', 'hi', 'hi'], true);
 
         //console.log(this.missionStatusPoints)
 
-        this.pressureBar = 0;
+        this.pressureMeter = createPressureMeter(document.querySelector('.pressureMeterContainer'), capsuleNumber, true, testNum);
 
-        this.magnetosphereCircle = 0;
+        if (hasMagnetometer){
+            this.magnetosphereCircle = 0;
+        }
         this.altitude = 0;
-        this.temperatureBar = 0;
+        this.temperatureMeter = 0;
 
         this.data = {
             pressureData: [],
@@ -233,14 +245,6 @@ class CapsuleObject {
     changeParent(newParent, objectElement){
         newParent.appendChild(objectElement);
         this.parent = newParent;
-    }
-
-    cleanElement(element){
-        if(element && element.hasChildNodes()){
-            element.replaceChildren();
-
-            return element;
-        }
     }
 
 }
@@ -540,31 +544,31 @@ function createPressureBox(container, numOfCapsules, capsuleNumber){
 
     let pressCont = createHTMLChildElement(container, 'div', 'pressureMeterContainer', null)
 
-    if(numOfCapsules != 1){
+    // if(numOfCapsules != 1){
 
         
-        for(let i = 1; i <= numOfCapsules; i++) {
+    //     for(let i = 1; i <= numOfCapsules; i++) {
 
-            createPressureMeter(pressCont, i, true, numOfCapsules);
+    //         createPressureMeter(pressCont, i, true, numOfCapsules);
 
-        }
+    //     }
 
-        return;
+    //     return;
 
-    } else {
+    // } else {
 
-        createPressureMeter(pressCont, capsuleNumber, false, 1);
+    //     createPressureMeter(pressCont, capsuleNumber, false, 1);
 
-    }
+    // }
 
 }
 
-function createPressureMeter(container, capsuleNumber, includeLogo, numOfCapsules){
+function createPressureMeter(container, capsuleNumber, includeLogo, num){
 
         let currentPressureBox = createHTMLChildElement(container, 'div', 'pressureMeterBox', null, `pressureMeterBox${capsuleNumber}`);
 
-            currentPressureBox.style.setProperty('width',`${75/numOfCapsules}%`);
-            currentPressureBox.style.setProperty('margin',`0 ${3/numOfCapsules}vw`);
+            currentPressureBox.style.setProperty('width',`calc(75%/var(--numOfCapsules))`);
+            currentPressureBox.style.setProperty('margin',`0 calc(3vw/var(--numOfCapsules))`);
 
             if (includeLogo){
                 let currentLogoBox = createHTMLChildElement(currentPressureBox, 'div', 'pressureMeterLogoBox', null, `pressureMeterLogoBox${capsuleNumber}`);
@@ -577,13 +581,15 @@ function createPressureMeter(container, capsuleNumber, includeLogo, numOfCapsule
 
             let currentTextBox = createHTMLChildElement(currentMeter, 'div', 'pressureTextBox', null, `pressureTextBox${capsuleNumber}`);
 
-            let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', '999', `pressureText${capsuleNumber}`);
+            let currentText = createHTMLChildElement(currentTextBox, 'div', 'pressureText', num, `pressureText${capsuleNumber}`);
 
             let currentUnit = createHTMLChildElement(currentTextBox, 'div', 'pressureUnit', 'atm', `pressureUnit${capsuleNumber}`);
 
             let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'pressureMeterFillBox', null, `pressureMeterFillBox${capsuleNumber}`);
 
             let currentFill = createHTMLChildElement(currentFillBox, 'div', 'pressureMeterFill', null, `pressureMeterFill${capsuleNumber}`);
+
+            return currentPressureBox;
 }
 
 
@@ -639,8 +645,8 @@ function createTemperatureBox(container, numOfCapsules, capsuleNumber){
     for(let i = 1; i <= numOfCapsules; i++) {
 
         let currentTemperatureBox = createHTMLChildElement(tempCont, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${i}`);
-        currentTemperatureBox.style.setProperty('height',`${51/numOfCapsules}%`);
-        currentTemperatureBox.style.setProperty('margin',`${5/numOfCapsules}vw 0`);
+        currentTemperatureBox.style.setProperty('height',`calc(51%/var(--numOfCapsules))`);
+        currentTemperatureBox.style.setProperty('margin',`calc(5vw/var(--numOfCapsules)) 0`);
 
         let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${i}`);
 
@@ -715,6 +721,14 @@ function ifElementExists(element, func) {
 
     else {
         console.log('no work');
+    }
+}
+
+function cleanElement(element){
+    if(element && element.hasChildNodes()){
+        element.replaceChildren();
+
+        return element;
     }
 }
 
@@ -839,9 +853,11 @@ setInterval(() => {
 // Function call that sets the website page to the main page on startup
 pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
-let capsule1 = new CapsuleObject(1, 56);
+let capsule1 = new CapsuleObject(1, 56, true, false);
 
-let capsule2 = new CapsuleObject(2, 77);
+let capsule2 = new CapsuleObject(2, 77, true, false);
+
+let capsule3 = new CapsuleObject(3, 78, false, true);
 
 document.querySelector('.boxContainer').replaceChildren();
 
@@ -851,8 +867,12 @@ createPageLayout();
 
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
+capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
 
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
+capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
+
+capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
 
 console.log(capsule1)
