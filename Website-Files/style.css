@@ -66,16 +66,18 @@ body{
     align-items: center;
 }
 
-.fileUploadIcon{
+.settingsIcon{
     width: 25px;
     height: 25px;
     opacity: 0.5;
     margin: 0px 20px;
 }
 
-.fileUploadIcon:hover{
+.settingsIcon:hover{
     opacity: 1;
     cursor: pointer;
+    transform: rotate(360deg);
+    transition: cubic-bezier(0.77, 0, 0.175, 1) 0.7s;
 }
 
 .buttonCircle{

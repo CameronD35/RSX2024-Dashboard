@@ -470,11 +470,11 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
     restartArrow.src = '../Image-Assets/RestartArrow.webp';
 
     restartButton.addEventListener('mouseenter', () => {
-        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
+        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
     });
 
     restartButton.addEventListener('mouseleave', () => {
-        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
+        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
     });
 
     checkToggleState();
