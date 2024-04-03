@@ -82,13 +82,16 @@ let pageManage = {
             capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
             capsule1.sulfurDioxideChartSVG.resize(250, 300);
             capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
+            capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
 
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
             capsule2.sulfurDioxideChartSVG.resize(250, 300);
             capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
+            capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
 
             capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
+            capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
         }
 
         document.documentElement.style.setProperty('--numOfCapsules', 3);
