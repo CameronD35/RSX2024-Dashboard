@@ -117,6 +117,7 @@ let pageManage = {
         capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
         capsule1.changeParent(document.querySelector('.MisStatBoxContent'), capsule1.missionStatusPoints);
         capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
+        capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -140,6 +141,7 @@ let pageManage = {
         capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
         capsule2.changeParent(document.querySelector('.MisStatBoxContent'), capsule2.missionStatusPoints);
         capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
+        capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -160,6 +162,8 @@ let pageManage = {
         //console.log(boxElements);
 
         capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
+        capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
+
         document.documentElement.style.setProperty('--numOfCapsules', 1);
     
     },
@@ -225,7 +229,7 @@ class CapsuleObject {
             this.magnetosphereCircle = 0;
         }
         this.altitude = 0;
-        this.temperatureMeter = 0;
+        this.temperatureMeter = createTemperatureMeter(document.querySelector('.temperatureMeterContainer'), capsuleNumber, true, testNum);
 
         this.data = {
             pressureData: [],
@@ -642,27 +646,36 @@ function createTemperatureBox(container, numOfCapsules, capsuleNumber){
     
     let tempCont = createHTMLChildElement(container, 'div', 'temperatureMeterContainer', null);
 
-    for(let i = 1; i <= numOfCapsules; i++) {
+    // for(let i = 1; i <= numOfCapsules; i++) {
 
-        let currentTemperatureBox = createHTMLChildElement(tempCont, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${i}`);
+    //     createTemperatureMeter(tempCont, i, true, 54);
+        
+    // }
+
+}
+
+function createTemperatureMeter(container, capsuleNumber, includeLogo, num){
+
+        let currentTemperatureBox = createHTMLChildElement(container, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${capsuleNumber}`);
         currentTemperatureBox.style.setProperty('height',`calc(51%/var(--numOfCapsules))`);
         currentTemperatureBox.style.setProperty('margin',`calc(5vw/var(--numOfCapsules)) 0`);
 
-        let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${i}`);
+        if (includeLogo){
+            let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${capsuleNumber}`);
 
-        let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'temperatureMeterCapsuleLogo', null, `temperatureMeterCapsuleLogo${i}`);
-        currentLogo.src = `../Image-Assets/C${i}.webp`;
+            let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'temperatureMeterCapsuleLogo', null, `temperatureMeterCapsuleLogo${capsuleNumber}`);
+            currentLogo.src = `../Image-Assets/C${capsuleNumber}.webp`;
+        }
 
-        let currentMeter = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeter', null, `temperatureMeter${i}`);
+        let currentMeter = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeter', null, `temperatureMeter${capsuleNumber}`);
 
-        let currentText = createHTMLChildElement(currentMeter, 'div', 'temperatureText', '999°C', `temperatureText${i}`);
+        let currentText = createHTMLChildElement(currentMeter, 'div', 'temperatureText', `${num}°C`, `temperatureText${capsuleNumber}`);
 
-        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'temperatureMeterFillBox', null, `temperatureMeterFillBox${i}`);
+        let currentFillBox = createHTMLChildElement(currentMeter, 'div', 'temperatureMeterFillBox', null, `temperatureMeterFillBox${capsuleNumber}`);
 
-        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'temperatureMeterFill', null, `temperatureMeterFill${i}`);
-        
-    }
+        let currentFill = createHTMLChildElement(currentFillBox, 'div', 'temperatureMeterFill', null, `temperatureMeterFill${capsuleNumber}`);
 
+        return currentTemperatureBox;
 }
 
 function setCurrentBoxes(CSSClassArray){
@@ -851,6 +864,7 @@ setInterval(() => {
 
 
 // Function call that sets the website page to the main page on startup
+
 pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentration', 'Mission Status', 'Pressure', 'Magnetosphere', 'Altitude', 'Temperature']);
 
 let capsule1 = new CapsuleObject(1, 56, true, false);
@@ -868,11 +882,14 @@ createPageLayout();
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
 capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
+capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
 
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
 capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
+capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
 
 capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
+capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
 
 console.log(capsule1)
