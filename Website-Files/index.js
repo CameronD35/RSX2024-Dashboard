@@ -68,7 +68,7 @@ let pageManage = {
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
         
 
-        createMagnetosphereBox(document.querySelector('.MagBoxContent'));
+        //createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
 
         createAltitudeBox(document.querySelector('.AltBoxContent'), 3, 1);
 
@@ -92,6 +92,7 @@ let pageManage = {
 
             capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
             capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
+            capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
         }
 
         document.documentElement.style.setProperty('--numOfCapsules', 3);
@@ -166,6 +167,7 @@ let pageManage = {
 
         capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
         capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
+        capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
 
         document.documentElement.style.setProperty('--numOfCapsules', 1);
     
@@ -229,7 +231,7 @@ class CapsuleObject {
         this.pressureMeter = createPressureMeter(document.querySelector('.pressureMeterContainer'), capsuleNumber, true, testNum);
 
         if (hasMagnetometer){
-            this.magnetosphereCircle = 0;
+            this.magnetosphereCircle = createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
         }
         this.altitude = 0;
         this.temperatureMeter = createTemperatureMeter(document.querySelector('.temperatureMeterContainer'), capsuleNumber, true, testNum);
@@ -608,13 +610,15 @@ function createPressureMeter(container, capsuleNumber, includeLogo, num){
 }
 
 
-function createMagnetosphereBox(container){
+function createMagnetosphereCircle(container){
 
     let outerCircle = createHTMLChildElement(container, 'div', 'outerCircle', null);
     
     let innerCircle = createHTMLChildElement(outerCircle, 'div', 'innerCircle', null);
 
     let magNumber = createHTMLChildElement(outerCircle, 'div', 'magNumber', '99999');
+
+    return outerCircle;
 
 }
 
@@ -902,5 +906,6 @@ capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), caps
 
 capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
 capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
+capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
 
 console.log(capsule1)
