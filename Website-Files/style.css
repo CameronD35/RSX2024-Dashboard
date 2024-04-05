@@ -12,6 +12,7 @@
 :root{
     --mainColor: white;
     --secondaryColor: rgb(255,234, 0);
+    --tertiaryColor: #041537;
     --rsxGreen: rgb(0,230,0);
     --rsxRed: rgba(230,0,0,1);
 
@@ -945,4 +946,31 @@ body{
 .randomNumberThing{
     font-size: 100px;
     color: var(--mainColor);
+}
+
+/* POP-UP SCREEN */
+
+.popUpScreen{
+    position: fixed;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.popUpContainer{
+    width: 40%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--tertiaryColor);
+    border-radius: 40px;
+}
+
+.popUpBackground{
+    font-size: 50px;
+    color: white;
 }

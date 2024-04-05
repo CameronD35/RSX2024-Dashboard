@@ -20,6 +20,8 @@ let graphArray = [];
 // Indicates if the page was just started or not
 let pageStart = true;
 
+let popUpScreenOpen = false;
+
 let num = 0;
 // Object of page properties; names of box classes and box titles
 const pageProperties = {
@@ -918,3 +920,44 @@ console.log(capsule1);
 // document.querySelectorAll('.atmosphericLayerCell').forEach((elem) => {
 //     elem.replaceChildren();
 // });
+
+let popUpScr = document.querySelector('.popUpScreen');
+        popUpScr.style.width = '0';
+        popUpScr.style.height = '0';
+
+
+function showPopUpScreen(){
+    document.querySelector('.mainContent').style.filter = 'blur(5px)';
+        popUpScr.style.width = '100%';
+        popUpScr.style.height = '100%';
+        popUpScr.style.inset = '0%'
+    let popUpContainer = document.querySelector('.popUpContainer');
+    createHTMLChildElement(popUpContainer, 'div', 'popUpBackground', 'YO');
+}
+
+document.getElementById('infoButtonBox').addEventListener('click', () => {
+    showPopUpScreen();
+    popUpScreenOpen = true;
+    
+});
+
+document.getElementById('settingsButtonBox').addEventListener('click', () => {
+    showPopUpScreen();
+    popUpScreenOpen = true;
+});
+
+document.querySelector('.popUpScreen').addEventListener('click', () => {
+    let popUpScreen = document.querySelector('.popUpScreen');
+    let popUpContainer = document.querySelector('.popUpContainer');
+    
+    if(popUpScreenOpen){
+        cleanElement(popUpContainer)
+        popUpScreen.style.width = '0';
+        popUpScreen.style.height = '0';
+        let logoPosition = document.getElementById('logo').getBoundingClientRect();
+        console.log(logoPosition);
+        console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
+        popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
+        document.querySelector('.mainContent').style.filter = '';
+    }
+})
