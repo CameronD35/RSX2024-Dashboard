@@ -106,7 +106,6 @@ let pageManage = {
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
         createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
-        // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
 
 
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
@@ -157,7 +156,6 @@ let pageManage = {
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
         createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
-        // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 3);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
@@ -165,6 +163,7 @@ let pageManage = {
         setCurrentBoxes(CSSClasses);
         //console.log(boxElements);
 
+        capsule3.changeParent(document.querySelector('.MisStatBoxContent'), capsule3.missionStatusPoints);
         capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
         capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
         capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
@@ -222,9 +221,10 @@ class CapsuleObject {
             this.sulfurDioxideChartSVG = this.sulfurDioxideChartArray[1];
 
             console.log(this.sulfurDioxideChart);
+
+            this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Sulfur Dioxide Sensor', 'Temperature Sensor'], true, capsuleNumber);
         }
 
-        this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['hi', 'hi', 'hi'], true);
 
         //console.log(this.missionStatusPoints)
 
@@ -232,6 +232,7 @@ class CapsuleObject {
 
         if (hasMagnetometer){
             this.magnetosphereCircle = createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
+            this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Magnetosphere Sensor', 'Temperature Sensor'], true, capsuleNumber);
         }
         this.altitude = 0;
         this.temperatureMeter = createTemperatureMeter(document.querySelector('.temperatureMeterContainer'), capsuleNumber, true, testNum);
@@ -525,7 +526,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 }
 
 // Creates the status of the capsules. If singleCapsule is true, i9t lists the components of that capsule, otheriwse a general status for all capsules is provided
-function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, singleCapsule){
+function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, singleCapsule, capsuleNumber){
 
     let capStatCont = createHTMLChildElement(container, 'div', 'capStatContainer');
 
@@ -547,7 +548,7 @@ function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, sin
     } else {
         for(let j = 1; j <= statusPointsArray.length; j++){
             console.log('test');
-            let currentStatusPointText = createHTMLChildElement(capStatCont, 'div', 'capStatPoint', statusPointsArray[j-1], `capStatPoint${j}`);
+            let currentStatusPointText = createHTMLChildElement(capStatCont, 'div', 'capStatPoint', statusPointsArray[j-1], `capStatPoint${statusPointsArray[j-1].substring(0, 4)}-${capsuleNumber}`);
 
         }
 
@@ -904,8 +905,16 @@ capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurD
 capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
 capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
 
+
 capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
 capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
 capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
 
-console.log(capsule1)
+console.log(capsule1);
+
+
+// Script for removing all elements from atmospheric table
+
+// document.querySelectorAll('.atmosphericLayerCell').forEach((elem) => {
+//     elem.replaceChildren();
+// });

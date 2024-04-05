@@ -593,6 +593,14 @@ body{
     font-size: 3vh;
 }
 
+.capStatPoint{
+    align-self: center;
+    justify-self: center;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+}
+
 /* PRESSURE */
 
 .pressureMeterContainer{
