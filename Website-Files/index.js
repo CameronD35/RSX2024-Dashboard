@@ -320,6 +320,14 @@ function createNavigation(parent, count){
         currentImage.src = `../Image-Assets/C${i}.webp`;
     }
 
+    let infoButtonBox = createHTMLChildElement(parent, 'li', 'infoButtonBox', null);
+    let infoButton = createHTMLChildElement(infoButtonBox, 'div', 'infoButton', 'i');
+
+
+    let settingsIconBox = createHTMLChildElement(parent, 'li', 'settingsButtonBox', null);
+    let settingsIcon = createHTMLChildElement(settingsIconBox, 'img', 'settingsButton', null);
+    settingsIcon.src = `../Image-Assets/SettingsIcon.webp`;
+
     setupTabs(tabsArray);
     updateTabs(tabsArray);
 }
