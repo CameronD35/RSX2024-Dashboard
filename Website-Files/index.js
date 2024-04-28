@@ -897,6 +897,10 @@ pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentr
 
 createPageLayout();
 
+let popUpScr = document.querySelector('.popUpScreen');
+        popUpScr.style.width = '0';
+        popUpScr.style.height = '0';
+
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
 capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
@@ -921,18 +925,31 @@ console.log(capsule1);
 //     elem.replaceChildren();
 // });
 
-let popUpScr = document.querySelector('.popUpScreen');
-        popUpScr.style.width = '0';
-        popUpScr.style.height = '0';
 
+
+
+function createSettingsMenu(){
+    let popUpCont = document.querySelector('.popUpContainer');
+
+
+}
 
 function showPopUpScreen(){
+    let popUpScr = document.querySelector('.popUpScreen');
+    let popUpCont = document.querySelector('.popUpContainer');
     document.querySelector('.mainContent').style.filter = 'blur(5px)';
         popUpScr.style.width = '100%';
         popUpScr.style.height = '100%';
         popUpScr.style.inset = '0%'
     let popUpContainer = document.querySelector('.popUpContainer');
-    createHTMLChildElement(popUpContainer, 'div', 'popUpBackground', 'YO');
+
+    let titleContainer = createHTMLChildElement(popUpCont, 'div', 'titleContainer', null)
+
+    let rsxTitle = createHTMLChildElement(titleContainer, 'div', 'rsxTitle', 'RockSatX Dashboard');
+    let rsxSubtitle = createHTMLChildElement(titleContainer, 'div', 'rsxSubtitle', 'College of the Canyons - 2024')
+    
+    let settingsContainer = createHTMLChildElement(popUpCont, 'div', 'contentContainer', 'test');
+    createSettingsMenu();
 }
 
 document.getElementById('infoButtonBox').addEventListener('click', () => {

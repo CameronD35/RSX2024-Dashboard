@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9+Charted&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -967,10 +969,39 @@ body{
     justify-content: center;
     align-items: center;
     background-color: var(--tertiaryColor);
+    opacity: 95%;
     border-radius: 40px;
+    display: flex;
+    flex-direction: column;
 }
 
-.popUpBackground{
+.popUpContent{
     font-size: 50px;
     color: white;
 }
+
+.contentContainer{
+    background-color: blue;
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+}
+
+.rsxTitle{
+    font-size: 36px;
+    color: var(--mainColor);
+    font-weight: 800;
+}
+
+.rsxSubtitle{
+    font-size: 16px;
+    color: var(--secondaryColor);
+    font-weight: 500;
+}
+
+.titleContainer{
+    background-color: none;
+    width: 100%;
+    padding: 5%;
+}
+
