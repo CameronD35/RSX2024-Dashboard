@@ -931,10 +931,16 @@ console.log(capsule1);
 function createSettingsMenu(){
     let popUpCont = document.querySelector('.popUpContainer');
 
+    let contentContainer = document.querySelector('.popUpContentContainer');
+
 
 }
 
-function showPopUpScreen(){
+function createInfoMenu(){
+
+}
+
+function showPopUpScreen(openSettings, openInfo){
     let popUpScr = document.querySelector('.popUpScreen');
     let popUpCont = document.querySelector('.popUpContainer');
     document.querySelector('.mainContent').style.filter = 'blur(5px)';
@@ -943,24 +949,43 @@ function showPopUpScreen(){
         popUpScr.style.inset = '0%'
     let popUpContainer = document.querySelector('.popUpContainer');
 
-    let titleContainer = createHTMLChildElement(popUpCont, 'div', 'titleContainer', null)
+    let titleContainer = createHTMLChildElement(popUpCont, 'div', 'popUpTitleContainer', null)
 
-    let rsxTitle = createHTMLChildElement(titleContainer, 'div', 'rsxTitle', 'RockSatX Dashboard');
-    let rsxSubtitle = createHTMLChildElement(titleContainer, 'div', 'rsxSubtitle', 'College of the Canyons - 2024')
+    let rsxTitle = createHTMLChildElement(titleContainer, 'div', 'popUpRsxTitle', 'RockSatX Dashboard');
+    let rsxSubtitle = createHTMLChildElement(titleContainer, 'div', 'popUpRsxSubtitle', 'College of the Canyons - 2024');
     
-    let settingsContainer = createHTMLChildElement(popUpCont, 'div', 'contentContainer', 'test');
-    createSettingsMenu();
+    let contentContainer = createHTMLChildElement(popUpCont, 'div', 'popUpContentContainer', 'test');
+    let navContainer = createHTMLChildElement(popUpCont, 'div', 'popUpNavContainer');
+    let settingsSection = createHTMLChildElement(navContainer, 'div', 'popUpNavSection', 'SETTINGS', 'popUpNavSettingsSection');
+    let infoSection = createHTMLChildElement(navContainer, 'div', 'popUpNavSection', 'INFO', 'popUpNavInfoSection');
+    
+    if (openSettings) {
+        createSettingsMenu();
+    } else if (openInfo) {
+        createInfoMenu();
+    }
+
+    document.getElementById('popUpNavSettingsSection').addEventListener('click', () => {
+        changePopUpScreenContent(true, false);
+    
+        let contentContainer = document.querySelector('.popUpContentContainer');
+    
+        contentContainer.textContent = 'settings';
+    });
 }
 
-document.getElementById('infoButtonBox').addEventListener('click', () => {
-    showPopUpScreen();
-    popUpScreenOpen = true;
-    
-});
 
 document.getElementById('settingsButtonBox').addEventListener('click', () => {
-    showPopUpScreen();
+    showPopUpScreen(true, false);
     popUpScreenOpen = true;
+});
+
+
+
+document.getElementById('infoButtonBox').addEventListener('click', () => {
+    showPopUpScreen(false, true);
+    popUpScreenOpen = true;
+    
 });
 
 document.querySelector('.popUpScreen').addEventListener('click', () => {
@@ -977,4 +1002,10 @@ document.querySelector('.popUpScreen').addEventListener('click', () => {
         popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
         document.querySelector('.mainContent').style.filter = '';
     }
-})
+});
+
+function changePopUpScreenContent(showSettings, showInfo){
+    if (showSettings && 3/*currentPopUpTab*/){
+
+    }
+}
