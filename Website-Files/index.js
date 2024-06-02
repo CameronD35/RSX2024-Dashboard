@@ -961,8 +961,10 @@ function showPopUpScreen(openSettings, openInfo){
     
     if (openSettings) {
         createSettingsMenu();
+        settingsSection.style.opacity = 1;
     } else if (openInfo) {
         createInfoMenu();
+        infoSection.style.opacity = 1;
     }
 
     document.getElementById('popUpNavSettingsSection').addEventListener('click', () => {
@@ -988,24 +990,45 @@ document.getElementById('infoButtonBox').addEventListener('click', () => {
     
 });
 
+
 document.querySelector('.popUpScreen').addEventListener('click', () => {
     let popUpScreen = document.querySelector('.popUpScreen');
     let popUpContainer = document.querySelector('.popUpContainer');
+    console.log('running random');
+    console.log(popUpScreenOpen);
+    //return;
     
     if(popUpScreenOpen){
-        cleanElement(popUpContainer)
+        cleanElement(popUpContainer);
+        console.log('element cleaned');
         popUpScreen.style.width = '0';
         popUpScreen.style.height = '0';
         let logoPosition = document.getElementById('logo').getBoundingClientRect();
-        console.log(logoPosition);
-        console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
+        //console.log(logoPosition);
+        //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
         popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
         document.querySelector('.mainContent').style.filter = '';
     }
 });
+
+let popUpContainer = document.querySelector('.popUpContainer');
+
+document.addEventListener('click', (event) => {
+    let isClickInside = popUpContainer.contains(event.target)
+
+    if (!isClickInside) {
+        alert('clicked outside box');
+    }
+})
 
 function changePopUpScreenContent(showSettings, showInfo){
     if (showSettings && 3/*currentPopUpTab*/){
 
     }
 }
+
+// let infoTab = document.getElementById('popUpNavInfoSection');
+
+// document.getElementById('popUpNavInfoSection').addEventListener('click', () => {
+//     console.log('info clicked');
+// });

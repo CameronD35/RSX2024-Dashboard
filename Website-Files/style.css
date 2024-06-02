@@ -954,17 +954,16 @@ body{
 
 .popUpScreen{
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
 }
 
 .popUpContainer{
     width: 40%;
     height: 75%;
+    z-index: 2;
     display: flex;
     justify-content: top;
     align-items: center;
@@ -1037,4 +1036,8 @@ body{
 .popUpNavSection:hover{
     opacity: 1;
     cursor: pointer;
+}
+
+.mainContent{
+    z-index: -1;
 }
