@@ -941,6 +941,7 @@ function createInfoMenu(){
 }
 
 function showPopUpScreen(openSettings, openInfo){
+    
     let popUpScr = document.querySelector('.popUpScreen');
     let popUpCont = document.querySelector('.popUpContainer');
     document.querySelector('.mainContent').style.filter = 'blur(5px)';
@@ -976,64 +977,79 @@ function showPopUpScreen(openSettings, openInfo){
     
         contentContainer.textContent = 'settings';
     });
+
+    checkIfPopUpScreenClicked()
+    setTimeout(() => {popUpScreenOpen = true;}, 5)
+    
+}
+let popUpContainer = document.querySelector('.popUpContainer');
+
+
+
+function checkIfPopUpScreenClicked() {
+    document.addEventListener('click', (event) => {
+        //console.log(event.target);
+        let ifClickInside = popUpContainer.contains(event.target)//popUpContainer.contains(event.target)
+        //console.log(popUpScreenOpen);
+        console.log(popUpContainer + ', ' + ifClickInside)
+        if (!ifClickInside && popUpScreenOpen) {
+            //console.log('clicked outside box.');
+            cleanElement(popUpContainer);
+            //console.log('element cleaned');
+            popUpScreen.style.width = '0';
+            popUpScreen.style.height = '0';
+            let logoPosition = document.getElementById('logo').getBoundingClientRect();
+            //console.log(logoPosition);
+            //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
+            popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
+            document.querySelector('.mainContent').style.filter = '';
+            popUpScreenOpen = false;
+        } else {
+            //console.log('clicked inside box.');
+        }
+    });
 }
 
 
 document.getElementById('settingsButtonBox').addEventListener('click', () => {
+    //console.log(popUpScreenOpen);
     showPopUpScreen(true, false);
-    popUpScreenOpen = true;
+    //console.log(popUpScreenOpen);
 });
 
 
 
 document.getElementById('infoButtonBox').addEventListener('click', () => {
     showPopUpScreen(false, true);
-    popUpScreenOpen = true;
     
 });
 
 
-// document.querySelector('.popUpScreen').addEventListener('click', () => {
+// document.querySelector('.popUpContainer').addEventListener('click', () => {
 //     let popUpScreen = document.querySelector('.popUpScreen');
 //     let popUpContainer = document.querySelector('.popUpContainer');
 //     console.log('running random');
 //     console.log(popUpScreenOpen);
 //     //return;
     
-//     // if(popUpScreenOpen){
-//     //     cleanElement(popUpContainer);
-//     //     console.log('element cleaned');
-//     //     popUpScreen.style.width = '0';
-//     //     popUpScreen.style.height = '0';
-//     //     let logoPosition = document.getElementById('logo').getBoundingClientRect();
-//     //     //console.log(logoPosition);
-//     //     //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
-//     //     popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
-//     //     document.querySelector('.mainContent').style.filter = '';
-//     // }
+//     if(popUpScreenOpen){
+//         cleanElement(popUpContainer);
+//         console.log('element cleaned');
+//         popUpScreen.style.width = '0';
+//         popUpScreen.style.height = '0';
+//         let logoPosition = document.getElementById('logo').getBoundingClientRect();
+//         //console.log(logoPosition);
+//         //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
+//         popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
+//         document.querySelector('.mainContent').style.filter = '';
+//         document.querySelector('.mainContent').style.pointerEvents = 'auto';
+//     }
 // });
 
-let popUpContainer = document.querySelector('.popUpContainer');
+
 let popUpScreen = document.querySelector('.popUpScreen');
 
-document.addEventListener('click', (event) => {
-    let isClickInside = popUpContainer.contains(event.target)
-    console.log(popUpScreenOpen);
-    if (!isClickInside  && popUpScreenOpen) {
-        console.log('clicked outside box.');
-        // cleanElement(popUpContainer);
-        // console.log('element cleaned');
-        // popUpScreen.style.width = '0';
-        // popUpScreen.style.height = '0';
-        // let logoPosition = document.getElementById('logo').getBoundingClientRect();
-        // //console.log(logoPosition);
-        // //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
-        // popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
-        // document.querySelector('.mainContent').style.filter = '';
-    } else {
-        console.log('clicked inside box.');
-    }
-})
+
 
 function changePopUpScreenContent(showSettings, showInfo){
     if (showSettings && 3/*currentPopUpTab*/){
