@@ -682,6 +682,8 @@ function createTemperatureBox(container, numOfCapsules, capsuleNumber){
 
 }
 
+
+
 function createTemperatureMeter(container, capsuleNumber, includeLogo, num){
 
         let currentTemperatureBox = createHTMLChildElement(container, 'div', 'temperatureMeterBox', null,`temperatureMeterBox${capsuleNumber}`);
@@ -973,7 +975,7 @@ function changePopUpScreenContent(showSettings, showInfo){
 // });
 
 function beginGlobalTimer(globalTiming){
-    setInterval(() => {
+    let timerInterval = setInterval(() => {
         let sign = '';
 
         if (currentTime_T >= 0){
@@ -983,6 +985,10 @@ function beginGlobalTimer(globalTiming){
         console.log('changing time');
 
         changeTime(sign, currentTime_T);
+
+        if(!timerState){
+            clearInterval(timerInterval);
+        }
     }, globalTiming);
 }
 
@@ -991,11 +997,11 @@ function stopGlobalTimer(){
 }
 
 function restartGlobalTimer(){
-    
+
 }
 
 function changeTime(sign, time_T){
-    let currentTimeInSec = time_T + 350;
+    let currentTimeInSec = time_T + 351;
     const timer_T = document.getElementById('missionTimer');
     const timer_Slider = document.querySelector('.sliderNumInput');
     const inputSlider = document.querySelector('.slider')
