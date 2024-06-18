@@ -486,17 +486,22 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
     });
 
     let restartButton = createHTMLChildElement(timerControlsCont, 'div', 'restartTimerButton');
-    restartButton.style.opacity = '0.5';
 
     let restartArrow = createHTMLChildElement(restartButton, 'img', 'restartArrow');
     restartArrow.src = '../Image-Assets/RestartArrow.webp';
 
     restartButton.addEventListener('mouseenter', () => {
-        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;}
+        restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) reverseLogo`;
     });
 
     restartButton.addEventListener('mouseleave', () => {
-        if(timerRunning){restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;}
+        restartArrow.style.animation = `1s cubic-bezier(0.77, 0, 0.175, 1) spinLogo`;
+    });
+
+    restartButton.addEventListener('click', () => {
+        timerRunning = false;
+        restartGlobalTimer();
+
     });
 
     checkToggleState();
@@ -522,9 +527,6 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
                 document.documentElement.style.setProperty('--timerHoverColor', 'black');
     
                 startText.textContent = 'START MISSION';
-    
-    
-                restartButton.style.opacity = '0.25';
     
                 startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
     
@@ -986,18 +988,17 @@ function beginGlobalTimer(globalTiming){
 
         changeTime(sign, currentTime_T);
 
+        // Checks if the "stop mission" button has been clicked, resulting in a timerState == false
         if(!timerState){
             clearInterval(timerInterval);
         }
     }, globalTiming);
 }
 
-function stopGlobalTimer(){
-
-}
 
 function restartGlobalTimer(){
-
+    currentTime_T = startTime_T - 1;
+    changeTime('', currentTime_T);
 }
 
 function changeTime(sign, time_T){
@@ -1016,4 +1017,11 @@ function changeTime(sign, time_T){
 // Future function that changes graphics upon a change in time
 function updateGraphics(){
 
+}
+
+function createSetting(){
+    let settingTitle;
+    let settingDesc;
+    let settingInput;
+    let settingSlider;
 }
