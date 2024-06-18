@@ -973,7 +973,6 @@ function changePopUpScreenContent(showSettings, showInfo){
 // });
 
 function beginGlobalTimer(globalTiming){
-    const timerText = document.getElementById('missionTimer');
     setInterval(() => {
         let sign = '';
 
@@ -982,14 +981,33 @@ function beginGlobalTimer(globalTiming){
         }
 
         console.log('changing time');
-        console.log(timerText)
 
-        document.getElementById('missionTimer').textContent = `T${sign}${++currentTime_T}`;
+        changeTime(sign, currentTime_T);
     }, globalTiming);
 }
 
-function changeTime(currentTimeInT){
-    let currentTimeInSec = currentTimeInT + 350;
+function stopGlobalTimer(){
+
+}
+
+function restartGlobalTimer(){
+    
+}
+
+function changeTime(sign, time_T){
+    let currentTimeInSec = time_T + 350;
     const timer_T = document.getElementById('missionTimer');
-    const timer_Slider = document.getElementById('');
+    const timer_Slider = document.querySelector('.sliderNumInput');
+    const inputSlider = document.querySelector('.slider')
+
+    document.getElementById('missionTimer').textContent = `T${sign}${++currentTime_T}`
+    timer_Slider.value = currentTimeInSec;
+    inputSlider.value = currentTimeInSec;
+    // Add function for changing graphics upon a change in time
+
+}
+
+// Future function that changes graphics upon a change in time
+function updateGraphics(){
+
 }
