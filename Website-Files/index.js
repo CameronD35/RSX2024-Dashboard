@@ -13,6 +13,11 @@ let tabsArray = [];
 let boxElements = [];
 let timerState = false;
 
+const startTime_T = -350;
+const constEndTime_T = 999;
+let currentTime_T = -350;
+
+
 let currentPage = 0;
 
 let graphArray = [];
@@ -443,7 +448,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 
     let timerControlsCont = createHTMLChildElement(container, 'div', 'timerControlsContainer');
 
-    let timer = createHTMLChildElement(timerControlsCont, 'div', 'missionTimer', 'T-999');
+    let timer = createHTMLChildElement(timerControlsCont, 'div', 'missionTimer', `T${currentTime_T}`);
 
     let startButton = createHTMLChildElement(timerControlsCont, 'div', 'startButton');
 
@@ -473,6 +478,10 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
         timerRunning = !timerRunning;
 
         checkToggleState(timerRunning);
+        
+        if (timerRunning){
+            beginGlobalTimer(1000);
+        }
 
     });
 
@@ -504,6 +513,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
                 restartButton.style.opacity = '1';
     
                 startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+
     
                 
             } else {
@@ -1062,3 +1072,25 @@ function changePopUpScreenContent(showSettings, showInfo){
 // document.getElementById('popUpNavInfoSection').addEventListener('click', () => {
 //     console.log('info clicked');
 // });
+
+function beginGlobalTimer(globalTiming){
+    const timerText = document.getElementById('missionTimer');
+    setInterval(() => {
+        let sign = '';
+
+        if (currentTime_T >= 0){
+            sign = "+"
+        }
+
+        console.log('changing time');
+        console.log(timerText)
+
+        document.getElementById('missionTimer').textContent = `T${sign}${++currentTime_T}`;
+    }, globalTiming);
+}
+
+function changeTime(currentTimeInT){
+    let currentTimeInSec = currentTimeInT + 350;
+    const timer_T = document.getElementById('missionTimer');
+    const timer_Slider = document.getElementById('');
+}
