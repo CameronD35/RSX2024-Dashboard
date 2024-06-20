@@ -14,7 +14,7 @@ let boxElements = [];
 let timerState = false;
 
 const startTime_T = -350;
-const constEndTime_T = 999;
+const endTime_T = 999;
 let currentTime_T = -350;
 
 
@@ -346,7 +346,7 @@ function createNavigation(parent, count){
 function createPageLayout(){
     createNavigation(document.getElementById('navList'), 3);
     logoAnimationSetup(document.getElementById('logo'));
-    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNumInput'));
+    setupSlider(document.querySelector('.slider'), document.querySelector('.sliderNumInput'), 1349);
 }
 
 

@@ -1,6 +1,6 @@
 // This sets up the slider found in the bottom center; Handles the text change when dragging the slider and changes the text according to the sliders position
 
-export default function setupSlider(slider, valueDisplay){
+export default function setupSlider(slider, valueDisplay, maxVal){
     //console.log('slider value: ' + slider.value);
     slider.addEventListener('mousedown', () => { turnYellow(); });
 
@@ -22,14 +22,16 @@ export default function setupSlider(slider, valueDisplay){
 
         if(key.keyCode == 13){
             turnWhite();
-            if(slider.value > 1000){
-                slider.value = 1000;
+            if(slider.value > maxVal){
+                console.log(valueDisplay);
+                slider.value = maxVal;
+                valueDisplay.value = maxVal;
             } else {
                 slider.value = `${valueDisplay.value}`;
             }
 
             valueDisplay.blur();
-            console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+            //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
             //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
 
             //console.log(slider.value);
