@@ -17,6 +17,7 @@
     --tertiaryColor: #041537;
     --rsxGreen: rgb(0,230,0);
     --rsxRed: rgba(230,0,0,1);
+    --rsxOrange: rgba(255,127,0,1);
 
     --timerStateColor: var(--mainColor);
     --timerHoverColor: rgba(0, 0, 0, 1); 
@@ -446,17 +447,18 @@ body{
 }
 
 #stageBox1{
-    background-color: rgba(255,255,255,0.5);
+    background-color: var(--rsxOrange);
+    box-shadow: 0px 0px 10px rgba(255,127,0,0.5);
 }
 
 #stageBox2{
-    background-color: var(--rsxGreen);
-    box-shadow: 0px 0px 10px rgba(0,230,0,0.5);
+    background-color: var(--rsxRed);
+    box-shadow: 0px 0px 10px rgba(230,0,0,0.5);
 }
 
 #stageBox3{
-    background-color: rgba(255,127,0,1);
-    box-shadow: 0px 0px 10px rgba(255,127,0,0.5);
+    background-color: var(--rsxRed);
+    box-shadow: 0px 0px 10px rgba(230,0,0,0.5);
 }
 
 #stageBox4{

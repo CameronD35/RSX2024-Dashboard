@@ -57,6 +57,8 @@ const pageProperties = {
     }
 }
 
+const timerEvents_inT = [-300, 3, 186]
+
 // END SETUP CODE
 
 
@@ -69,7 +71,8 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         //createSO2Box(document.querySelector(".SO2BoxContent"), 2);
-        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, [-300, 3, 186]);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, timerEvents_inT);
+        updateTimerEvents();
         createCapsuleStatusBox(document.querySelector('.MisStatBoxContent'), 3, null, false);
         
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
@@ -112,7 +115,8 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, timerEvents_inT);
+        updateTimerEvents();
 
 
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
@@ -138,7 +142,8 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, timerEvents_inT);
+        updateTimerEvents();
         // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 2);
@@ -162,7 +167,8 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
-        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, timerEvents_inT);
+        updateTimerEvents();
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 3);
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
@@ -323,7 +329,7 @@ function setupSlider(slider, valueDisplay, maxVal){
     slider.addEventListener('mouseup', async () => {
         turnWhite();
         currentTime_T = slider.value - 350;
-        let sign = getCurrentTimeSign();
+        let sign = getCurrentTimeSign(currentTime_T);
 
         changeTime(sign, currentTime_T);
         //console.log('test');
@@ -505,7 +511,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 
         let currentStageBox = createHTMLChildElement(stageCont, 'div', ['stageBox', stages[i]], stages[i], `stageBox${i+1}`);
 
-        let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', `T${timeInTArray[i]}`, `timeText${i+1}`);
+        let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', `T${getCurrentTimeSign(timeInTArray[i])}${timeInTArray[i]}`, `timeText${i+1}`);
 
         let timerID;
 
@@ -538,7 +544,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
         currentTimeText.addEventListener('mouseout', () => {
             //currentTimeText.style.fontSize = '1vw';
             currentTimeText.style.opacity = 1;
-            currentTimeText.textContent = `T${timeInTArray[i]}`;
+            currentTimeText.textContent = `T${getCurrentTimeSign(timeInTArray[i])}${timeInTArray[i]}`;
 
             clearInterval(timerID);
         });
@@ -1077,14 +1083,14 @@ function changePopUpScreenContent(showSettings, showInfo){
 
 function beginGlobalTimer(globalTiming){
     let timerInterval = setInterval(() => {
-        let sign = getCurrentTimeSign();
+        let sign = getCurrentTimeSign(currentTime_T);
 
         console.log('changing time');
         currentTime_T++;
         changeTime(sign, currentTime_T);
 
         // Checks if the "stop mission" button has been clicked, resulting in a timerState == false
-        if(!timerState){
+        if (!timerState){
             clearInterval(timerInterval);
         }
     }, globalTiming);
@@ -1110,9 +1116,9 @@ function changeTime(sign, time_T){
 
 }
 
-function getCurrentTimeSign(){
+function getCurrentTimeSign(time){
 
-    if (currentTime_T >= 0){
+    if (time >= 0){
         return "+";
     }
 
@@ -1122,6 +1128,25 @@ function getCurrentTimeSign(){
 function updateTimerEvents(){
     let stageBoxes = document.querySelectorAll('.stageBox');
     console.log(stageBoxes);
+
+    for (let i = 0; i < stageBoxes.length; i++){
+        if (-(currentTime_T - timerEvents_inT[i]) <= 0){
+
+            stageBoxes[i].style.backgroundColor = 'var(--rsxGreen)';
+            stageBoxes[i].style.boxShadow = '0px 0px 10px rgba(0,230,0,0.5)';
+
+        } else if (-(currentTime_T - timerEvents_inT[i]) <= 50) {
+
+            stageBoxes[i].style.backgroundColor = 'var(--rsxOrange)';
+            stageBoxes[i].style.boxShadow = '0px 0px 10px rgba(255,127,0,0.5)';
+
+        } else {
+
+            stageBoxes[i].style.backgroundColor = 'var(--rsxRed)';
+            stageBoxes[i].style.boxShadow = '0px 0px 10px rgba(230,0,0,0.5)';
+
+        }
+    }
 }
 // Future function that changes graphics upon a change in time
 function updateGraphics(){
