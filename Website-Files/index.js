@@ -507,16 +507,40 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 
         let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', `T${timeInTArray[i]}`, `timeText${i+1}`);
 
+        let timerID;
+
         currentTimeText.addEventListener('mouseover', () => {
+            let timeUntilEvent_sec = -(currentTime_T - timeInTArray[i])
             //currentTimeText.style.fontSize = '0.8vw';
             currentTimeText.style.opacity = 0.5;
-            currentTimeText.textContent = `in ${-(currentTime_T - timeInTArray[i])} sec`;
+
+
+            if (timeUntilEvent_sec > 0){
+                timeUntilEvent_sec = -(currentTime_T - timeInTArray[i])
+                currentTimeText.textContent = `in ${timeUntilEvent_sec} sec`;
+                if (timerRunning) {
+                    timerID = setInterval(() => {
+                        timeUntilEvent_sec = -(currentTime_T - timeInTArray[i]);
+                        currentTimeText.textContent = `in ${timeUntilEvent_sec} sec`;
+                        //console.log('running timer event update');
+
+                        if (timeUntilEvent_sec <= 0){
+                            currentTimeText.textContent = `Active`;
+                        }
+
+                    }, 1);
+                }
+            } else {
+                currentTimeText.textContent = `Active`;
+            }
         });
 
         currentTimeText.addEventListener('mouseout', () => {
             //currentTimeText.style.fontSize = '1vw';
             currentTimeText.style.opacity = 1;
             currentTimeText.textContent = `T${timeInTArray[i]}`;
+
+            clearInterval(timerID);
         });
 
     }
