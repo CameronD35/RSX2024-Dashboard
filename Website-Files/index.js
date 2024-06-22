@@ -14,7 +14,7 @@ let boxElements = [];
 let timerState = false;
 
 const startTime_T = -350;
-const endTime_T = 999;
+const endTime_T = 900;
 let currentTime_T = -350;
 
 
@@ -69,7 +69,7 @@ let pageManage = {
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         //createSO2Box(document.querySelector(".SO2BoxContent"), 2);
-        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
+        createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, [-300, 3, 186]);
         createCapsuleStatusBox(document.querySelector('.MisStatBoxContent'), 3, null, false);
         
         createPressureBox(document.querySelector('.PresBoxContent'), 3);
@@ -305,7 +305,6 @@ function setupTabs(tabs){
 }
 
 // This gives the navigation tabs the ability to listen to mouse events and update accordingly
-
 function updateTabs(tabs){
     for (let i = 0; i < tabs.length; i++){
         if (tabs[i] != currentTab){
@@ -316,13 +315,19 @@ function updateTabs(tabs){
     }
 }
 
+// Sets up the slider and input section
 function setupSlider(slider, valueDisplay, maxVal){
     //console.log('slider value: ' + slider.value);
     slider.addEventListener('mousedown', () => { turnYellow();});
 
     slider.addEventListener('mouseup', async () => {
         turnWhite();
-        console.log('test');
+        currentTime_T = slider.value - 350;
+        let sign = getCurrentTimeSign();
+
+        changeTime(sign, currentTime_T);
+        //console.log('test');
+
         // DATABASE CODE
         //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
         //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
@@ -488,7 +493,7 @@ function createSO2Graph(capsuleNumber, container){
 //console.log(createSO2Bar(5, document.getElementById('box1')));
 
 // Creates the stages and timer buttons in the 'mission status' box. Intended to be global
-function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, capsuleNumber){
+function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, capsuleNumber, timeInTArray){
 
     console.log(`timer state: ${timerState}`);
 
@@ -498,9 +503,21 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 
     for(let i = 0; i < stages.length; i++){
 
-        let currentStageBox = createHTMLChildElement(stageCont, 'div', 'stageBox', stages[i], `stageBox${i+1}`);
+        let currentStageBox = createHTMLChildElement(stageCont, 'div', ['stageBox', stages[i]], stages[i], `stageBox${i+1}`);
 
-        let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', 'T-999', `timeText${i+1}`);
+        let currentTimeText = createHTMLChildElement(timeCont, 'div', 'timeText', `T${timeInTArray[i]}`, `timeText${i+1}`);
+
+        currentTimeText.addEventListener('mouseover', () => {
+            //currentTimeText.style.fontSize = '0.8vw';
+            currentTimeText.style.opacity = 0.5;
+            currentTimeText.textContent = `in ${-(currentTime_T - timeInTArray[i])} sec`;
+        });
+
+        currentTimeText.addEventListener('mouseout', () => {
+            //currentTimeText.style.fontSize = '1vw';
+            currentTimeText.style.opacity = 1;
+            currentTimeText.textContent = `T${timeInTArray[i]}`;
+        });
 
     }
 
@@ -1036,14 +1053,10 @@ function changePopUpScreenContent(showSettings, showInfo){
 
 function beginGlobalTimer(globalTiming){
     let timerInterval = setInterval(() => {
-        let sign = '';
-
-        if (currentTime_T >= 0){
-            sign = "+"
-        }
+        let sign = getCurrentTimeSign();
 
         console.log('changing time');
-
+        currentTime_T++;
         changeTime(sign, currentTime_T);
 
         // Checks if the "stop mission" button has been clicked, resulting in a timerState == false
@@ -1055,23 +1068,37 @@ function beginGlobalTimer(globalTiming){
 
 
 function restartGlobalTimer(){
-    currentTime_T = startTime_T - 1;
+    currentTime_T = startTime_T;
     changeTime('', currentTime_T);
 }
 
 function changeTime(sign, time_T){
-    let currentTimeInSec = time_T + 351;
+    let currentTimeInSec = time_T + 350;
     const timer_T = document.getElementById('missionTimer');
     const timer_Slider = document.querySelector('.sliderNumInput');
     const inputSlider = document.querySelector('.slider')
 
-    document.getElementById('missionTimer').textContent = `T${sign}${++currentTime_T}`
+    timer_T.textContent = `T${sign}${currentTime_T}`
     timer_Slider.value = currentTimeInSec;
     inputSlider.value = currentTimeInSec;
+    updateTimerEvents();
     // Add function for changing graphics upon a change in time
 
 }
 
+function getCurrentTimeSign(){
+
+    if (currentTime_T >= 0){
+        return "+";
+    }
+
+    return "";
+}
+
+function updateTimerEvents(){
+    let stageBoxes = document.querySelectorAll('.stageBox');
+    console.log(stageBoxes);
+}
 // Future function that changes graphics upon a change in time
 function updateGraphics(){
 
