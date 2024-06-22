@@ -5,7 +5,7 @@ import createHTMLChildElement from './modules/createElement.js';
 
 import logoAnimationSetup from './modules/logoAnimation.js';
 
-import setupSlider from './modules/slider.js'
+//import setupSlider from './modules/slider.js';
 // BEGIN SETUP CODE
 
 let currentTab = 'MainButton';
@@ -313,6 +313,64 @@ function updateTabs(tabs){
         } else{
             document.getElementById(tabs[i]).style.setProperty('opacity', '1');
         }
+    }
+}
+
+function setupSlider(slider, valueDisplay, maxVal){
+    //console.log('slider value: ' + slider.value);
+    slider.addEventListener('mousedown', () => { turnYellow();});
+
+    slider.addEventListener('mouseup', async () => {
+        turnWhite();
+        console.log('test');
+        // DATABASE CODE
+        //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+        //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+
+
+    });
+
+    slider.addEventListener('input', () => {
+        valueDisplay.value = `${slider.value}`;
+    });
+
+    valueDisplay.onkeydown = async function(key){
+
+        if(key.keyCode == 13){
+            turnWhite();
+            if(slider.value > maxVal){
+                console.log(valueDisplay);
+                slider.value = maxVal;
+                valueDisplay.value = maxVal;
+            } else {
+                slider.value = `${valueDisplay.value}`;
+            }
+
+            valueDisplay.blur();
+            //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+            //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+
+            //console.log(slider.value);
+        }
+        
+    }
+
+    valueDisplay.addEventListener('input', () => {
+        turnYellow();
+
+        if (valueDisplay.value.length > valueDisplay.maxLength){
+            valueDisplay.value = valueDisplay.value.slice(0, valueDisplay.maxLength);
+        }
+    });
+
+    function turnYellow(){
+        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
+        valueDisplay.style.setProperty('font-size', `18px`);
+    }
+
+    function turnWhite(){
+        valueDisplay.style.setProperty('color', `white`);
+        valueDisplay.style.setProperty('font-size', `12px`);
     }
 }
 
