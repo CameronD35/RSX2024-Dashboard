@@ -891,6 +891,7 @@ function randomizeBackground(){
         // document.getElementById(`backgroundElem${i}`).style.transform = `scale(${100 - Math.round(Math.random() * 10)}%)`;
     }
 }
+
 setInterval(() => {
     ++num;
     ifElementExists(document.getElementById('capAltStatData3'), () => {
@@ -916,8 +917,8 @@ pageManage[0](['SO2', 'MisStat', 'Pres', 'Mag', 'Alt', 'Temp'], ['SO₂ Concentr
 createPageLayout();
 
 let popUpScr = document.querySelector('.popUpScreen');
-        popUpScr.style.width = '0';
-        popUpScr.style.height = '0';
+popUpScr.style.width = '0';
+popUpScr.style.height = '0';
 
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideBar);
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
@@ -949,7 +950,15 @@ console.log(capsule1);
 function createSettingsMenu(){
     let popUpCont = document.querySelector('.popUpContainer');
 
-    let contentContainer = document.querySelector('.popUpContentContainer');
+    let contentCont = document.querySelector('.popUpContentContainer');
+
+    console.log(contentCont);
+
+    let graphRangeSetting = createSetting(contentCont, 'Graph Range', 'Set the desired range for all graphs.', [0, 100], false, false);
+
+    let timeChangeLengthSetting = createSetting(contentCont, 'Timer Interval', 'Set the time between timer seconds.', [0, 100], false, false);
+    
+    let ReducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
 
 
 }
@@ -973,7 +982,7 @@ function showPopUpScreen(openSettings, openInfo){
     let rsxTitle = createHTMLChildElement(titleContainer, 'div', 'popUpRsxTitle', 'RockSatX Dashboard');
     let rsxSubtitle = createHTMLChildElement(titleContainer, 'div', 'popUpRsxSubtitle', 'College of the Canyons - 2024');
     
-    let contentContainer = createHTMLChildElement(popUpCont, 'div', 'popUpContentContainer', 'test');
+    let contentContainer = createHTMLChildElement(popUpCont, 'div', 'popUpContentContainer');
     let navContainer = createHTMLChildElement(popUpCont, 'div', 'popUpNavContainer');
     let settingsSection = createHTMLChildElement(navContainer, 'div', 'popUpNavSection', 'SETTINGS', 'popUpNavSettingsSection');
     let infoSection = createHTMLChildElement(navContainer, 'div', 'popUpNavSection', 'INFO', 'popUpNavInfoSection');
@@ -981,7 +990,6 @@ function showPopUpScreen(openSettings, openInfo){
     if (openSettings) {
         createSettingsMenu();
         settingsSection.style.opacity = 1;
-        contentContainer.innerText = 'settings';
     } else if (openInfo) {
         createInfoMenu();
         infoSection.style.opacity = 1;
@@ -1010,18 +1018,24 @@ function checkIfPopUpScreenClicked() {
         let ifClickInside = popUpContainer.contains(event.target)//popUpContainer.contains(event.target)
         //console.log(popUpScreenOpen);
         console.log(popUpContainer + ', ' + ifClickInside)
+
         if (!ifClickInside && popUpScreenOpen) {
+
             //console.log('clicked outside box.');
             cleanElement(popUpContainer);
             //console.log('element cleaned');
+
             popUpScreen.style.width = '0';
             popUpScreen.style.height = '0';
+
             let logoPosition = document.getElementById('logo').getBoundingClientRect();
             //console.log(logoPosition);
             //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
             popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
+
             document.querySelector('.mainContent').style.filter = '';
             popUpScreenOpen = false;
+
         } else {
             //console.log('clicked inside box.');
         }
@@ -1153,9 +1167,24 @@ function updateGraphics(){
 
 }
 
-function createSetting(){
-    let settingTitle;
-    let settingDesc;
+function createSetting(container, name, description, range, onOffBool, performanceBool){
+    let settingContainer = createHTMLChildElement(container, 'div', 'settingContainer', null, `settingContainer${name}`);
+    let settingInfoBox = createHTMLChildElement(settingContainer, 'div', 'settingInfoBox', null, `settingInfoBox${name}`);
+    let settingTitle = createHTMLChildElement(settingInfoBox, 'div', 'settingTitle', name, `setting${name}`);
+    let settingDesc = createHTMLChildElement(settingInfoBox, 'div', 'settingDesc', description, `setting${name}Desc`);
+
+    let settingInputBox = createHTMLChildElement(settingContainer, 'div', 'settingInputBox', null, `settingInputBox${name}`);
     let settingInput;
     let settingSlider;
+
+    if (performanceBool) {
+        let speedIconBox;
+        let speedIcon;
+    }
+
+    if (onOffBool){
+        let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
+        //let switchBackground = createHTMLChildElement(settingInputBox, div, 'settingSwitch', null, `settingSwitchToggle${name}`);
+        let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name}`);
+    }
 }

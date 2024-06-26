@@ -998,14 +998,14 @@ body{
 .popUpTitleContainer{
     background-color: none;
     width: 100%;
-    height: 20%;
+    height: 15%;
     padding: 5%;
 }
 
 .popUpContentContainer{
-    background-color: blue;
+    background-color: none;
     width: 100%;
-    height: 75%;
+    height: 80%;
     border-radius: 10px;
 }
 
@@ -1043,4 +1043,53 @@ body{
 
 .mainContent{
     z-index: -1;
+}
+
+.settingContainer{
+    width: 95%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    margin: 2.5%;
+    padding: 2.5%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+}
+
+.settingInfoBox{
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.settingInputBox{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    
+}
+
+.settingTitle{
+    color: white;
+    font-size: 2vw;
+    font-weight: 700;
+}
+
+.settingDesc{
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.65vw;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.settingSwitch{
+    width: 40%;
+    height: 30%;
+    background-color: yellow;
+    border-radius: 30px;
 }
