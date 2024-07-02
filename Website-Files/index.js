@@ -1109,22 +1109,39 @@ function changePopUpScreenContent(showSettings, showInfo){
     let contentCont = document.querySelector('.popUpContentContainer');
 
     if (showSettings && !onSettings) {
-        cleanElement(contentCont);
-        // contentCont.style.opacity = 'translateX(100%)';
-        // contentCont.style.transform = 'translateX(100%)';
+        transition(createSettingsMenu);
         console.log('opening settings');
 
-        createSettingsMenu();
+
+        // contentCont.style.opacity = '1';
+        // contentCont.style.transform = 'translateX(0%)';
 
         onSettings = true;
 
     } else if (showInfo && onSettings) {
-        cleanElement(contentCont);
-        console.log('opening info');
 
         createInfoMenu();
+        console.log('opening info');
+
+        transition(createInfoMenu);
 
         onSettings = false;
+    }
+
+    function transition(createScreenFunction) {
+        contentCont.style.transitionDuration = '0s';
+        cleanElement(contentCont);
+
+        setTimeout(() => {
+            contentCont.style.transform = 'translateX(100%)';
+
+            contentCont.style.transitionDuration = '0.5s';
+
+            contentCont.style.transform = 'translateX(0%)';
+        }, 10);
+
+
+        createScreenFunction();
     }
 }
 
