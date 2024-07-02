@@ -26,6 +26,7 @@ let graphArray = [];
 let pageStart = true;
 
 let popUpScreenOpen = false;
+let onSettings;
 
 let num = 0;
 // Object of page properties; names of box classes and box titles
@@ -964,7 +965,12 @@ function createSettingsMenu(){
 }
 
 function createInfoMenu(){
+    let popUpCont = document.querySelector('.popUpContainer');
 
+    let contentCont = document.querySelector('.popUpContentContainer');
+
+
+    let infoText = createHTMLChildElement(contentCont, 'div', 'popUpInfoText', 'This is a test to see if this works.', 'popUpInfoText');
 }
 
 function showPopUpScreen(openSettings, openInfo){
@@ -990,18 +996,34 @@ function showPopUpScreen(openSettings, openInfo){
     if (openSettings) {
         createSettingsMenu();
         settingsSection.style.opacity = 1;
+
+        onSettings = true;
+
     } else if (openInfo) {
         createInfoMenu();
         infoSection.style.opacity = 1;
-        contentContainer.innerText = 'info';
+
+        onSettings = false;
     }
 
     document.getElementById('popUpNavSettingsSection').addEventListener('click', () => {
+        settingsSection.style.opacity = 1;
+        infoSection.style.opacity = 0.5;        
         changePopUpScreenContent(true, false);
     
-        let contentContainer = document.querySelector('.popUpContentContainer');
+        // let contentContainer = document.querySelector('.popUpContentContainer');
     
-        contentContainer.textContent = 'settings';
+        // createSettingsMenu();
+    });
+
+    document.getElementById('popUpNavInfoSection').addEventListener('click', () => {
+        infoSection.style.opacity = 1;
+        settingsSection.style.opacity = 0.5;
+        changePopUpScreenContent(false, true);
+    
+        // let contentContainer = document.querySelector('.popUpContentContainer');
+    
+        // createInfoMenu();
     });
 
     checkIfPopUpScreenClicked()
@@ -1084,8 +1106,25 @@ let popUpScreen = document.querySelector('.popUpScreen');
 
 
 function changePopUpScreenContent(showSettings, showInfo){
-    if (showSettings && 3/*currentPopUpTab*/){
+    let contentCont = document.querySelector('.popUpContentContainer');
 
+    if (showSettings && !onSettings) {
+        cleanElement(contentCont);
+        // contentCont.style.opacity = 'translateX(100%)';
+        // contentCont.style.transform = 'translateX(100%)';
+        console.log('opening settings');
+
+        createSettingsMenu();
+
+        onSettings = true;
+
+    } else if (showInfo && onSettings) {
+        cleanElement(contentCont);
+        console.log('opening info');
+
+        createInfoMenu();
+
+        onSettings = false;
     }
 }
 
