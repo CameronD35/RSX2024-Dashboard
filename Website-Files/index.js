@@ -1142,7 +1142,7 @@ function changePopUpScreenContent(showSettings, showInfo){
             sideSign = '';
         }
 
-        contentCont.style.transform = `translateX(${sideSign}200%)`;
+        contentCont.style.transform = `translateX(${sideSign}100%)`;
 
         console.log(contentCont.style.transitionDuration);
 
