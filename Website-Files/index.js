@@ -1109,7 +1109,7 @@ function changePopUpScreenContent(showSettings, showInfo){
     let contentCont = document.querySelector('.popUpContentContainer');
 
     if (showSettings && !onSettings) {
-        transition(createSettingsMenu);
+        transition(createSettingsMenu, false);
         console.log('opening settings');
 
 
@@ -1123,25 +1123,40 @@ function changePopUpScreenContent(showSettings, showInfo){
         createInfoMenu();
         console.log('opening info');
 
-        transition(createInfoMenu);
+        transition(createInfoMenu, true);
 
         onSettings = false;
     }
 
-    function transition(createScreenFunction) {
+    function transition(createScreenFunction, fromRight) {
+
         contentCont.style.transitionDuration = '0s';
+
         cleanElement(contentCont);
 
+        let sideSign;
+        
+        if (!fromRight) {
+            sideSign = '-';
+        } else {
+            sideSign = '';
+        }
+
+        contentCont.style.transform = `translateX(${sideSign}200%)`;
+
+        console.log(contentCont.style.transitionDuration);
+
         setTimeout(() => {
-            contentCont.style.transform = 'translateX(100%)';
 
             contentCont.style.transitionDuration = '0.5s';
+            console.log(contentCont.style.transitionDuration);
 
             contentCont.style.transform = 'translateX(0%)';
-        }, 10);
+            contentCont.style.opacity = 1;
+        }, 1);
 
 
-        createScreenFunction();
+        (createScreenFunction)();
     }
 }
 
@@ -1242,5 +1257,22 @@ function createSetting(container, name, description, range, onOffBool, performan
         let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
         //let switchBackground = createHTMLChildElement(settingInputBox, div, 'settingSwitch', null, `settingSwitchToggle${name}`);
         let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name}`);
+        setTimeout(resizeToggleSwitch, 500);
     }
+}
+
+window.addEventListener('resize', resizeToggleSwitch)
+
+
+function resizeToggleSwitch() {
+    ifElementExists(document.querySelector('.settingSwitch'), () => {
+        let rectObj = document.querySelector('.settingSwitch').getBoundingClientRect();
+
+        console.log(rectObj);
+
+        document.querySelectorAll('.settingSwitchToggle').forEach((elem) => {
+            elem.style.height = `${rectObj.height}px`;
+            elem.style.width = `${rectObj.height}px`;
+        })
+    });
 }
