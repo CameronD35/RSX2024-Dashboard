@@ -376,12 +376,12 @@ function setupSlider(slider, valueDisplay, maxVal){
     });
 
     function turnYellow(){
-        valueDisplay.style.setProperty('color', `rgb(255,234, 0)`);
+        valueDisplay.style.setProperty('color', `var(--secondaryColor)`);
         valueDisplay.style.setProperty('font-size', `18px`);
     }
 
     function turnWhite(){
-        valueDisplay.style.setProperty('color', `white`);
+        valueDisplay.style.setProperty('color', `var(--mainColor)`);
         valueDisplay.style.setProperty('font-size', `12px`);
     }
 }
@@ -959,7 +959,18 @@ function createSettingsMenu(){
 
     let timeChangeLengthSetting = createSetting(contentCont, 'Timer Interval', 'Set the time between timer seconds.', [0, 100], false, false);
     
-    let ReducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
+    let reducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
+
+    let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
+
+    document.documentElement.style.setProperty('--mainColor', '#041537');
+    document.documentElement.style.setProperty('--secondaryColor', 'black')
+    document.documentElement.style.setProperty('--tertiaryColor', 'white');
+    document.documentElement.style.setProperty('--quaternaryColor', 'white');
+    document.documentElement.style.setProperty('--boxColor', 'rgba(4, 21, 55, 0.25)');
+    document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
+    document.getElementById('infoButton')
+
 
 
 }
@@ -1258,6 +1269,13 @@ function createSetting(container, name, description, range, onOffBool, performan
         //let switchBackground = createHTMLChildElement(settingInputBox, div, 'settingSwitch', null, `settingSwitchToggle${name}`);
         let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name}`);
         setTimeout(resizeToggleSwitch, 500);
+    } else {
+        let min;
+        let max;
+        if (!range){
+            min = 0;
+            max = 100;
+        }
     }
 }
 

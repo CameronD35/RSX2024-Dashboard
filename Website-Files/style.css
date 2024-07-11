@@ -15,6 +15,12 @@
     --mainColor: white;
     --secondaryColor: rgb(255,234, 0);
     --tertiaryColor: #041537;
+
+    --boxColor: rgba(0, 0, 0, 0.75);
+    --meterOutlineColor: rgba(255, 255, 255, 0.25);
+
+    --pngFilters: brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%);
+
     --rsxGreen: rgb(0,230,0);
     --rsxRed: rgba(230,0,0,1);
     --rsxOrange: rgba(255,127,0,1);
@@ -33,7 +39,7 @@
 /* BACKGROUND */
 
 body{
-    background-color: #041537;
+    background-color: var(--tertiaryColor);
     overflow:hidden;
 }
 
@@ -75,6 +81,7 @@ body{
     width: 20px;
     height: 20px;
     opacity: 0.2;
+    filter: var(--pngFilters);
 }
 
 .settingsButton:hover{
@@ -179,6 +186,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
 }
 
 .navbar ul li{
@@ -223,6 +231,7 @@ body{
     height: 20px;
     position: relative;
     cursor: pointer;
+    filter: var(--pngFilters);
 }
 
 @keyframes spinLogo{
@@ -307,7 +316,7 @@ body{
 }
 
 .box{
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: var(--boxColor);
     border-radius: 20px;
     height: 100%;
     margin: 0.25%;
@@ -443,7 +452,7 @@ body{
     margin: 0% 5% 0% 5%;
     border-radius: 15px;
     font-size: 1vw;
-    color: black;
+    color: var(--tertiaryColor);
     box-shadow: 0px 0px 10px rgba(255,255,255,0.5);
 }
 
@@ -503,6 +512,7 @@ body{
     justify-content: center;
     border-radius: 10px;
     background-color: var(--mainColor);
+    color: var(--tertiaryColor);
     overflow: hidden;
     position: relative;
 }
@@ -602,7 +612,7 @@ body{
 .capStatPoint{
     align-self: center;
     justify-self: center;
-    color: white;
+    color: var(--mainColor);
     font-weight: 700;
     font-size: 20px;
 }
@@ -670,7 +680,7 @@ body{
     justify-content: center;
     align-items: start;
     border-radius: 15px;
-    outline: rgba(255, 255, 255, 0.25) 2px solid;
+    outline: var(--meterOutlineColor) 2px solid;
 }
 
 .pressureMeterFill{
@@ -797,6 +807,7 @@ body{
 .atmosphericLayerCellImage{
     width: 20px;
     height: 20px;
+    filter: var(--pngFilters);
 }
 
 /* SLIDER */
@@ -923,7 +934,7 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    outline: rgba(255, 255, 255, 0.25) 2px solid;
+    outline: var(--meterOutlineColor) 2px solid;
 }
 
 .temperatureMeterFill{
