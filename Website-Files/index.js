@@ -965,11 +965,11 @@ function createSettingsMenu(){
 
     document.documentElement.style.setProperty('--mainColor', '#041537');
     document.documentElement.style.setProperty('--secondaryColor', 'black')
-    document.documentElement.style.setProperty('--tertiaryColor', 'white');
+    document.documentElement.style.setProperty('--tertiaryColor', 'rgb(230, 230, 230)');
     document.documentElement.style.setProperty('--quaternaryColor', 'white');
     document.documentElement.style.setProperty('--boxColor', 'rgba(4, 21, 55, 0.25)');
     document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
-    document.getElementById('infoButton')
+    document.getElementById('infoButton').style.color = 'white';
 
 
 
