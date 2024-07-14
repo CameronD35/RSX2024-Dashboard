@@ -19,7 +19,7 @@
     --boxColor: rgba(0, 0, 0, 0.75);
     --meterOutlineColor: rgba(255, 255, 255, 0.25);
 
-    --pngFilters: brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%);
+    --pngFilters: none;
 
     --rsxGreen: rgb(0,230,0);
     --rsxRed: rgba(230,0,0,1);
@@ -40,7 +40,7 @@
 
 body{
     background-color: var(--tertiaryColor);
-    overflow:hidden;
+    overflow: hidden;
 }
 
 #backgroundElem1{
@@ -647,6 +647,7 @@ body{
 .pressureMeterCapsuleLogo{
     width: 30px;
     height: 30px;
+    filter: var(--pngFilters);
 }
 
 .pressureTextBox{
@@ -915,6 +916,7 @@ body{
 .temperatureMeterCapsuleLogo{
     width: 30px;
     height: 30px;
+    filter: var(--pngFilters);
 }
 
 .temperatureText{

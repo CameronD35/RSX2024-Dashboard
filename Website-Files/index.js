@@ -963,13 +963,7 @@ function createSettingsMenu(){
 
     let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
 
-    document.documentElement.style.setProperty('--mainColor', '#041537');
-    document.documentElement.style.setProperty('--secondaryColor', 'black')
-    document.documentElement.style.setProperty('--tertiaryColor', 'rgb(230, 230, 230)');
-    document.documentElement.style.setProperty('--quaternaryColor', 'white');
-    document.documentElement.style.setProperty('--boxColor', 'rgba(4, 21, 55, 0.25)');
-    document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
-    document.getElementById('infoButton').style.color = 'white';
+    turnToLightMode();
 
 
 
@@ -982,6 +976,26 @@ function createInfoMenu(){
 
 
     let infoText = createHTMLChildElement(contentCont, 'div', 'popUpInfoText', 'This is a test to see if this works.', 'popUpInfoText');
+}
+
+function turnToLightMode() {
+    document.documentElement.style.setProperty('--mainColor', '#041537');
+    document.documentElement.style.setProperty('--secondaryColor', 'black')
+    document.documentElement.style.setProperty('--tertiaryColor', 'rgb(230, 230, 230)');
+    document.documentElement.style.setProperty('--boxColor', 'rgba(4, 21, 55, 0.25)');
+    document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
+    document.documentElement.style.setProperty('--pngFilters', 'brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%)')
+    document.getElementById('infoButton').style.color = 'white';
+}
+
+function turnToDarkMode(){
+    document.documentElement.style.setProperty('--mainColor', 'white');
+    document.documentElement.style.setProperty('--secondaryColor', 'rgb(255,234, 0)')
+    document.documentElement.style.setProperty('--tertiaryColor', '#041537');
+    document.documentElement.style.setProperty('--boxColor', 'rgba(0, 0, 0, 0.75)');
+    document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(255, 255, 255, 0.25)');
+    document.documentElement.style.setProperty('--pngFilters', 'none')
+    document.getElementById('infoButton').style.color = 'black';
 }
 
 function showPopUpScreen(openSettings, openInfo){
@@ -1068,6 +1082,8 @@ function checkIfPopUpScreenClicked() {
 
             document.querySelector('.mainContent').style.filter = '';
             popUpScreenOpen = false;
+
+            turnToDarkMode();
 
         } else {
             //console.log('clicked inside box.');
