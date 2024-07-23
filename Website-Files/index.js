@@ -6,6 +6,7 @@ import createHTMLChildElement from './modules/createElement.js';
 import logoAnimationSetup from './modules/logoAnimation.js';
 
 //import setupSlider from './modules/slider.js';
+
 // BEGIN SETUP CODE
 
 let currentTab = 'MainButton';
@@ -29,6 +30,15 @@ let popUpScreenOpen = false;
 let onSettings;
 
 let num = 0;
+
+// SETTINGS
+
+let lightMode = false;
+let graphRange;
+let timerInterval;
+let ruduceMotion = false;
+
+
 // Object of page properties; names of box classes and box titles
 const pageProperties = {
     0: {
@@ -961,7 +971,7 @@ function createSettingsMenu(){
     
     let reducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
 
-    let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
+    //let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
 
     turnToLightMode();
 
@@ -986,6 +996,8 @@ function turnToLightMode() {
     document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
     document.documentElement.style.setProperty('--pngFilters', 'brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%)')
     document.getElementById('infoButton').style.color = 'white';
+    document.querySelector('.colorModeToggle').style.transform = 'translateX(calc(5vw - 25px))';
+    document.querySelector('.colorModeIcon').style.transform = 'translateX(calc(-5vw + 25px))';
 }
 
 function turnToDarkMode(){
