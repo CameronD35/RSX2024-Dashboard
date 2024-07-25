@@ -973,7 +973,6 @@ function createSettingsMenu(){
 
     //let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
 
-    turnToLightMode();
 
 
 
@@ -1104,8 +1103,6 @@ function checkIfPopUpScreenClicked() {
 
             document.querySelector('.mainContent').style.filter = '';
             popUpScreenOpen = false;
-
-            turnToDarkMode();
 
         } else {
             //console.log('clicked inside box.');
