@@ -994,20 +994,30 @@ function turnToLightMode() {
     document.documentElement.style.setProperty('--tertiaryColor', 'rgb(230, 230, 230)');
     document.documentElement.style.setProperty('--boxColor', 'rgba(4, 21, 55, 0.25)');
     document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(0, 0, 0, 0.25)');
-    document.documentElement.style.setProperty('--pngFilters', 'brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%)')
+    document.documentElement.style.setProperty('--pngFilters', 'brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%)');
+
     document.getElementById('infoButton').style.color = 'white';
     document.querySelector('.colorModeToggle').style.transform = 'translateX(calc(5vw - 25px))';
     document.querySelector('.colorModeIcon').style.transform = 'translateX(calc(-5vw + 25px))';
+    document.querySelector('.colorModeIcon').src = "../Image-Assets/DarkModeIcon.webp";
+    document.querySelector('.colorModeSwitch').style.backgroundPositionX = '0%';
+    document.querySelector('.colorModeSwitch').style.boxShadow = '0px 0px 15px rgba(255,234, 0, 0.5)';
 }
 
 function turnToDarkMode(){
     document.documentElement.style.setProperty('--mainColor', 'white');
-    document.documentElement.style.setProperty('--secondaryColor', 'rgb(255,234, 0)')
+    document.documentElement.style.setProperty('--secondaryColor', 'rgb(255,234, 0)');
     document.documentElement.style.setProperty('--tertiaryColor', '#041537');
     document.documentElement.style.setProperty('--boxColor', 'rgba(0, 0, 0, 0.75)');
     document.documentElement.style.setProperty('--meterOutlineColor', 'rgba(255, 255, 255, 0.25)');
-    document.documentElement.style.setProperty('--pngFilters', 'none')
+    document.documentElement.style.setProperty('--pngFilters', 'none');
+
     document.getElementById('infoButton').style.color = 'black';
+    document.querySelector('.colorModeToggle').style.transform = 'translateX(0px)';
+    document.querySelector('.colorModeIcon').style.transform = 'translateX(0px)';
+    document.querySelector('.colorModeIcon').src = "../Image-Assets/LightModeIcon.webp";
+    document.querySelector('.colorModeSwitch').style.backgroundPositionX = '100%';
+    document.querySelector('.colorModeSwitch').style.boxShadow = '0px 0px 15px rgba(4, 21, 55, 0.5)';
 }
 
 function showPopUpScreen(openSettings, openInfo){
@@ -1322,3 +1332,13 @@ function resizeToggleSwitch() {
         })
     });
 }
+
+document.querySelector('.colorModeToggle').addEventListener('click', () => {
+    if (!lightMode){
+        turnToLightMode();
+    } else {
+        turnToDarkMode();
+    }
+
+    lightMode = !lightMode;
+})
