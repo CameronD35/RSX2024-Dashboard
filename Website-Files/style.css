@@ -814,7 +814,7 @@ body{
 }
 
 .atmosphericLayerRow{
-    border-bottom: 2px solid var(--mainColor);
+    border-bottom: 2px dashed var(--meterOutlineColor);
 }
 
 .atmosphericLayerRow:last-of-type{
@@ -834,6 +834,7 @@ body{
     width: 20%;
     height: 20%;
     text-align: center;
+    border-left: 2px dashed var(--meterOutlineColor);
 }
 
 .atmosphericLayerCellImage{
