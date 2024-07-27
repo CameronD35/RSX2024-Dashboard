@@ -118,6 +118,8 @@ let pageManage = {
             capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
             capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
             capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
+
+            updateAltitudeTable(3, [capsule1.atmospherpicLayer, capsule2.atmospherpicLayer, capsule3.atmospherpicLayer]);
         }
 
         document.documentElement.style.setProperty('--numOfCapsules', 3);
@@ -152,6 +154,7 @@ let pageManage = {
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
+        updateAltitudeTable(1, [capsule1.atmospherpicLayer]);
     },
 
     2: function(CSSClasses, boxTitles){
@@ -181,6 +184,7 @@ let pageManage = {
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
+        updateAltitudeTable(1, [capsule2.atmospherpicLayer]);
     },
 
     3: function(CSSClasses, boxTitles){
@@ -207,6 +211,7 @@ let pageManage = {
         capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
 
         document.documentElement.style.setProperty('--numOfCapsules', 1);
+        updateAltitudeTable(1, [capsule3.atmospherpicLayer]);
     
     },
 
@@ -275,7 +280,7 @@ class CapsuleObject {
         }
 
         this.altitude = num;
-        this.atmospherpicLayer = 2;
+        this.atmospherpicLayer = 1;
         console.log(document.querySelector('.capStatAltContainer'))
         this.altitudeOutput = createAltitudeDataDisplay(capsuleNumber, document.querySelector('.capStatAltContainer'), testNum);
         // 10km, 50km, 85km, 500km
@@ -1412,5 +1417,3 @@ document.querySelector('.colorModeToggle').addEventListener('click', () => {
 
     lightMode = !lightMode;
 })
-
-updateAltitudeTable(3, [2, 3, 4])
