@@ -92,6 +92,7 @@ let pageManage = {
         //createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
 
         createAltitudeBox(document.querySelector('.AltBoxContent'), 3, 1);
+        createAltitudeTable(document.querySelector('.atmosphericLayerTable'), 3, 1);
 
         createTemperatureBox(document.querySelector('.TempBoxContent'), 3);
     
@@ -104,16 +105,19 @@ let pageManage = {
             capsule1.sulfurDioxideChartSVG.resize(250, 300);
             capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
             capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
+            capsule1.changeParent(document.querySelector('.capStatAltContainer'), capsule1.altitudeOutput);
 
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
             capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
             capsule2.sulfurDioxideChartSVG.resize(250, 300);
             capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
             capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
+            capsule2.changeParent(document.querySelector('.capStatAltContainer'), capsule2.altitudeOutput);
 
             capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
             capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
             capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
+            capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
         }
 
         document.documentElement.style.setProperty('--numOfCapsules', 3);
@@ -133,6 +137,7 @@ let pageManage = {
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
 
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 1);
+        createAltitudeTable(document.querySelector('.atmosphericLayerTable'), 1, 1);
 
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         setCurrentBoxes(CSSClasses);
@@ -143,6 +148,7 @@ let pageManage = {
         capsule1.changeParent(document.querySelector('.MisStatBoxContent'), capsule1.missionStatusPoints);
         capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
         capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
+        capsule1.changeParent(document.querySelector('.capStatAltContainer'), capsule1.altitudeOutput);
 
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -157,7 +163,10 @@ let pageManage = {
         updateTimerEvents();
         // createMissionStatusBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2', '???'], timerState);
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 1);
+
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 2);
+        createAltitudeTable(document.querySelector('.atmosphericLayerTable'), 1, 2);
+
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
@@ -168,6 +177,7 @@ let pageManage = {
         capsule2.changeParent(document.querySelector('.MisStatBoxContent'), capsule2.missionStatusPoints);
         capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
         capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
+        capsule2.changeParent(document.querySelector('.capStatAltContainer'), capsule2.altitudeOutput);
 
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
@@ -181,7 +191,10 @@ let pageManage = {
         createMissionStagesBox(document.querySelector('.MisStatBoxContent'), 3, ['GSE', 'TE-1', 'TE-2'], timerState, null, timerEvents_inT);
         updateTimerEvents();
         createPressureBox(document.querySelector('.PresBoxContent'), 1, 3);
+
         createAltitudeBox(document.querySelector('.AltBoxContent'), 1, 3);
+        createAltitudeTable(document.querySelector('.atmosphericLayerTable'), 1, 3);
+
         createTemperatureBox(document.querySelector('.TempBoxContent'), 1);
         //capsule1.changeParent(document.getElementById('box3'), capsule1.sulfurDioxideBar);
         setCurrentBoxes(CSSClasses);
@@ -191,6 +204,7 @@ let pageManage = {
         capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
         capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
         capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
+        capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
 
         document.documentElement.style.setProperty('--numOfCapsules', 1);
     
@@ -235,6 +249,7 @@ class CapsuleObject {
 
     constructor(capsuleNumber, testNum, hasSO2Sensor, hasMagnetometer){
         this.parent = false;
+        this.capusuleNumber = capsuleNumber;
 
         if(hasSO2Sensor){
             this.sulfurDioxideBar = createSO2Bar(capsuleNumber, document.querySelector('.SO2BoxContent'), testNum);
@@ -258,7 +273,12 @@ class CapsuleObject {
             this.magnetosphereCircle = createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Magnetosphere Sensor', 'Temperature Sensor'], true, capsuleNumber);
         }
-        this.altitude = 0;
+
+        this.altitude = num;
+        this.atmospherpicLayer = 2;
+        console.log(document.querySelector('.capStatAltContainer'))
+        this.altitudeOutput = createAltitudeDataDisplay(capsuleNumber, document.querySelector('.capStatAltContainer'), testNum);
+        // 10km, 50km, 85km, 500km
         this.temperatureMeter = createTemperatureMeter(document.querySelector('.temperatureMeterContainer'), capsuleNumber, true, testNum);
 
         this.data = {
@@ -286,7 +306,7 @@ class CapsuleObject {
 
 
 // This sets up the different tabs accessible in the top right navigation
-// It give sthe tabs there animations and functions to be used upon hover and click respectively
+// It gives the tabs their animations and functions to be used upon hover and click respectively
 
 function setupTabs(tabs){
     for(let i = 0; i < tabs.length; i++){
@@ -756,23 +776,57 @@ function createMagnetosphereCircle(container){
 function createAltitudeBox(container, numOfCapsules, startCapsule){
 
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
-
-    for(let i = startCapsule; i <= (startCapsule + numOfCapsules - 1); i++){
-
-        let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
-
-        let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${i}`, `capAltStatText${i}`);
-
-        let currentData = createHTMLChildElement(currentStatBox, 'div', 'capAltStatData', `9999 ft.`, `capAltStatData${i}`);
-    }
-
     let tableElement = createHTMLChildElement(container, 'table', 'atmosphericLayerTable');
+
+    // for(let i = startCapsule; i <= (startCapsule + numOfCapsules - 1); i++){
+
+    //     let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
+
+    //     let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${i}`, `capAltStatText${i}`);
+
+    //     let currentData = createHTMLChildElement(currentStatBox, 'div', 'capAltStatData', `9999 km.`, `capAltStatData${i}`);
+    // }
+
+    // let tableElement = createHTMLChildElement(container, 'table', 'atmosphericLayerTable');
+
+    // let layerArray = ['Exosphere', 'Thermosphere', 'Mesosphere', 'Stratosphere', 'Troposphere'];
+
+    // for (let i = 1; i <= layerArray.length; i++){
+
+    //     let currentTableRow = createHTMLChildElement(tableElement, 'tr', 'atmosphericLayerRow', null, `atmosphericLayerRow${i}`)
+
+    //     let currentTableHeader = createHTMLChildElement(currentTableRow, 'th', 'atmosphericLayerHeader', layerArray[i-1], `atmosphericLayerHeader${i}`)
+
+    //     for (let j = 1; j <= numOfCapsules; j++) {
+
+    //         let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j}`);
+
+    //         let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j}`);
+
+    //         currentTableCellImage.src = `../Image-Assets/C${j + startCapsule - 1}.webp`;
+
+    //     }
+    // }
+}
+
+function createAltitudeDataDisplay(capsuleNumber, container, testNum){
+
+    let currentStatBox = createHTMLChildElement(container, 'div', 'capAltStatBox', null, `capAltStatBox${capsuleNumber}`);
+
+    let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${capsuleNumber}`, `capAltStatText${capsuleNumber}`);
+
+    let currentData = createHTMLChildElement(currentStatBox, 'div', 'capAltStatData', `${testNum} km.`, `capAltStatData${capsuleNumber}`);
+
+    return currentStatBox;
+}
+
+function createAltitudeTable(container, numOfCapsules, startCapsule){
 
     let layerArray = ['Exosphere', 'Thermosphere', 'Mesosphere', 'Stratosphere', 'Troposphere'];
 
     for (let i = 1; i <= layerArray.length; i++){
 
-        let currentTableRow = createHTMLChildElement(tableElement, 'tr', 'atmosphericLayerRow', null, `atmosphericLayerRow${i}`)
+        let currentTableRow = createHTMLChildElement(container, 'tr', 'atmosphericLayerRow', null, `atmosphericLayerRow${i}`)
 
         let currentTableHeader = createHTMLChildElement(currentTableRow, 'th', 'atmosphericLayerHeader', layerArray[i-1], `atmosphericLayerHeader${i}`)
 
@@ -785,6 +839,22 @@ function createAltitudeBox(container, numOfCapsules, startCapsule){
             currentTableCellImage.src = `../Image-Assets/C${j + startCapsule - 1}.webp`;
 
         }
+    }
+}
+
+function updateAltitudeTable(numOfCapsules, atmosphericLayerNumbers){
+    document.querySelectorAll('.atmosphericLayerCell').forEach((elem) => {
+        cleanElement(elem);
+    });
+
+    for (let i = 1; i <= numOfCapsules; i++) {
+        let intendedCell = //ifElementExists(document.getElementById(`atmosphericLayerCell${atmosphericLayerNumbers[i]}-${i}`), () => {
+             document.getElementById(`atmosphericLayerCell${6-atmosphericLayerNumbers[i-1]}-${i}`);
+        // })
+
+        let currentImageBox =createHTMLChildElement(intendedCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${atmosphericLayerNumbers[i-1]}-${5-atmosphericLayerNumbers[i-1]}`)
+        currentImageBox.src = `../Image-Assets/C${i}.webp`;
+        console.log(intendedCell);
     }
 }
 
@@ -935,16 +1005,19 @@ capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurD
 capsule1.changeParent(document.querySelector('.SO2BoxContent'), capsule1.sulfurDioxideChart);
 capsule1.changeParent(document.querySelector('.pressureMeterContainer'), capsule1.pressureMeter);
 capsule1.changeParent(document.querySelector('.temperatureMeterContainer'), capsule1.temperatureMeter);
+capsule1.changeParent(document.querySelector('.capStatAltContainer'), capsule1.altitudeOutput);
 
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideBar);
 capsule2.changeParent(document.querySelector('.SO2BoxContent'), capsule2.sulfurDioxideChart);
 capsule2.changeParent(document.querySelector('.pressureMeterContainer'), capsule2.pressureMeter);
 capsule2.changeParent(document.querySelector('.temperatureMeterContainer'), capsule2.temperatureMeter);
+capsule2.changeParent(document.querySelector('.capStatAltContainer'), capsule2.altitudeOutput);
 
 
 capsule3.changeParent(document.querySelector('.pressureMeterContainer'), capsule3.pressureMeter);
 capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), capsule3.temperatureMeter);
 capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
+capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
 
 console.log(capsule1);
 
@@ -1339,3 +1412,5 @@ document.querySelector('.colorModeToggle').addEventListener('click', () => {
 
     lightMode = !lightMode;
 })
+
+updateAltitudeTable(3, [2, 3, 4])

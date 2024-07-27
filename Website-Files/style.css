@@ -1060,7 +1060,7 @@ body{
     height: 5%;
     padding: 1% 5%;
     display: flex;
-    background-image: linear-gradient(to top, var(--tertiaryColor), rgba(4, 21, 55, 0) 70%);
+    background-image: linear-gradient(to top, var(--tertiaryColor), rgba(255, 255, 255, 0) 70%);
 }
 
 .popUpNavSection{
