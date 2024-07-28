@@ -837,9 +837,9 @@ function createAltitudeTable(container, numOfCapsules, startCapsule){
 
         for (let j = 1; j <= numOfCapsules; j++) {
 
-            let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j}`);
+            let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j + startCapsule - 1}`);
 
-            let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j}`);
+            let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j + startCapsule - 1}`);
 
             currentTableCellImage.src = `../Image-Assets/C${j + startCapsule - 1}.webp`;
 
@@ -847,20 +847,20 @@ function createAltitudeTable(container, numOfCapsules, startCapsule){
     }
 }
 
-function updateAltitudeTable(numOfCapsules, atmosphericLayerNumbers){
-    document.querySelectorAll('.atmosphericLayerCell').forEach((elem) => {
-        cleanElement(elem);
-    });
+function updateAltitudeTable(capsuleNum, toPosition, fromPosition){
 
-    for (let i = 1; i <= numOfCapsules; i++) {
-        let intendedCell = //ifElementExists(document.getElementById(`atmosphericLayerCell${atmosphericLayerNumbers[i]}-${i}`), () => {
-             document.getElementById(`atmosphericLayerCell${6-atmosphericLayerNumbers[i-1]}-${i}`);
-        // })
-
-        let currentImageBox =createHTMLChildElement(intendedCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${atmosphericLayerNumbers[i-1]}-${5-atmosphericLayerNumbers[i-1]}`)
-        currentImageBox.src = `../Image-Assets/C${i}.webp`;
-        console.log(intendedCell);
+    for(let i = 1; i <= 5; i++){
+        let currentCell = document.getElementById(`atmosphericLayerCell${i}-${capsuleNum}`);
+        cleanElement(currentCell);
     }
+
+        let intendedCell = document.getElementById(`atmosphericLayerCell${6-toPosition}-${capsuleNum}`);
+
+        let currentImageBox = createHTMLChildElement(intendedCell, 'img', 
+            'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${6-toPosition}-${capsuleNum}`);
+
+        ifElementExists(currentImageBox, () => {currentImageBox.src = `../Image-Assets/C${capsuleNum}.webp`;});
+
 }
 
 function createTemperatureBox(container, numOfCapsules, capsuleNumber){
@@ -1416,4 +1416,17 @@ document.querySelector('.colorModeToggle').addEventListener('click', () => {
     }
 
     lightMode = !lightMode;
-})
+});
+
+setInterval(() => {
+    
+    capsule1.atmospherpicLayer = Math.ceil(Math.random()*5);
+    capsule2.atmospherpicLayer = Math.ceil(Math.random()*5);
+    capsule3.atmospherpicLayer = Math.ceil(Math.random()*5);
+    console.log(capsule1.atmospherpicLayer, capsule2.atmospherpicLayer, capsule3.atmospherpicLayer);
+    updateAltitudeTable(1, capsule1.atmospherpicLayer);
+    updateAltitudeTable(2, capsule2.atmospherpicLayer);
+    updateAltitudeTable(3, capsule3.atmospherpicLayer);
+
+    console.log('yuh');
+}, 500)
