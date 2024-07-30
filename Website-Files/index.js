@@ -255,6 +255,8 @@ class CapsuleObject {
     constructor(capsuleNumber, testNum, hasSO2Sensor, hasMagnetometer){
         this.parent = false;
         this.capusuleNumber = capsuleNumber;
+        this.generalStatus = 1;
+        
 
         if(hasSO2Sensor){
             this.sulfurDioxideBar = createSO2Bar(capsuleNumber, document.querySelector('.SO2BoxContent'), testNum);
@@ -267,6 +269,14 @@ class CapsuleObject {
             console.log(this.sulfurDioxideChart);
 
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Sulfur Dioxide Sensor', 'Temperature Sensor'], true, capsuleNumber);
+
+            this.specifiedStatus = {
+                Altiude: 1,
+                Communications: 1,
+                Pressure: 1,
+                SO2: 1,
+                Temperature: 1
+            }
         }
 
 
@@ -277,6 +287,14 @@ class CapsuleObject {
         if (hasMagnetometer){
             this.magnetosphereCircle = createMagnetosphereCircle(document.querySelector('.MagBoxContent'));
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Magnetosphere Sensor', 'Temperature Sensor'], true, capsuleNumber);
+
+            this.specifiedStatus = {
+                Altiude: 1,
+                Communications: 1,
+                Pressure: 1,
+                Magnetometer: 1,
+                Temperature: 1
+            }
         }
 
         this.altitude = num;
