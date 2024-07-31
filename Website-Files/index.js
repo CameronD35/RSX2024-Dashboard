@@ -272,11 +272,11 @@ class CapsuleObject {
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Sulfur Dioxide Sensor', 'Temperature Sensor'], true, capsuleNumber);
 
             this.specifiedStatus = {
-                Altiude: 1,
-                Communications: 1,
-                Pressure: 1,
-                SO2: 1,
-                Temperature: 1
+                "Altiude": 1,
+                "Communications": 1,
+                "Pressure": 1,
+                "SO2": 1,
+                "Temperature": 1
             }
         }
 
@@ -290,11 +290,11 @@ class CapsuleObject {
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Magnetosphere Sensor', 'Temperature Sensor'], true, capsuleNumber);
 
             this.specifiedStatus = {
-                Altiude: 1,
-                Communications: 1,
-                Pressure: 1,
-                Magnetometer: 1,
-                Temperature: 1
+                "Altiude": 1,
+                "Communications": 1,
+                "Pressure": 1,
+                "Magnetometer": 1,
+                "Temperature": 1
             }
         }
 
@@ -740,8 +740,12 @@ function updateCapsuleGeneralStatus(newStatus, capsuleObj){
 }
 
 function updateCapsuleSpecifiedStatus(statusTitle, newStatus, capsuleObj){
-    
+    //let currentSpecificStatus = capsuleObj[statusTitle];
+
+    console.log("yooo", capsule1.specifiedStatus["Altitude"]);
+
 }
+
 
 function updateStatusPointColor(capsuleObj) {
     if (currentPage == 0){
@@ -1477,3 +1481,5 @@ setInterval(() => {
     //console.log('yuh');
     updateCapsuleGeneralStatus(Math.floor(Math.random()*3), capsule1);
 }, 500);
+
+updateCapsuleSpecifiedStatus();
