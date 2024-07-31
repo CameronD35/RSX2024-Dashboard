@@ -1,7 +1,7 @@
 // Function that simplifies the process of adding an id, class, and text to an HTML Element
 // The first three parameters ARE required
 
-export default function createHTMLChildElement(parent, tag, classes, text, id) {
+export default function createHTMLChildElement(parent, tag, classes, text, id, title) {
 
     let elem = document.createElement(tag);
 
@@ -30,6 +30,10 @@ export default function createHTMLChildElement(parent, tag, classes, text, id) {
 
         elem.textContent = text;
 
+    }
+
+    if (title) {
+        elem.title = title;
     }
 
     // Give the element an id if a class or id argument is passed, otherwise don't create element

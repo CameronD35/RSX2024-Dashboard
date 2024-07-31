@@ -78,7 +78,7 @@ let pageManage = {
     // '0' is the main page, the rest correspond to capsule #s
     0: function(CSSClasses, boxTitles){
 
-        console.log('Creating MAIN page.')
+        //console.log('Creating MAIN page.')
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 4]], CSSClasses, boxTitles);
         //createSO2Box(document.querySelector(".SO2BoxContent"), 2);
@@ -128,7 +128,7 @@ let pageManage = {
     },
 
     1: function(CSSClasses, boxTitles){
-        console.log('Creating first page.');
+        //console.log('Creating first page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
@@ -158,7 +158,7 @@ let pageManage = {
     },
 
     2: function(CSSClasses, boxTitles){
-        console.log('Creating second page.');
+        //console.log('Creating second page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
@@ -188,7 +188,7 @@ let pageManage = {
     },
 
     3: function(CSSClasses, boxTitles){
-        console.log('Creating third page.');
+        //console.log('Creating third page.');
 
         createBoxStructure(document.querySelector('.boxContainer'), 2, [[false, 2], [true, 3]], CSSClasses, boxTitles, [60, 40]);
         //createSO2Box();
@@ -231,7 +231,7 @@ let pageManage = {
             boxElements = [];
             pageStart = false;
 
-            console.log(`elements : ${boxArray}`)
+            //console.log(`elements : ${boxArray}`)
             for(let i = 0; i < boxArray.length; i++){
                 let currentElement = document.querySelector(`.${boxArray[i]}`);
 
@@ -244,7 +244,7 @@ let pageManage = {
             }
             setTimeout(() => {
                 document.querySelector('.boxContainer').replaceChildren();
-                console.log('deleting stuff');
+                //console.log('deleting stuff');
             }, 400);
         }
     }
@@ -254,8 +254,9 @@ class CapsuleObject {
 
     constructor(capsuleNumber, testNum, hasSO2Sensor, hasMagnetometer){
         this.parent = false;
-        this.capusuleNumber = capsuleNumber;
+        this.capsuleNumber = capsuleNumber;
         this.generalStatus = 1;
+        this.generalStatusDot;
         
 
         if(hasSO2Sensor){
@@ -266,7 +267,7 @@ class CapsuleObject {
 
             this.sulfurDioxideChartSVG = this.sulfurDioxideChartArray[1];
 
-            console.log(this.sulfurDioxideChart);
+            //console.log(this.sulfurDioxideChart);
 
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Sulfur Dioxide Sensor', 'Temperature Sensor'], true, capsuleNumber);
 
@@ -353,7 +354,7 @@ function setupTabs(tabs){
                     }
 
                 }, 500)
-                console.log(currentPage);
+                //console.log(currentPage);
 
             }
 
@@ -404,7 +405,7 @@ function setupSlider(slider, valueDisplay, maxVal){
         if(key.keyCode == 13){
             turnWhite();
             if(slider.value > maxVal){
-                console.log(valueDisplay);
+                //console.log(valueDisplay);
                 slider.value = maxVal;
                 valueDisplay.value = maxVal;
             } else {
@@ -530,7 +531,7 @@ function createSO2Bar(capsuleNumber, container, testNum) {
 
     let currentSO2Unit = createHTMLChildElement(currentSO2Num, 'div', 'SO2Unit', 'ppm', `SO2Unit${capsuleNumber}-P${currentPage}`);
     
-    console.log(currentSO2Container);
+    //console.log(currentSO2Container);
 
     return currentSO2Container;
 }
@@ -555,7 +556,7 @@ function createSO2Graph(capsuleNumber, container){
 // Creates the stages and timer buttons in the 'mission status' box. Intended to be global
 function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, capsuleNumber, timeInTArray){
 
-    console.log(`timer state: ${timerState}`);
+    //console.log(`timer state: ${timerState}`);
 
     let stageCont = createHTMLChildElement(container, 'div', 'stageContainer');
 
@@ -669,7 +670,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
         //console.log(timerRunning)
     
             if (timerRunning) {
-                console.log('hi');
+                //console.log('hi');
                 document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
                 document.documentElement.style.setProperty('--timerHoverColor', 'white');
                 startText.textContent = 'STOP MISSION';
@@ -681,7 +682,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
     
                 
             } else {
-                console.log('bye');
+                //console.log('bye');
                 document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
                 document.documentElement.style.setProperty('--timerHoverColor', 'black');
     
@@ -695,7 +696,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
         }
     
     
-        console.log(`timer check 2: ${timerState}`);
+        //console.log(`timer check 2: ${timerState}`);
 }
 
 // Creates the status of the capsules. If singleCapsule is true, i9t lists the components of that capsule, otheriwse a general status for all capsules is provided
@@ -714,14 +715,14 @@ function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, sin
             let currentDot = createHTMLChildElement(currentStatBox, 'div', 'capStatDot', null, `capStatDot${i}`);
         }
 
-        console.log('yreyuwgfsf')
+        //console.log('yreyuwgfsf')
 
         return;
 
     } else {
         for(let j = 1; j <= statusPointsArray.length; j++){
-            console.log('test');
-            let currentStatusPointText = createHTMLChildElement(capStatCont, 'div', 'capStatPoint', statusPointsArray[j-1], `capStatPoint${statusPointsArray[j-1].substring(0, 4)}-${capsuleNumber}`);
+            //console.log('test');
+            let currentStatusPointText = createHTMLChildElement(capStatCont, 'div', 'capStatPoint', statusPointsArray[j-1], `capStatPoint${statusPointsArray[j-1].substring(0, 4)}-${capsuleNumber}`, statusPointsArray[j-1]);
 
         }
 
@@ -729,6 +730,45 @@ function createCapsuleStatusBox(container, numOfCapsules, statusPointsArray, sin
     }
 
 }
+
+function updateCapsuleGeneralStatus(newStatus, capsuleObj){
+    let currentStatus = capsuleObj.generalStatus;
+
+    capsuleObj.generalStatus = newStatus
+
+    updateStatusPointColor(capsuleObj);
+}
+
+function updateCapsuleSpecifiedStatus(statusTitle, newStatus, capsuleObj){
+    
+}
+
+function updateStatusPointColor(capsuleObj) {
+    if (currentPage == 0){
+        document.getElementById(`capStatDot${capsuleObj.capsuleNumber}`).style.backgroundColor = getStatusColor(capsuleObj.generalStatus);
+
+    } else {
+        console.log(`You are on capsule ${currentPage}`);
+        
+    }
+
+    function getStatusColor(status){
+        if (status == 2){ 
+
+            return 'var(--rsxGreen)';
+
+        } else if (status == 1) {
+
+            return 'var(--rsxOrange)';
+
+        } else {
+
+            return 'var(--rsxRed)';
+
+        }
+    }
+}
+
 
 
 function createPressureBox(container, numOfCapsules, capsuleNumber){
@@ -1045,13 +1085,6 @@ capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.a
 console.log(capsule1);
 
 
-// Script for removing all elements from atmospheric table
-
-// document.querySelectorAll('.atmosphericLayerCell').forEach((elem) => {
-//     elem.replaceChildren();
-// });
-
-
 
 
 function createSettingsMenu(){
@@ -1066,11 +1099,6 @@ function createSettingsMenu(){
     let timeChangeLengthSetting = createSetting(contentCont, 'Timer Interval', 'Set the time between timer seconds.', [0, 100], false, false);
     
     let reducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
-
-    //let lightModeSetting = createSetting(contentCont, 'Light Mode', 'Lose your eyes.', [0, 100], true, false);
-
-
-
 
 }
 
@@ -1441,10 +1469,11 @@ setInterval(() => {
     capsule1.atmospherpicLayer = Math.ceil(Math.random()*5);
     capsule2.atmospherpicLayer = Math.ceil(Math.random()*5);
     capsule3.atmospherpicLayer = Math.ceil(Math.random()*5);
-    console.log(capsule1.atmospherpicLayer, capsule2.atmospherpicLayer, capsule3.atmospherpicLayer);
+    //console.log(capsule1.atmospherpicLayer, capsule2.atmospherpicLayer, capsule3.atmospherpicLayer);
     updateAltitudeTable(1, capsule1.atmospherpicLayer);
     updateAltitudeTable(2, capsule2.atmospherpicLayer);
     updateAltitudeTable(3, capsule3.atmospherpicLayer);
 
-    console.log('yuh');
-}, 500)
+    //console.log('yuh');
+    updateCapsuleGeneralStatus(Math.floor(Math.random()*3), capsule1);
+}, 500);
