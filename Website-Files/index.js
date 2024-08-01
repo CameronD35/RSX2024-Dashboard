@@ -155,6 +155,12 @@ let pageManage = {
         capsule1.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
         updateAltitudeTable(1, [capsule1.atmospherpicLayer]);
+        updateCapsuleSpecifiedStatus("Altitude Sensor", Math.floor(Math.random()*3), capsule1);
+        updateCapsuleSpecifiedStatus("Communications", Math.floor(Math.random()*3), capsule1);
+        updateCapsuleSpecifiedStatus("Pressure Sensor", Math.floor(Math.random()*3), capsule1);
+        updateCapsuleSpecifiedStatus("Sulfur Dioxide Sensor", Math.floor(Math.random()*3), capsule1);
+        updateCapsuleSpecifiedStatus("Temperature Sensor", Math.floor(Math.random()*3), capsule1);
+
     },
 
     2: function(CSSClasses, boxTitles){
@@ -185,6 +191,11 @@ let pageManage = {
         capsule2.sulfurDioxideChartSVG.resize(300, 400);
         document.documentElement.style.setProperty('--numOfCapsules', 1);
         updateAltitudeTable(1, [capsule2.atmospherpicLayer]);
+        updateCapsuleSpecifiedStatus("Altitude Sensor", Math.floor(Math.random()*3), capsule2);
+        updateCapsuleSpecifiedStatus("Communications", Math.floor(Math.random()*3), capsule2);
+        updateCapsuleSpecifiedStatus("Pressure Sensor", Math.floor(Math.random()*3), capsule2);
+        updateCapsuleSpecifiedStatus("Sulfur Dioxide Sensor", Math.floor(Math.random()*3), capsule2);
+        updateCapsuleSpecifiedStatus("Temperature Sensor", Math.floor(Math.random()*3), capsule2);
     },
 
     3: function(CSSClasses, boxTitles){
@@ -212,7 +223,11 @@ let pageManage = {
 
         document.documentElement.style.setProperty('--numOfCapsules', 1);
         updateAltitudeTable(1, [capsule3.atmospherpicLayer]);
-    
+        updateCapsuleSpecifiedStatus("Altitude Sensor", Math.floor(Math.random()*3), capsule3);
+        updateCapsuleSpecifiedStatus("Communications", Math.floor(Math.random()*3), capsule3);
+        updateCapsuleSpecifiedStatus("Pressure Sensor", Math.floor(Math.random()*3), capsule3);
+        updateCapsuleSpecifiedStatus("Magnetometer Sensor", Math.floor(Math.random()*3), capsule3);
+        updateCapsuleSpecifiedStatus("Temperature Sensor", Math.floor(Math.random()*3), capsule3);
     },
 
     open: function(boxContainer){
@@ -272,11 +287,11 @@ class CapsuleObject {
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Sulfur Dioxide Sensor', 'Temperature Sensor'], true, capsuleNumber);
 
             this.specifiedStatus = {
-                "Altiude": 1,
+                "Altitude Sensor": 1,
                 "Communications": 1,
-                "Pressure": 1,
-                "SO2": 1,
-                "Temperature": 1
+                "Pressure Sensor": 1,
+                "Sulfur Dioxide Sensor": 1,
+                "Temperature Sensor": 1
             }
         }
 
@@ -290,11 +305,11 @@ class CapsuleObject {
             this.missionStatusPoints = createCapsuleStatusBox(cleanElement(document.querySelector('.MisStatBoxContent')), 1, ['Altitude Sensor', 'Communications', 'Pressure Sensor', 'Magnetosphere Sensor', 'Temperature Sensor'], true, capsuleNumber);
 
             this.specifiedStatus = {
-                "Altiude": 1,
+                "Altitude Sensor": 1,
                 "Communications": 1,
-                "Pressure": 1,
-                "Magnetometer": 1,
-                "Temperature": 1
+                "Pressure Sensor": 1,
+                "Magnetometer Sensor": 1,
+                "Temperature Sensor": 1
             }
         }
 
@@ -740,36 +755,61 @@ function updateCapsuleGeneralStatus(newStatus, capsuleObj){
 }
 
 function updateCapsuleSpecifiedStatus(statusTitle, newStatus, capsuleObj){
-    //let currentSpecificStatus = capsuleObj[statusTitle];
 
-    console.log("yooo", capsule1.specifiedStatus["Altitude"]);
+
+    let oldSpecificStatus = capsuleObj.specifiedStatus[statusTitle];
+    let statusPointElement = document.getElementById(`capStatPoint${statusTitle.substring(0, 4)}-${capsuleObj.capsuleNumber}`);
+
+    if (oldSpecificStatus === newStatus){
+        
+        let statusColor = getStatusColor(newStatus);
+
+        statusPointElement.style.color = statusColor;
+
+        return;
+
+    }
+
+
+    capsuleObj.specifiedStatus[statusTitle] = newStatus;
+
+    console.log("yooo", capsuleObj.specifiedStatus[statusTitle]);
+
+    let statusColor = getStatusColor(newStatus);
+
+    statusPointElement.style.color = statusColor;
+    //statusPointElement.style.textShadow = `0px 0px 5px ${statusColor}`;
+
+
 
 }
 
 
 function updateStatusPointColor(capsuleObj) {
     if (currentPage == 0){
+
         document.getElementById(`capStatDot${capsuleObj.capsuleNumber}`).style.backgroundColor = getStatusColor(capsuleObj.generalStatus);
 
     } else {
+
         console.log(`You are on capsule ${currentPage}`);
         
     }
+}
 
-    function getStatusColor(status){
-        if (status == 2){ 
+function getStatusColor(status){
+    if (status == 2){ 
 
-            return 'var(--rsxGreen)';
+        return 'var(--rsxGreen)';
 
-        } else if (status == 1) {
+    } else if (status == 1) {
 
-            return 'var(--rsxOrange)';
+        return 'var(--rsxOrange)';
 
-        } else {
+    } else {
 
-            return 'var(--rsxRed)';
+        return 'var(--rsxRed)';
 
-        }
     }
 }
 
@@ -1481,5 +1521,3 @@ setInterval(() => {
     //console.log('yuh');
     updateCapsuleGeneralStatus(Math.floor(Math.random()*3), capsule1);
 }, 500);
-
-updateCapsuleSpecifiedStatus();
