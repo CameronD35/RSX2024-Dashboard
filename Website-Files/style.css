@@ -156,10 +156,12 @@ body{
 }
 
 .colorModeToggle{
-    background-color: white;
+    background-color: var(--mainColor);
+    box-shadow: 0px 0px 10px var(--secondaryColor);
     border-radius: 100%;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
     /* transform: translateX(calc(5vw - 25px)); */
 }
 
@@ -598,6 +600,7 @@ body{
     width: 25px;
     height: 25px;
     cursor: pointer;
+    filter: var(--pngFilters);
 }
 
 .capStatContainer{
@@ -645,6 +648,7 @@ body{
     color: var(--mainColor);
     font-weight: 700;
     font-size: 20px;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.25);
 }
 
 /* PRESSURE */
@@ -1142,15 +1146,17 @@ body{
     background-position-x: 95%;
     border-radius: 30px;
     box-shadow: 0px 0px 15px rgba(230,0,0,0.5);
+    display: flex;
+    align-items: center;
 }
 
 .settingSwitchToggle{
-    background-color: white;
+    background-color: var(--mainColor);
     border-radius: 100%;
     width: 25%;
     height: 100%;
 }
 
 .settingSwitchToggle:hover{
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.5)
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.5);
 }

@@ -1164,7 +1164,7 @@ function turnToLightMode() {
     document.documentElement.style.setProperty('--pngFilters', 'brightness(0) saturate(100%) invert(12%) sepia(47%) saturate(1029%) hue-rotate(183deg) brightness(85%) contrast(109%)');
 
     document.getElementById('infoButton').style.color = 'white';
-    document.querySelector('.colorModeToggle').style.transform = 'translateX(calc(5vw - 25px))';
+    document.querySelector('.colorModeToggle').style.transform = `translateX(calc(5vw - 30px))`;
     document.querySelector('.colorModeIcon').style.transform = 'translateX(calc(-5vw + 25px))';
     document.querySelector('.colorModeIcon').src = "../Image-Assets/DarkModeIcon.webp";
     document.querySelector('.colorModeSwitch').style.backgroundPositionX = '0%';
@@ -1470,8 +1470,15 @@ function createSetting(container, name, description, range, onOffBool, performan
     if (onOffBool){
         let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
         //let switchBackground = createHTMLChildElement(settingInputBox, div, 'settingSwitch', null, `settingSwitchToggle${name}`);
-        let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name}`);
+        let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name.substring(0, 4)}`);
         setTimeout(resizeToggleSwitch, 500);
+        switchToggle.addEventListener('click', (event) => {
+            const clickedElem = event.target;
+            const containerWidth = document.querySelector('.settingSwitch').getBoundingClientRect().width;
+            console.log(containerWidth, clickedElem.style.margin);
+            clickedElem.style.transform = `translateX(calc(${containerWidth}px - ${clickedElem.style.margin} - ${clickedElem.style.margin} - ${clickedElem.style.width}))`;
+
+        });
     } else {
         let min;
         let max;
@@ -1487,13 +1494,13 @@ window.addEventListener('resize', resizeToggleSwitch)
 
 function resizeToggleSwitch() {
     ifElementExists(document.querySelector('.settingSwitch'), () => {
-        let rectObj = document.querySelector('.settingSwitch').getBoundingClientRect();
+        const containerHeight = document.querySelector('.settingSwitch').getBoundingClientRect().height;
 
-        console.log(rectObj);
 
         document.querySelectorAll('.settingSwitchToggle').forEach((elem) => {
-            elem.style.height = `${rectObj.height}px`;
-            elem.style.width = `${rectObj.height}px`;
+            elem.style.height = `${containerHeight - containerHeight/5}px`;
+            elem.style.width = `${containerHeight - containerHeight/5}px`;
+            elem.style.margin = `${containerHeight/5}px`;
         })
     });
 }
@@ -1507,6 +1514,8 @@ document.querySelector('.colorModeToggle').addEventListener('click', () => {
 
     lightMode = !lightMode;
 });
+
+
 
 setInterval(() => {
     
