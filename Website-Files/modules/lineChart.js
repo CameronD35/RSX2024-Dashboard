@@ -48,7 +48,7 @@ export default class Graph {
         this.svg = d3.create('svg')
         .attr("width", width)
         .attr("height", height)
-        .attr("color", "white")
+        .attr("color", "var(--mainColor)")
         .attr("class", "svg");
 
         this.gradient = this.createGradient([graphColorBottom, graphColorTop]);
@@ -71,7 +71,7 @@ export default class Graph {
         this.areaPath = this.createArea();
 
         // datapoint circles
-        this.circles = this.createCircles("white");
+        this.circles = this.createCircles("var(--mainColor)");
 
     }
 
@@ -163,7 +163,7 @@ export default class Graph {
 
 
         // Adds circles to all the new data points
-        this.circles = this.createCircles("white");
+        this.circles = this.createCircles("var(--mainColor)");
         this.circles.transition().duration(250);
     }
 
