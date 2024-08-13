@@ -342,6 +342,52 @@ class CapsuleObject {
 
 }
 
+class Setting {
+    constructor(name, description, range, onOffBool, performanceBool){
+        this.name = name;
+        this.description = description;
+        this.range = range;
+        this.onOffBool = onOffBool;
+        this.performanceBool = performanceBool;
+
+        if(this.onOffBool = true){
+            this.active = false;
+            this.switchToggle = createSwitchToggle(this.name, this);
+            console.log(this.switchToggle)
+        }
+    }
+
+    createSettingBox(container){
+        let settingContainer = createHTMLChildElement(container, 'div', 'settingContainer', null, `settingContainer${this.name}`);
+        let settingInfoBox = createHTMLChildElement(settingContainer, 'div', 'settingInfoBox', null, `settingInfoBox${this.name}`);
+        let settingTitle = createHTMLChildElement(settingInfoBox, 'div', 'settingTitle', this.name, `setting${this.name}`);
+        let settingDesc = createHTMLChildElement(settingInfoBox, 'div', 'settingDesc', this.description, `setting${this.name}Desc`);
+
+        let settingInputBox = createHTMLChildElement(settingContainer, 'div', 'settingInputBox', null, `settingInputBox${this.name}`);
+        let settingInput;
+        let settingSlider;
+
+        if (this.performanceBool) {
+            let speedIconBox;
+            let speedIcon;
+        }
+
+        if (this.onOffBool){
+            
+            settingInputBox.append(this.switchToggle);
+
+            // });
+        } else {
+            let min;
+            let max;
+            if (!this.range){
+                min = 0;
+                max = 100;
+            }
+        }
+    }
+}
+
 
 
 // This sets up the different tabs accessible in the top right navigation
@@ -886,35 +932,6 @@ function createAltitudeBox(container, numOfCapsules, startCapsule){
     let altContainer = createHTMLChildElement(container, 'div', 'capStatAltContainer');
     let tableElement = createHTMLChildElement(container, 'table', 'atmosphericLayerTable');
 
-    // for(let i = startCapsule; i <= (startCapsule + numOfCapsules - 1); i++){
-
-    //     let currentStatBox = createHTMLChildElement(altContainer, 'div', 'capAltStatBox', null, `capAltStatBox${i}`);
-
-    //     let currentText = createHTMLChildElement(currentStatBox, 'div', 'capAltStatText', `Capsule ${i}`, `capAltStatText${i}`);
-
-    //     let currentData = createHTMLChildElement(currentStatBox, 'div', 'capAltStatData', `9999 km.`, `capAltStatData${i}`);
-    // }
-
-    // let tableElement = createHTMLChildElement(container, 'table', 'atmosphericLayerTable');
-
-    // let layerArray = ['Exosphere', 'Thermosphere', 'Mesosphere', 'Stratosphere', 'Troposphere'];
-
-    // for (let i = 1; i <= layerArray.length; i++){
-
-    //     let currentTableRow = createHTMLChildElement(tableElement, 'tr', 'atmosphericLayerRow', null, `atmosphericLayerRow${i}`)
-
-    //     let currentTableHeader = createHTMLChildElement(currentTableRow, 'th', 'atmosphericLayerHeader', layerArray[i-1], `atmosphericLayerHeader${i}`)
-
-    //     for (let j = 1; j <= numOfCapsules; j++) {
-
-    //         let currentTableCell = createHTMLChildElement(currentTableRow, 'td', 'atmosphericLayerCell', null, `atmosphericLayerCell${i}-${j}`);
-
-    //         let currentTableCellImage = createHTMLChildElement(currentTableCell, 'img', 'atmosphericLayerCellImage', null, `atmosphericLayerCellImage${i}-${j}`);
-
-    //         currentTableCellImage.src = `../Image-Assets/C${j + startCapsule - 1}.webp`;
-
-    //     }
-    // }
 }
 
 function createAltitudeDataDisplay(capsuleNumber, container, testNum){
@@ -948,13 +965,16 @@ function createAltitudeTable(container, numOfCapsules, startCapsule){
 
         }
     }
+
 }
 
 function updateAltitudeTable(capsuleNum, toPosition, fromPosition){
 
     for(let i = 1; i <= 5; i++){
+
         let currentCell = document.getElementById(`atmosphericLayerCell${i}-${capsuleNum}`);
         cleanElement(currentCell);
+        
     }
 
         let intendedCell = document.getElementById(`atmosphericLayerCell${6-toPosition}-${capsuleNum}`);
@@ -970,12 +990,6 @@ function createTemperatureBox(container, numOfCapsules, capsuleNumber){
     
     let tempCont = createHTMLChildElement(container, 'div', 'temperatureMeterContainer', null);
 
-    // for(let i = 1; i <= numOfCapsules; i++) {
-
-    //     createTemperatureMeter(tempCont, i, true, 54);
-        
-    // }
-
 }
 
 
@@ -987,10 +1001,12 @@ function createTemperatureMeter(container, capsuleNumber, includeLogo, num){
         currentTemperatureBox.style.setProperty('margin',`calc(5vw/var(--numOfCapsules)) 0`);
 
         if (includeLogo){
+
             let currentLogoBox = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeterLogoBox', null, `temperatureMeterLogoBox${capsuleNumber}`);
 
             let currentLogo = createHTMLChildElement(currentLogoBox, 'img', 'temperatureMeterCapsuleLogo', null, `temperatureMeterCapsuleLogo${capsuleNumber}`);
             currentLogo.src = `../Image-Assets/C${capsuleNumber}.webp`;
+
         }
 
         let currentMeter = createHTMLChildElement(currentTemperatureBox, 'div', 'temperatureMeter', null, `temperatureMeter${capsuleNumber}`);
@@ -1129,6 +1145,10 @@ capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.a
 
 console.log(capsule1);
 
+let testSetting = new Setting('test', 'litttt', false, true, false);
+let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', false, true, false);
+let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', false, true, false);
+let reducedMotionSetting = new Setting('Reduce Motion', 'Reduce motion across the dashboard.', false, true, false);
 
 
 
@@ -1139,11 +1159,12 @@ function createSettingsMenu(){
 
     console.log(contentCont);
 
-    let graphRangeSetting = createSetting(contentCont, 'Graph Range', 'Set the desired range for all graphs.', [0, 100], false, false);
+    let graphRangeSettingBox = graphRangeSetting.createSettingBox(contentCont);
 
-    let timeChangeLengthSetting = createSetting(contentCont, 'Timer Interval', 'Set the time between timer seconds.', [0, 100], false, false);
+    let timeChangeLengthSettingBox = timeChangeLengthSetting.createSettingBox(contentCont);
     
-    let reducedMotionSetting = createSetting(contentCont, 'Reduce Motion', 'Reduce motion across the dashboard.', [0, 100], true, false);
+    let reducedMotionSettingBox = reducedMotionSetting.createSettingBox(contentCont);
+    setTimeout(resizeToggleSwitch, 500);
 
 }
 
@@ -1294,27 +1315,6 @@ document.getElementById('infoButtonBox').addEventListener('click', () => {
 });
 
 
-// document.querySelector('.popUpContainer').addEventListener('click', () => {
-//     let popUpScreen = document.querySelector('.popUpScreen');
-//     let popUpContainer = document.querySelector('.popUpContainer');
-//     console.log('running random');
-//     console.log(popUpScreenOpen);
-//     //return;
-    
-//     if(popUpScreenOpen){
-//         cleanElement(popUpContainer);
-//         console.log('element cleaned');
-//         popUpScreen.style.width = '0';
-//         popUpScreen.style.height = '0';
-//         let logoPosition = document.getElementById('logo').getBoundingClientRect();
-//         //console.log(logoPosition);
-//         //console.log(`${logoPosition.top} ${logoPosition.right} ${logoPosition.bottom} ${logoPosition.left}`);
-//         popUpScreen.style.inset = `${logoPosition.top + 25}px ${logoPosition.right}px ${logoPosition.bottom}px ${logoPosition.left + 25}px`;
-//         document.querySelector('.mainContent').style.filter = '';
-//         document.querySelector('.mainContent').style.pointerEvents = 'auto';
-//     }
-// });
-
 
 let popUpScreen = document.querySelector('.popUpScreen');
 
@@ -1324,6 +1324,7 @@ function changePopUpScreenContent(showSettings, showInfo){
     let contentCont = document.querySelector('.popUpContentContainer');
 
     if (showSettings && !onSettings) {
+
         transition(createSettingsMenu, false);
         console.log('opening settings');
 
@@ -1382,7 +1383,9 @@ function changePopUpScreenContent(showSettings, showInfo){
 // });
 
 function beginGlobalTimer(globalTiming){
+    
     let timerInterval = setInterval(() => {
+
         let sign = getCurrentTimeSign(currentTime_T);
 
         console.log('changing time');
@@ -1391,18 +1394,24 @@ function beginGlobalTimer(globalTiming){
 
         // Checks if the "stop mission" button has been clicked, resulting in a timerState == false
         if (!timerState){
+
             clearInterval(timerInterval);
+
         }
+
     }, globalTiming);
 }
 
 
 function restartGlobalTimer(){
+
     currentTime_T = startTime_T;
     changeTime('', currentTime_T);
+
 }
 
 function changeTime(sign, time_T){
+
     let currentTimeInSec = time_T + 350;
     const timer_T = document.getElementById('missionTimer');
     const timer_Slider = document.querySelector('.sliderNumInput');
@@ -1453,6 +1462,43 @@ function updateGraphics(){
 
 }
 
+
+function createSwitchToggle(name, object){
+
+        let switchBackground = createHTMLChildElement(false, 'div', 'settingSwitch', null, `settingSwitch${name}`);
+        let switchToggle = createHTMLChildElement(switchBackground, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name.substring(0, 4)}`);
+
+        switchToggle.addEventListener('click', () => {
+
+
+            if(!object.active){
+
+                const containerWidth = document.querySelector('.settingSwitch').getBoundingClientRect().width;
+                console.log(containerWidth, switchToggle.style.margin);
+                switchToggle.style.transform = `translateX(calc(${containerWidth}px - ${switchToggle.style.margin} - ${switchToggle.style.margin} - ${switchToggle.style.width}))`;
+                switchBackground.style.boxShadow = '0px 0px 15px rgba(0,230,0,0.5)';
+                switchBackground.style.backgroundPositionX = '0%';
+
+
+            } else {
+            
+                switchToggle.style.transform = `translateX(1%)`;
+                switchBackground.style.backgroundPositionX = '100%';
+                switchBackground.style.boxShadow = '0px 0px 15px rgba(230,0,0,0.5)';
+
+            }
+
+            object.active = !object.active
+
+        });
+        return switchBackground;
+}
+
+function getSettingObjectByName(name){
+    
+}
+
+
 function createSetting(container, name, description, range, onOffBool, performanceBool){
     let settingContainer = createHTMLChildElement(container, 'div', 'settingContainer', null, `settingContainer${name}`);
     let settingInfoBox = createHTMLChildElement(settingContainer, 'div', 'settingInfoBox', null, `settingInfoBox${name}`);
@@ -1469,17 +1515,11 @@ function createSetting(container, name, description, range, onOffBool, performan
     }
 
     if (onOffBool){
-        let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
-        //let switchBackground = createHTMLChildElement(settingInputBox, div, 'settingSwitch', null, `settingSwitchToggle${name}`);
-        let switchToggle = createHTMLChildElement(switchContainer, 'div', 'settingSwitchToggle', null, `settingSwitchToggle${name.substring(0, 4)}`);
-        setTimeout(resizeToggleSwitch, 500);
-        switchToggle.addEventListener('click', (event) => {
-            const clickedElem = event.target;
-            const containerWidth = document.querySelector('.settingSwitch').getBoundingClientRect().width;
-            console.log(containerWidth, clickedElem.style.margin);
-            clickedElem.style.transform = `translateX(calc(${containerWidth}px - ${clickedElem.style.margin} - ${clickedElem.style.margin} - ${clickedElem.style.width}))`;
 
-        });
+        let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
+        createSwitchToggle(switchContainer);
+
+        // });
     } else {
         let min;
         let max;
