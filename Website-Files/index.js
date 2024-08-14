@@ -343,17 +343,36 @@ class CapsuleObject {
 }
 
 class Setting {
-    constructor(name, description, range, onOffBool, performanceBool){
+    // range is in an array format: [min, max]
+    constructor(name, description, range, onOffBool, performanceBool, defaultRangeVal){
         this.name = name;
         this.description = description;
-        this.range = range;
         this.onOffBool = onOffBool;
         this.performanceBool = performanceBool;
 
-        if(this.onOffBool = true){
+        if (this.onOffBool){
             this.active = false;
             this.switchToggle = createSwitchToggle(this.name, this);
             console.log(this.switchToggle)
+        }
+
+        if (range){
+            if (typeof range[0] === 'number' && (range[0] < range[1])){
+
+                if (typeof range[1] === 'number'){
+
+                    this.min = range[0]
+                    this.max = range[1];
+
+                } else {return;}
+
+            } else {return;}
+
+            if (defaultRangeVal) {this.defaultRangeVal = defaultRangeVal;}
+            else {this.defaultRangeVal = this.min;}
+
+            this.slider = createSettingSlider(this.name, this, [this.min, this.max], this.defaultRangeVal);
+            setupSettingSlider(this)
         }
     }
 
@@ -377,13 +396,13 @@ class Setting {
             settingInputBox.append(this.switchToggle);
 
             // });
+        } else if (this.min && this.max){
+            
+            settingInputBox.append(this.slider);
+
+
         } else {
-            let min;
-            let max;
-            if (!this.range){
-                min = 0;
-                max = 100;
-            }
+            console.log('setting cannot exist.');
         }
     }
 }
@@ -500,6 +519,8 @@ function setupSlider(slider, valueDisplay, maxVal){
         valueDisplay.style.setProperty('font-size', `12px`);
     }
 }
+
+
 
 // This manages and creates the navigation located in the top right
 function createNavigation(parent, count){
@@ -1146,8 +1167,9 @@ capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.a
 console.log(capsule1);
 
 let testSetting = new Setting('test', 'litttt', false, true, false);
-let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', false, true, false);
-let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', false, true, false);
+let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, null, 1);
+console.log(graphRangeSetting.slider);
+let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, 0.5);
 let reducedMotionSetting = new Setting('Reduce Motion', 'Reduce motion across the dashboard.', false, true, false);
 
 
@@ -1494,41 +1516,128 @@ function createSwitchToggle(name, object){
         return switchBackground;
 }
 
-function getSettingObjectByName(name){
-    
+function createSettingSlider(name, object, range, defaultVal, stepVal){
+    const shortenedName = name.substring(0,4);
+    const min = range[0];
+    const max = range[1];
+
+    let sliderContainer = createHTMLChildElement(false, 'div', 'settingSliderContainer', null, `settingSliderContainer${shortenedName}`);
+    let sliderLabel = createHTMLChildElement(sliderContainer, 'label', 'settingSliderLabel', null, `settingSliderLabel${shortenedName}`);
+    let sliderNumInput = createHTMLChildElement(sliderContainer, 'input', 'settingSliderNumInput', null, `settingSliderNumInput${shortenedName}`);
+
+    sliderNumInput.type = 'number';
+    sliderNumInput.maxLength = toString(max).length;
+    sliderNumInput.min = min;
+    sliderNumInput.max = max;
+    sliderNumInput.value = defaultVal;
+    console.log(min)
+    let sliderBox = createHTMLChildElement(sliderContainer, 'div', 'settingSliderBox', null, `settingSliderBox${shortenedName}`);
+    let sliderRangeMin = createHTMLChildElement(sliderBox, 'div', 'settingSliderRange', min, `settingSliderRangeMin${shortenedName}`);
+
+    let slider = createHTMLChildElement(sliderBox, 'input', 'settingSlider', null, `settingSlider${shortenedName}`);
+
+    slider.type = 'range';
+    slider.steps = stepVal;
+    slider.min = range[0];
+    slider.max = range[1];
+    slider.value = defaultVal;
+
+    let sliderRangeMax = createHTMLChildElement(sliderBox, 'div', 'settingSliderRange', max, `settingSliderRangeMax${shortenedName}`);
+
+    return sliderContainer;
 }
 
+function setupSettingSlider(settingObject){
 
-function createSetting(container, name, description, range, onOffBool, performanceBool){
-    let settingContainer = createHTMLChildElement(container, 'div', 'settingContainer', null, `settingContainer${name}`);
-    let settingInfoBox = createHTMLChildElement(settingContainer, 'div', 'settingInfoBox', null, `settingInfoBox${name}`);
-    let settingTitle = createHTMLChildElement(settingInfoBox, 'div', 'settingTitle', name, `setting${name}`);
-    let settingDesc = createHTMLChildElement(settingInfoBox, 'div', 'settingDesc', description, `setting${name}Desc`);
+    let slider = settingObject.slider;
+    let maxVal = settingObject.max
 
-    let settingInputBox = createHTMLChildElement(settingContainer, 'div', 'settingInputBox', null, `settingInputBox${name}`);
-    let settingInput;
-    let settingSlider;
 
-    if (performanceBool) {
-        let speedIconBox;
-        let speedIcon;
-    }
+    //console.log('slider value: ' + slider.value);
+    slider.addEventListener('mousedown', () => { turnYellow(document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`));});
 
-    if (onOffBool){
+    slider.addEventListener('mouseup', async () => {
+        turnWhite(document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`));
 
-        let switchContainer = createHTMLChildElement(settingInputBox, 'div', 'settingSwitch', null, `settingSwitchToggle${name}`);
-        createSwitchToggle(switchContainer);
+    });
 
-        // });
-    } else {
-        let min;
-        let max;
-        if (!range){
-            min = 0;
-            max = 100;
+    slider.addEventListener('input', () => {
+        document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value = `${slider.value}`;
+    });
+
+    slider.addEventListener('keydown', (event) => {
+        if(event.key == 'Enter' && event.target.id === `settingSliderNumInput${settingObject.name.substring(0,4)}`){
+
+            turnWhite();
+
+            if(slider.value > maxVal){
+
+                //console.log(valueDisplay);
+                slider.value = maxVal;
+                document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value = maxVal;
+
+            } else {
+
+                slider.value = `${document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value}`;
+
+            }
+
+            document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).blur();
+
         }
+    });
+
+    // valueDisplay.onkeydown = async function(key){
+
+    //     if(key.keyCode == 13){
+    //         turnWhite();
+    //         if(slider.value > maxVal){
+    //             //console.log(valueDisplay);
+    //             slider.value = maxVal;
+    //             valueDisplay.value = maxVal;
+    //         } else {
+    //             slider.value = `${valueDisplay.value}`;
+    //         }
+
+    //         valueDisplay.blur();
+    //         //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
+    //         //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
+
+    //         //console.log(slider.value);
+    //     }
+        
+    // }
+
+    slider.addEventListener('click', (event) => {
+
+        if(event.target.id === `settingSliderNumInput${settingObject.name.substring(0,4)}` && event.type === 'input'){
+            console.log('sdjyhkfvgaksdyjfc a')
+            turnYellow(event.target);
+
+            if (event.target.value.length > event.target.maxLength){
+
+                event.target.value = event.target.value.slice(0, event.target.maxLength);
+
+            }
+        }
+
+    });
+
+    function turnYellow(elem){
+
+        elem.style.setProperty('color', `rgb(255,234, 0)`);
+        elem.style.setProperty('font-size', `18px`);
+
+    }
+
+    function turnWhite(elem){
+
+        elem.style.setProperty('color', `white`);
+        elem.style.setProperty('font-size', `12px`);
+
     }
 }
+
 
 window.addEventListener('resize', resizeToggleSwitch)
 
