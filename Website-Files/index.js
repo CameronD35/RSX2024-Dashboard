@@ -35,7 +35,11 @@ let num = 0;
 
 let lightMode = false;
 let graphRange;
+
+// Timer Interval is measured in seconds
 let timerInterval;
+
+let globalIntervalLength = 1000;
 let ruduceMotion = false;
 
 
@@ -344,11 +348,13 @@ class CapsuleObject {
 
 class Setting {
     // range is in an array format: [min, max]
-    constructor(name, description, range, onOffBool, performanceBool, defaultRangeVal, stepVal){
+    constructor(name, description, range, onOffBool, performanceBool, defaultRangeVal, stepVal, func){
         this.name = name;
         this.description = description;
         this.onOffBool = onOffBool;
         this.performanceBool = performanceBool;
+        this.func = func;
+        console.log(this.func)
 
         if (this.onOffBool){
             this.active = false;
@@ -373,7 +379,6 @@ class Setting {
             else {this.defaultRangeVal = this.min;}
 
             this.slider = createSettingSlider(this.name, this, [this.min, this.max], this.defaultRangeVal, this.stepVal);
-            setupSettingSlider(this)
         }
     }
 
@@ -400,6 +405,7 @@ class Setting {
         } else if (this.min && this.max){
             
             settingInputBox.append(this.slider);
+            setupSettingSlider(this);
 
 
         } else {
@@ -724,7 +730,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
         checkToggleState(timerRunning);
         
         if (timerRunning){
-            beginGlobalTimer(1000);
+            beginGlobalTimer(globalIntervalLength);
         }
 
     });
@@ -1165,13 +1171,21 @@ capsule3.changeParent(document.querySelector('.temperatureMeterContainer'), caps
 capsule3.changeParent(document.querySelector('.MagBoxContent'), capsule3.magnetosphereCircle);
 capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.altitudeOutput);
 
-console.log(capsule1);
 
-let testSetting = new Setting('test', 'litttt', false, true, false);
-let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, null, 1);
-console.log(graphRangeSetting.slider);
-let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, null, 0.5);
-let reducedMotionSetting = new Setting('Reduce Motion', 'Reduce motion across the dashboard.', false, true, false);
+
+let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, Infinity, 1, (domainLength) => {
+    capsule1.sulfurDioxideChartSVG.changeDomain(domainLength);
+});
+
+let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, 1, 0.5, (intervalLength) => {
+
+    globalIntervalLength = intervalLength * 1000;
+    timerState = !timerState;
+    
+
+});
+
+let reducedMotionSetting = new Setting('Reduce Motion', 'Reduce motion across the dashboard.', false, true, false, null, null, () => {console.log('qewjdfyubvewauyfdktewrfyiwefwefr')});
 
 
 
@@ -1405,9 +1419,9 @@ function changePopUpScreenContent(showSettings, showInfo){
 //     console.log('info clicked');
 // });
 
-function beginGlobalTimer(globalTiming){
+function beginGlobalTimer(){
     
-    let timerInterval = setInterval(() => {
+    timerInterval = setInterval(() => {
 
         let sign = getCurrentTimeSign(currentTime_T);
 
@@ -1422,7 +1436,8 @@ function beginGlobalTimer(globalTiming){
 
         }
 
-    }, globalTiming);
+    }, globalIntervalLength);
+    
 }
 
 
@@ -1501,6 +1516,7 @@ function createSwitchToggle(name, object){
                 switchToggle.style.transform = `translateX(calc(${containerWidth}px - ${switchToggle.style.margin} - ${switchToggle.style.margin} - ${switchToggle.style.width}))`;
                 switchBackground.style.boxShadow = '0px 0px 15px rgba(0,230,0,0.5)';
                 switchBackground.style.backgroundPositionX = '0%';
+                object.func();
 
 
             } else {
@@ -1530,97 +1546,79 @@ function createSettingSlider(name, object, range, defaultVal, stepVal){
     sliderNumInput.maxLength = toString(max).length;
     sliderNumInput.min = min;
     sliderNumInput.max = max;
-    sliderNumInput.value = defaultVal;
+    sliderNumInput.setAttribute('value', defaultVal);
     console.log(min)
     let sliderBox = createHTMLChildElement(sliderContainer, 'div', 'settingSliderBox', null, `settingSliderBox${shortenedName}`);
     let sliderRangeMin = createHTMLChildElement(sliderBox, 'div', 'settingSliderRange', min, `settingSliderRangeMin${shortenedName}`);
 
     let slider = createHTMLChildElement(sliderBox, 'input', 'settingSlider', null, `settingSlider${shortenedName}`);
-
+    console.log(slider)
     slider.type = 'range';
     slider.step = stepVal;
     slider.min = min;
     slider.max = max;
-    slider.value = defaultVal;
+    slider.setAttribute('value', defaultVal);
 
     let sliderRangeMax = createHTMLChildElement(sliderBox, 'div', 'settingSliderRange', max, `settingSliderRangeMax${shortenedName}`);
 
     return sliderContainer;
 }
 
-function setupSettingSlider(settingObject){
-
-    let slider = settingObject.slider;
-    let maxVal = settingObject.max
+function setupSettingSlider(settingObject, func){
+    
+    let sliderCont = settingObject.slider;
+    let slider = document.getElementById(`settingSlider${settingObject.name.substring(0,4)}`);
+    let sliderNumInput = document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`);
+    let maxVal = settingObject.max;
 
 
     //console.log('slider value: ' + slider.value);
-    slider.addEventListener('mousedown', () => { turnYellow(document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`));});
+    sliderCont.addEventListener('mousedown', () => { turnYellow(sliderNumInput)});
 
-    slider.addEventListener('mouseup', async () => {
-        turnWhite(document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`));
+    sliderCont.addEventListener('mouseup', async () => {
+        
+        turnWhite(sliderNumInput);
 
     });
 
     slider.addEventListener('input', () => {
-        document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value = `${slider.value}`;
+
+        sliderNumInput.value = slider.value;
+        console.log(sliderCont);
     });
 
-    slider.addEventListener('keydown', (event) => {
-        if(event.key == 'Enter' && event.target.id === `settingSliderNumInput${settingObject.name.substring(0,4)}`){
+    sliderNumInput.onkeydown = function(key){
+        if(key.keyCode == 13){
 
-            turnWhite();
+            turnWhite(sliderNumInput);
 
             if(slider.value > maxVal){
 
                 //console.log(valueDisplay);
                 slider.value = maxVal;
-                document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value = maxVal;
+                sliderNumInput.value = maxVal;
 
             } else {
 
-                slider.value = `${document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).value}`;
+                slider.value = sliderNumInput.value;
 
             }
 
-            document.getElementById(`settingSliderNumInput${settingObject.name.substring(0,4)}`).blur();
+            sliderNumInput.blur();
 
         }
-    });
 
-    // valueDisplay.onkeydown = async function(key){
+    }
 
-    //     if(key.keyCode == 13){
-    //         turnWhite();
-    //         if(slider.value > maxVal){
-    //             //console.log(valueDisplay);
-    //             slider.value = maxVal;
-    //             valueDisplay.value = maxVal;
-    //         } else {
-    //             slider.value = `${valueDisplay.value}`;
-    //         }
-
-    //         valueDisplay.blur();
-    //         //console.log(await sendDataToPython("http://127.0.01:5000/dashboard", slider.value));
-    //         //document.querySelector('.randomNumberThing').textContent = await sendDataToPython("http://127.0.01:5000/dashboard", slider.value);
-
-    //         //console.log(slider.value);
-    //     }
+    sliderNumInput.addEventListener('input', () => {
         
-    // }
+            turnYellow(sliderNumInput);
 
-    slider.addEventListener('click', (event) => {
+            if (sliderNumInput.value.length > sliderNumInput.maxLength){
 
-        if(event.target.id === `settingSliderNumInput${settingObject.name.substring(0,4)}` && event.type === 'input'){
-            console.log('sdjyhkfvgaksdyjfc a')
-            turnYellow(event.target);
-
-            if (event.target.value.length > event.target.maxLength){
-
-                event.target.value = event.target.value.slice(0, event.target.maxLength);
+                sliderNumInput.value = sliderNumInput.value.slice(0, sliderNumInput.maxLength);
 
             }
-        }
 
     });
 
@@ -1635,6 +1633,8 @@ function setupSettingSlider(settingObject){
 
         elem.style.setProperty('color', `white`);
         elem.style.setProperty('font-size', `12px`);
+
+        settingObject.func(sliderNumInput.value);
 
     }
 }
