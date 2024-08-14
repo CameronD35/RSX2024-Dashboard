@@ -344,7 +344,7 @@ class CapsuleObject {
 
 class Setting {
     // range is in an array format: [min, max]
-    constructor(name, description, range, onOffBool, performanceBool, defaultRangeVal){
+    constructor(name, description, range, onOffBool, performanceBool, defaultRangeVal, stepVal){
         this.name = name;
         this.description = description;
         this.onOffBool = onOffBool;
@@ -363,6 +363,7 @@ class Setting {
 
                     this.min = range[0]
                     this.max = range[1];
+                    this.stepVal = stepVal;
 
                 } else {return;}
 
@@ -371,7 +372,7 @@ class Setting {
             if (defaultRangeVal) {this.defaultRangeVal = defaultRangeVal;}
             else {this.defaultRangeVal = this.min;}
 
-            this.slider = createSettingSlider(this.name, this, [this.min, this.max], this.defaultRangeVal);
+            this.slider = createSettingSlider(this.name, this, [this.min, this.max], this.defaultRangeVal, this.stepVal);
             setupSettingSlider(this)
         }
     }
@@ -1169,7 +1170,7 @@ console.log(capsule1);
 let testSetting = new Setting('test', 'litttt', false, true, false);
 let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, null, 1);
 console.log(graphRangeSetting.slider);
-let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, 0.5);
+let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, null, 0.5);
 let reducedMotionSetting = new Setting('Reduce Motion', 'Reduce motion across the dashboard.', false, true, false);
 
 
@@ -1537,9 +1538,9 @@ function createSettingSlider(name, object, range, defaultVal, stepVal){
     let slider = createHTMLChildElement(sliderBox, 'input', 'settingSlider', null, `settingSlider${shortenedName}`);
 
     slider.type = 'range';
-    slider.steps = stepVal;
-    slider.min = range[0];
-    slider.max = range[1];
+    slider.step = stepVal;
+    slider.min = min;
+    slider.max = max;
     slider.value = defaultVal;
 
     let sliderRangeMax = createHTMLChildElement(sliderBox, 'div', 'settingSliderRange', max, `settingSliderRangeMax${shortenedName}`);
