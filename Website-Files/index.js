@@ -13,6 +13,7 @@ let currentTab = 'MainButton';
 let tabsArray = [];
 let boxElements = [];
 let timerState = false;
+let timer;
 
 const startTime_T = -350;
 const endTime_T = 900;
@@ -37,7 +38,6 @@ let lightMode = false;
 let graphRange;
 
 // Timer Interval is measured in seconds
-let timerInterval;
 
 let globalIntervalLength = 1000;
 let ruduceMotion = false;
@@ -669,7 +669,7 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
             if (timeUntilEvent_sec > 0){
                 timeUntilEvent_sec = -(currentTime_T - timeInTArray[i])
                 currentTimeText.textContent = `in ${timeUntilEvent_sec} sec`;
-                if (timerRunning) {
+                if (timerState) {
                     timerID = setInterval(() => {
                         timeUntilEvent_sec = -(currentTime_T - timeInTArray[i]);
                         currentTimeText.textContent = `in ${timeUntilEvent_sec} sec`;
@@ -724,13 +724,10 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
     });
 
     startButton.addEventListener('click', () => {
-
-        timerRunning = !timerRunning;
-
-        checkToggleState(timerRunning);
-        
-        if (timerRunning){
-            beginGlobalTimer(globalIntervalLength);
+        if(!timerState){
+            startGlobalTimer();
+        } else {
+            stopGlobalTimer();
         }
 
     });
@@ -749,44 +746,42 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
     });
 
     restartButton.addEventListener('click', () => {
-        timerRunning = false;
+        stopGlobalTimer();
         restartGlobalTimer();
 
     });
+}
 
-    checkToggleState();
+function startGlobalTimer(){
 
-    function checkToggleState(){
-        //console.log(timerRunning)
-    
-            if (timerRunning) {
-                //console.log('hi');
-                document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
-                document.documentElement.style.setProperty('--timerHoverColor', 'white');
-                startText.textContent = 'STOP MISSION';
-    
-                restartButton.style.opacity = '1';
-    
-                startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+    if (!timerState) {timerState = !timerState;}
+    let startText = document.querySelector('.startText');
+    let startButton = document.querySelector('.startButton');
+        
+    if (timerState){
+        beginGlobalTimer(globalIntervalLength);
+    }
 
-    
-                
-            } else {
-                //console.log('bye');
-                document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
-                document.documentElement.style.setProperty('--timerHoverColor', 'black');
-    
-                startText.textContent = 'START MISSION';
-    
-                startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
-    
-            }
-    
-            timerState = timerRunning;
-        }
+    document.documentElement.style.setProperty('--timerStateColor', 'var(--rsxRed)');
+    document.documentElement.style.setProperty('--timerHoverColor', 'white');
+    startText.textContent = 'STOP MISSION';
     
     
-        //console.log(`timer check 2: ${timerState}`);
+    startButton.style.backgroundColor = ('rgba(230,0, 0, 0.2)');
+}
+
+function stopGlobalTimer(){
+
+    if (timerState) {timerState = !timerState;}
+    let startText = document.querySelector('.startText');
+    let startButton = document.querySelector('.startButton');
+
+    document.documentElement.style.setProperty('--timerStateColor', 'rgba(255,255,255,1)');
+    document.documentElement.style.setProperty('--timerHoverColor', 'black');
+    
+    startText.textContent = 'START MISSION';
+    
+    startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
 }
 
 // Creates the status of the capsules. If singleCapsule is true, i9t lists the components of that capsule, otheriwse a general status for all capsules is provided
@@ -1098,12 +1093,12 @@ async function sendDataToPython(endpoint, data){
 
 function ifElementExists(element, func) {
     if (element) {
-        console.log('work');
+        //console.log('work');
         func();
     }
 
     else {
-        console.log('no work');
+        //console.log('no work');
     }
 }
 
@@ -1175,12 +1170,14 @@ capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.a
 
 let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, Infinity, 1, (domainLength) => {
     capsule1.sulfurDioxideChartSVG.changeDomain(domainLength);
+    capsule2.sulfurDioxideChartSVG.changeDomain(domainLength);
 });
 
 let timeChangeLengthSetting = new Setting('Timer Interval', 'Set the time between timer seconds.', [0.5, 10], false, false, 1, 0.5, (intervalLength) => {
 
     globalIntervalLength = intervalLength * 1000;
-    timerState = !timerState;
+    console.log(timerState);
+    stopGlobalTimer();
     
 
 });
@@ -1421,7 +1418,7 @@ function changePopUpScreenContent(showSettings, showInfo){
 
 function beginGlobalTimer(){
     
-    timerInterval = setInterval(() => {
+    let timerInterval = setInterval(() => {
 
         let sign = getCurrentTimeSign(currentTime_T);
 
@@ -1437,6 +1434,7 @@ function beginGlobalTimer(){
         }
 
     }, globalIntervalLength);
+
     
 }
 
