@@ -179,6 +179,7 @@ body{
 
 .colorModeIcon{
     width: 25px;
+    height: 25px;
     transition: 0s;
     margin: 2.5px 0px 0px 0px
     /* transform: translateX(calc(-5vw + 25px)); */
