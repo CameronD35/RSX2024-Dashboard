@@ -702,9 +702,11 @@ function createMissionStagesBox(container, numOfCapsules, stages, timerRunning, 
 
     let startButton = createHTMLChildElement(timerControlsCont, 'div', 'startButton');
 
-    let startText = createHTMLChildElement(startButton, 'div', 'startText', 'START MISSION');
+    let startText = createHTMLChildElement(startButton, 'div', ('startText'), returnValueBasedOnCriteria(timerRunning, "STOP MISSION", "START MISSION"));
 
     let startCircle = createHTMLChildElement(startButton, 'div', 'startCircle');
+
+    startButton.style.backgroundColor = returnValueBasedOnCriteria(timerRunning, 'rgba(230,0, 0, 0.2)', 'rgba(255,255, 255, 0.2)');
     
 
     startButton.addEventListener('mouseenter', () => {
@@ -781,7 +783,7 @@ function stopGlobalTimer(){
     
     startText.textContent = 'START MISSION';
     
-    startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2');
+    startButton.style.backgroundColor = ('rgba(255,255, 255, 0.2)');
 }
 
 // Creates the status of the capsules. If singleCapsule is true, i9t lists the components of that capsule, otheriwse a general status for all capsules is provided
@@ -1168,7 +1170,7 @@ capsule3.changeParent(document.querySelector('.capStatAltContainer'), capsule3.a
 
 
 
-let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, Infinity, 1, (domainLength) => {
+let graphRangeSetting = new Setting('Graph Range', 'Set the desired range for all graphs.', [5, 100], false, true, 50, 1, (domainLength) => {
     capsule1.sulfurDioxideChartSVG.changeDomain(domainLength);
     capsule2.sulfurDioxideChartSVG.changeDomain(domainLength);
 });
@@ -1729,3 +1731,11 @@ function magRad(initRad, maxRad){
 }
 
 magRad(0, 12);
+
+function returnValueBasedOnCriteria(criteria, trueVal, falseVal){
+    if (criteria) {
+        return trueVal;
+    } else {
+        return falseVal;
+    }
+}
