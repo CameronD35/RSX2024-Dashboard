@@ -1640,7 +1640,8 @@ function setupSettingSlider(settingObject, func){
 }
 
 
-window.addEventListener('resize', resizeToggleSwitch)
+window.addEventListener('resize', () => {resizeToggleSwitch(); adjustTitle();});
+
 
 
 function resizeToggleSwitch() {
@@ -1737,5 +1738,29 @@ function returnValueBasedOnCriteria(criteria, trueVal, falseVal){
         return trueVal;
     } else {
         return falseVal;
+    }
+}
+
+function adjustTitle(){
+    let windowWidth = window.innerWidth;
+    let title = document.querySelector('.title');
+    let subtitle = document.querySelector('.subtitle');
+    // console.log('adjusting title');
+    // console.log(document.querySelector('title'))
+    if (windowWidth <= 1000) {
+        title.style.opacity = 0;
+        subtitle.style.opacity = 0;
+        setTimeout(() => {
+            title.innerText = "";
+            subtitle.innerText = "";
+        }, 500)
+    } else if (windowWidth <= 1200){
+        title.style.opacity = 1;
+        subtitle.style.opacity = 1;
+        title.innerText = "RSX '24 Dashboard";
+        subtitle.innerText = "COC";
+    } else {
+        title.innerText = "RockSatX 2024 Dashboard";
+        subtitle.innerText = "College of the Canyons";
     }
 }
