@@ -2,7 +2,7 @@
 
 #### Dashboard for the 2024 RockSatX Project @ College of the Canyons Astronomy & Physics Club.
 
-#### *Updated 12/11/2023*
+#### *Updated 1/12/2023*
 
 
 ## Dashboard Mockup
@@ -14,3 +14,5 @@ RockSatX: https://www.nasa.gov/wallops/stem/rocksatx/
 College of the Canyons (COC): https://www.canyons.edu/
 
 Astronomy & Physics Club @ COC: https://teresaciardi.wixsite.com/cocast
+
+#### I didn't forget about the read me at all...
