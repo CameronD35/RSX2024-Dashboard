@@ -2,11 +2,11 @@
 
 #### Dashboard for the 2024 RockSatX Project @ College of the Canyons Astronomy & Physics Club.
 
-#### *Updated 1/12/2023*
+#### *Updated 10/13/2024*
 
 
 ## Dashboard Mockup
-![RSXDashConceptBoard](https://github.com/CameronD35/RSX2024-Dashboard/assets/124549249/2a2d6c53-9bf3-486c-b501-8aced266720b)
+![DashboardDemoSS](https://github.com/user-attachments/assets/4d38e25f-ef3a-4f6f-b612-b301bb85f2bc)
 
 ## Related Links
 RockSatX: https://www.nasa.gov/wallops/stem/rocksatx/
