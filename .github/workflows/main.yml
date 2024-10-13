@@ -13,12 +13,23 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+          vendor
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-deps-
+
     - name: Build and deploy
       uses: actions/deploy-pages@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        timeout: 6000
-        error_count: 1
+        timeout: 600000
+        error_count: 10
         reporting_interval: 5000
         artifact_name: github-pages
+        preview:
         
