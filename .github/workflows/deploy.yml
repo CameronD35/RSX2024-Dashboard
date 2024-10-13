@@ -1,0 +1,24 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build and deploy
+      uses: actions/deploy-pages@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        timeout: 600000
+        error_count: 10
+        reporting_interval: 5000
+        artifact_name: github-pages
+        
